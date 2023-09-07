@@ -72,6 +72,16 @@
   }
 }
 
+.subtitle {
+  font-size: 25px;
+
+  &-dark {
+    font-size: 20px;
+    color: #000;
+    padding: 10px;
+  }
+}
+
 .card {
   border-radius: 25px;
   padding: 5px;
@@ -89,6 +99,12 @@
   & > ion-icon {
     font-size: 30px;
   }
+}
+
+.button {
+  --background: #000;
+  --background-hover-opacity: .14;
+  border-radius: 50px;
 }
 
 @media screen and (max-height: 727px) {

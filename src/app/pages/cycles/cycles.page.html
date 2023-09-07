@@ -1,6 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>cycles</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -8,9 +7,41 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cycles</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card-title class="title-dark">Ciclos</ion-card-title>
+
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Historial</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>12-18 de enero (6 días)</ion-text><br>
+      <ion-text>13-18 de febrero (5 días)</ion-text><br>
+      <ion-text>15-21 de marzo ( 6 días)</ion-text><br>
+      <ion-text>15-20 de abril (5 días)</ion-text><br>
+      <ion-text>14-19 de mayo (5 días)</ion-text><br>
+      <ion-text>14-19 de junio (5 días)</ion-text><br>
+      <ion-text>15-21 de julio (6 días)</ion-text><br>
+      <ion-text>17-22 de agosto (5 días)</ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Predicciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>17-23 de septiembre (6 días)</ion-text><br>
+      <ion-text>17-22 de octubre (5 días)</ion-text><br>
+      <ion-text>16-22 de noviembre ( 6 días)</ion-text><br>
+      <ion-text>16-21 de diciembre (5 días)</ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button class="button-dark btn-fix-bottom" shape="round"><ion-icon name="cloud-download-outline" style="padding-right: 10px;"></ion-icon> Descargar reporte</ion-button>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
