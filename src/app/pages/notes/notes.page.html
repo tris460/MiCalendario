@@ -1,6 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>notes</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -8,9 +7,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">notes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card-title class="title-dark">Notas</ion-card-title>
+
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Título</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae voluptates saepe quam sunt eius quaerat velit id! Ad corporis minima nostrum illum, enim nesciunt similique neque officiis, ex, unde placeat.
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab slot="fixed" horizontal="end" style="bottom: 70px;">
+    <ion-fab-button class="fab">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -63,10 +63,32 @@
 
 .title {
   font-size: 30px;
+
+  &-dark {
+    font-size: 25px;
+    color: #000;
+    text-align: center;
+    padding: 10px;
+  }
+}
+
+.card {
+  border-radius: 25px;
+  padding: 5px;
 }
 
 .bg-white {
   background-color: #fff;
+}
+
+.fab {
+  --background: #000;
+  border: 1px solid #fff;
+  border-radius: 50px;
+
+  & > ion-icon {
+    font-size: 30px;
+  }
 }
 
 @media screen and (max-height: 727px) {
