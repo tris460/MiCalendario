@@ -1,0 +1,7 @@
+{
+  "name": "MiCalendario",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
