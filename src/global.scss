@@ -24,3 +24,55 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+.corner-top {
+  position: absolute;
+  right: 0;
+  transform: rotate(180deg);
+  z-index: -1;
+  width: 150px;
+}
+
+.corner-bottom {
+  position: fixed;
+  bottom: 0;
+  z-index: -1;
+  width: 150px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.link {
+  --color: #000;
+  text-decoration: underline;
+  padding: 80px 0 20px;
+}
+
+.logo {
+  width: 120px;
+  display: block;
+  margin: 10% auto;
+  text-align: center;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+@media screen and (max-height: 727px) {
+  .link {
+    padding-top: 5%;
+  }
+}
+
+@media screen and (max-height: 662px) {
+  .logo {
+    margin: 0 auto;
+  }
+}

@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-img src="assets/corner-lines.png" class="corner-top"></ion-img>
+  <ion-img src="assets/corner-lines.png" class="corner-bottom"></ion-img>
+  <div class="center" style="height: 100%;">
+    <ion-img src="assets/logo.png" alt="Logo Mi Calendario" class="logo"></ion-img>
+    <ion-text class="text">
+      <h6>Para iniciar, introduce un email válido y un PIN</h6>
+    </ion-text>
+    <ion-item class="input">
+      <ion-input placeholder="example@example.com" type="email"></ion-input>
+    </ion-item>
+    <ion-item class="input">
+      <ion-input placeholder="PIN" type="password" maxlength="4"></ion-input>
+    </ion-item>
+    <ion-checkbox labelPlacement="end" class="check">Continuar sin PIN</ion-checkbox>
+    <ion-list class="bg-white">
+      <ion-item class="select">
+        <ion-select aria-label="sex" interface="popover" placeholder="Seleccionar sexo">
+          <ion-select-option class="check" value="female">Mujer</ion-select-option>
+          <ion-select-option value="male">Hombre</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" class="button" shape="round">Iniciar</ion-button>
+    <ion-router-link routerLink="/register" class="center link">Continuar sin iniciar</ion-router-link>
+  </div>
 </ion-content>

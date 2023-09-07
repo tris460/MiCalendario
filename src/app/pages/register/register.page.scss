@@ -1,0 +1,36 @@
+.input {
+  --background: #fff;
+  --inner-padding-end: 0;
+  color: #000;
+  text-align: center;
+}
+
+.check {
+  --border-radius: 50px;
+  --border-color: #000;
+  --border-color-checked: #000;
+  --checkbox-background: #fff;
+  --checkbox-background-checked: #000;
+  color: #000;
+  padding-top: 10px;
+}
+
+.select {
+  --background: #fff;
+  --color: #000;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  text-align: center;
+}
+
+.button {
+  --background: #000;
+  --background-hover-opacity: .14;
+  border-radius: 50px;
+  margin: 50px 0;
+}
+
+.text {
+  color: #000;
+  padding: 0 50px;
+}
