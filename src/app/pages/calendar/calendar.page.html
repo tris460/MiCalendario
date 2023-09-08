@@ -1,6 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>calendar</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -8,9 +7,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">calendar</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <full-calendar [options]="calendarOptions" class="calendar"></full-calendar>
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>09 de septiembre</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>💧 1.2 litros de agua tomados</ion-text><br>
+      <ion-text>53 kg   1.64cm</ion-text><br>
+      <ion-text>🤢🤧🥱</ion-text><br>
+      <ion-text>💊 Tomaste una pastilla de emergencia</ion-text>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>Título</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, repudiandae. Facilis esse, suscipit voluptatibus eveniet hic labore, expedita laborum aliquam quis sed sunt animi minima tempora nostrum quas dolorum nesciunt?</ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
