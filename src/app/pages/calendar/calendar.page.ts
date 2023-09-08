@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
+import interactionPlugin from '@fullcalendar/interaction';
 
 @Component({
   selector: 'app-calendar',
@@ -9,8 +12,12 @@ import esLocale from '@fullcalendar/core/locales/es';
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
+  @ViewChild(IonModal) modal!: IonModal;
+
+  name: string = '';
+
   calendarOptions: CalendarOptions = {
-    plugins: [dayGridPlugin],
+    plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
     events: [
       {
@@ -23,10 +30,29 @@ export class CalendarPage implements OnInit {
       }
     ],
     locale: esLocale,
+    dateClick: function(info) {
+      //Abrir el modal
+    }
   };
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal.dismiss(this.name, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      console.log(ev.detail.data);
+    }
   }
 
 }
