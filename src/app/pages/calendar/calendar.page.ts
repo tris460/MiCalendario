@@ -1,10 +1,10 @@
 import { Component, OnInit,  ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { IonModal, ModalController } from '@ionic/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
 
 @Component({
   selector: 'app-calendar',
@@ -30,29 +30,27 @@ export class CalendarPage implements OnInit {
       }
     ],
     locale: esLocale,
-    dateClick: function(info) {
-      //Abrir el modal
+    dateClick: async (info) => {
+      await this.openModal(info);
     }
   };
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
+  async openModal(info: DateClickArg) {
+    const modal = await this.modalCtrl.create({
+      component: ModalComponent,
+    });
+    modal.present();
 
-  confirm() {
-    this.modal.dismiss(this.name, 'confirm');
-  }
+    const { data, role } = await modal.onWillDismiss();
 
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      console.log(ev.detail.data);
+    if (role === 'confirm') {
+      console.log('Save the data from form'); //TODO
+      console.log(info.date);
     }
   }
-
 }
