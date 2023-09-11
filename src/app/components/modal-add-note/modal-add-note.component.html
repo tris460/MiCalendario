@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="card">
+    <ion-card-content>
+      <ion-item class="input" style="--padding-start: 0;">
+        <ion-input placeholder="Título" type="text"></ion-input>
+      </ion-item>
+      <ion-item class="input" style="--padding-start: 0;">
+        <ion-textarea rows="4" placeholder="¿En qué estás pensando?"></ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

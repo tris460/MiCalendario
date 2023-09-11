@@ -8,9 +8,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalComponent } from './components/modal/modal.component';
+import { ModalAddNoteComponent } from './components/modal-add-note/modal-add-note.component';
 
 @NgModule({
-  declarations: [AppComponent, ModalComponent],
+  declarations: [AppComponent, ModalComponent, ModalAddNoteComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
