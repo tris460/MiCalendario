@@ -14,7 +14,7 @@
       <ion-card-subtitle>Para tu próximo periodo</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-button class="button-white" shape="round">Editar periodo</ion-button>
+      <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Editar periodo</ion-button>
       <ion-img src="https://dbdzm869oupei.cloudfront.net/img/sticker/preview/46886.png" class="pet"></ion-img>
     </ion-card-content>
   </ion-card>
@@ -25,7 +25,7 @@
       <ion-card-title class="title">08 de septiembre</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button class="button-white" shape="round">Ver calendario</ion-button>
+      <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Ver calendario</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -45,7 +45,7 @@
   </ion-card>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button class="fab">
+    <ion-fab-button class="fab" [routerLink]="['/chat']">
       <ion-icon name="chatbubble-ellipses"></ion-icon>
     </ion-fab-button>
   </ion-fab>
