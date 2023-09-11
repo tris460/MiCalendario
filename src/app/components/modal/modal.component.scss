@@ -1,0 +1,67 @@
+.big-text {
+  font-size: 22px;
+}
+
+.check-small {
+  --size: 50px;
+  font-size: 30px;
+}
+
+.check-big {
+  --size: 200px;
+  --checkmark-color: #fff;
+  margin: 10px 0;
+}
+
+.emoji-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &-item {
+    --inner-padding-end: 0;
+    --padding-start: 0;
+    margin: 5px;
+  }
+}
+
+.emoji-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 2px;
+
+  & > ion-checkbox {
+    position: absolute;
+    --checkbox-background: transparent;
+    --border-color: transparent;
+    --checkbox-background-checked: transparent;
+    --border-color-checked: #fff;
+    --checkmark-color: transparent;
+  }
+}
+
+span.emoji {
+  font-size: 35px;
+  z-index: 1;
+}
+
+
+.condom {
+  --checkbox-background: url('../../../assets/condom.png');
+  --checkbox-background-checked: url('../../../assets/condom.png');
+}
+
+.no-condom {
+  --checkbox-background: url('../../../assets/no-condom.png');
+  --checkbox-background-checked: url('../../../assets/no-condom.png');
+}
+
+.face {
+  --checkbox-background: url('../../../assets/happy.png');
+  --checkbox-background-checked: url('../../../assets/happy.png');
+}
+
+.no-face {
+  --checkbox-background: url('../../../assets/sad.png');
+  --checkbox-background-checked: url('../../../assets/sad.png');
+}

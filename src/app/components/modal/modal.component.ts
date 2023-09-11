@@ -8,6 +8,11 @@ import { ModalController } from '@ionic/angular';
 })
 export class ModalComponent  implements OnInit {
   name: string = '';
+  emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
+  emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
+
+  selectedEmojisEmotions: string[] = [];
+  selectedEmojisSymptoms: string[] = [];
 
   constructor(private modalCtrl: ModalController) {}
 
@@ -20,5 +25,18 @@ export class ModalComponent  implements OnInit {
 
   confirm() {
     return this.modalCtrl.dismiss(this.name, 'confirm');
+  }
+
+  toggleEmoji(emoji: string, selected: string[]) {
+    const index = selected.indexOf(emoji);
+    if (index === -1) {
+      selected.push(emoji);
+    } else {
+      selected.splice(index, 1);
+    }
+  }
+
+  isSelected(emoji: string, selected: string[]): boolean {
+    return selected.includes(emoji);
   }
 }
