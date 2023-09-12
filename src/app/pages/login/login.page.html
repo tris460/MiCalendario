@@ -7,30 +7,30 @@
 
     <!-- Password input -->
     <div class="center">
-      <ion-input class="input" type="password" maxlength="4" [disabled]="true"></ion-input>
+      <ion-input class="input" type="password" maxlength="4" [disabled]="true" [(ngModel)]="pin" style="color: #000; opacity: 1;"></ion-input>
     </div>
 
     <!-- Buttons for the numbers -->
     <div class="container">
       <div class="row">
-        <ion-button class="button-circle">1</ion-button>
-        <ion-button class="button-circle">2</ion-button>
-        <ion-button class="button-circle">3</ion-button>
+        <ion-button class="button-circle" (click)="write(1)">1</ion-button>
+        <ion-button class="button-circle" (click)="write(2)">2</ion-button>
+        <ion-button class="button-circle" (click)="write(3)">3</ion-button>
       </div>
       <div class="row">
-        <ion-button class="button-circle">4</ion-button>
-        <ion-button class="button-circle">5</ion-button>
-        <ion-button class="button-circle">6</ion-button>
+        <ion-button class="button-circle" (click)="write(4)">4</ion-button>
+        <ion-button class="button-circle" (click)="write(5)">5</ion-button>
+        <ion-button class="button-circle" (click)="write(6)">6</ion-button>
       </div>
       <div class="row">
-        <ion-button class="button-circle">7</ion-button>
-        <ion-button class="button-circle">8</ion-button>
-        <ion-button class="button-circle">9</ion-button>
+        <ion-button class="button-circle" (click)="write(7)">7</ion-button>
+        <ion-button class="button-circle" (click)="write(8)">8</ion-button>
+        <ion-button class="button-circle" (click)="write(9)">9</ion-button>
       </div>
       <div class="row">
-        <ion-button class="button-circle">X</ion-button>
-        <ion-button class="button-circle">0</ion-button>
-        <ion-button class="button-circle"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+        <ion-button class="button-circle" (click)="delete()">X</ion-button>
+        <ion-button class="button-circle" (click)="write(0)">0</ion-button>
+        <ion-button class="button-circle" (click)="login()"><ion-icon name="arrow-forward"></ion-icon></ion-button>
       </div>
     </div>
 
