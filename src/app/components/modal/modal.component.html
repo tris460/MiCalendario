@@ -57,15 +57,23 @@
         </ion-item>
         <div class="ion-padding" slot="content">
           <ion-text>Uso del preservativo</ion-text>
-          <div class="flex" style="justify-content: space-around;">
-            <ion-checkbox id="btn-opre1" class="check-big condom" value="true"></ion-checkbox>
-            <ion-checkbox id="btn-opre2" class="check-big no-condom" value="false"></ion-checkbox>
+          <div class="flex image-container">
+            <ion-img src='../../../assets/condom.png'></ion-img>
+            <ion-img src='../../../assets/no-condom.png'></ion-img>
           </div>
+          <ion-radio-group [allowEmptySelection]="true" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onCondomChange($event)">
+            <ion-radio class="radio-big" value="true"></ion-radio>
+            <ion-radio class="radio-big" value="false"></ion-radio>
+          </ion-radio-group>
           <ion-text>Orgasmo</ion-text>
-          <div class="flex" style="justify-content: space-around;">
-            <ion-checkbox id="btn-opre1" class="check-big face" value="true"></ion-checkbox>
-            <ion-checkbox id="btn-opre2" class="check-big no-face" value="false"></ion-checkbox>
+          <div class="flex image-container">
+            <ion-img src='../../../assets/happy.png'></ion-img>
+            <ion-img src='../../../assets/sad.png'></ion-img>
           </div>
+          <ion-radio-group [allowEmptySelection]="true" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onOrgasmChange($event)">
+            <ion-radio class="radio-big" value="true"></ion-radio>
+            <ion-radio class="radio-big" value="false"></ion-radio>
+          </ion-radio-group>
           <ion-text>Número de actos sexuales</ion-text>
           <div class="row">
             <ion-item class="input">

@@ -61,6 +61,10 @@ export class CalendarPage implements OnInit {
     }
   }
 
+  /**
+   * This function obtains the data saved by the user in the form
+   * @returns The last data saved by the user from the form in the modal
+   */
   getFormData() {
     return this.sharedService.formData;
   }

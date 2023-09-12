@@ -58,6 +58,7 @@ export class ModalComponent  implements OnInit {
    * confirm in the modal
    */
   confirm() {
+    this.sharedService.formData = this.data;
     return this.modalCtrl.dismiss(this.name, 'confirm');
   }
 
@@ -87,7 +88,19 @@ export class ModalComponent  implements OnInit {
     return selected.includes(emoji);
   }
 
-  onSubmit(formData: any) {
-    this.sharedService.formData = formData;
+  /**
+   * This function updates the value 'condom' in the form group 'data'
+   * @param event Ion-radio data
+   */
+  onCondomChange(event: any) {
+    this.data.patchValue({ condom: event.detail.value });
+  }
+
+  /**
+   * This function updates the value 'orgasm' in the form group 'data'
+   * @param event Ion-radio data
+   */
+  onOrgasmChange(event: any) {
+    this.data.patchValue({ orgasm: event.detail.value });
   }
 }
