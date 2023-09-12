@@ -9,161 +9,158 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
-  <!-- Women checks -->
-  <ion-checkbox labelPlacement="end" class="check">Inicio del periodo</ion-checkbox><br>
-  <ion-checkbox labelPlacement="end" class="check">Fin del periodo</ion-checkbox><br>
-  <ion-checkbox labelPlacement="end" class="check">Pastilla de emergencia</ion-checkbox><br>
-  <!-- Men checks -->
-  <ion-checkbox labelPlacement="end" class="check">Viagra</ion-checkbox><br>
-  <ion-checkbox labelPlacement="end" class="check">Dolor testicular</ion-checkbox><br>
-  <ion-checkbox labelPlacement="end" class="check">Pérdida de cabello</ion-checkbox><br>
+  <form [formGroup]="data">
+    <!-- Women checks -->
+    <ion-checkbox labelPlacement="end" class="check" formControlName="periodStarts">Inicio del periodo</ion-checkbox><br>
+    <ion-checkbox labelPlacement="end" class="check" formControlName="periodEnds">Fin del periodo</ion-checkbox><br>
+    <ion-checkbox labelPlacement="end" class="check" formControlName="emergencyPill">Pastilla de emergencia</ion-checkbox><br>
+    <!-- Men checks -->
+    <ion-checkbox labelPlacement="end" class="check" formControlName="viagra">Viagra</ion-checkbox><br>
+    <ion-checkbox labelPlacement="end" class="check" formControlName="testicularPain">Dolor testicular</ion-checkbox><br>
+    <ion-checkbox labelPlacement="end" class="check" formControlName="bald">Pérdida de cabello</ion-checkbox><br>
 
-  <ion-accordion-group style="margin-top: 30px;">
-    <!-- Women accordions -->
-    <!-- Pregnancy -->
-    <ion-accordion value="first" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Embarazo</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-checkbox labelPlacement="end" class="check-clear">Estoy embarazada</ion-checkbox><br>
-        <ion-item class="input">
-          <ion-input placeholder="¿Cuántas semanas tienes?" type="number"></ion-input>
+    <ion-accordion-group style="margin-top: 30px;">
+      <!-- Women accordions -->
+      <!-- Pregnancy -->
+      <ion-accordion value="first" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Embarazo</ion-label>
         </ion-item>
-      </div>
-    </ion-accordion>
-
-    <!-- Men & women options -->
-    <!-- Contraceptives -->
-    <ion-accordion value="second" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Anticonceptivos</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-checkbox labelPlacement="end" class="check-clear">Píldora</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Anillo hormonal</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Inyección anticonceptiva</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Implante</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">DIU</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Esponja anticonceptiva</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Diafragma</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Parche anticonceptivo</ion-checkbox><br>
-        <ion-checkbox labelPlacement="end" class="check-clear">Espermicida</ion-checkbox><br>
-      </div>
-    </ion-accordion>
-
-    <!-- Sexual act -->
-    <ion-accordion value="third" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Acto sexual</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-text>Uso del preservativo</ion-text>
-        <div class="flex" style="justify-content: space-around;">
-          <ion-checkbox id="btn-opre1" class="check-big condom"></ion-checkbox>
-          <ion-checkbox id="btn-opre2" class="check-big no-condom"></ion-checkbox>
-        </div>
-        <ion-text>Orgasmo</ion-text>
-        <div class="flex" style="justify-content: space-around;">
-          <ion-checkbox id="btn-opre1" class="check-big face"></ion-checkbox>
-          <ion-checkbox id="btn-opre2" class="check-big no-face"></ion-checkbox>
-        </div>
-        <ion-text>Número de actos sexuales</ion-text>
-        <div class="row">
+        <div class="ion-padding" slot="content">
+          <ion-checkbox labelPlacement="end" class="check-clear" formControlName="pregnant">Estoy embarazada</ion-checkbox><br>
           <ion-item class="input">
-            <ion-input placeholder="Ej. 2" type="number"></ion-input>
+            <ion-input placeholder="¿Cuántas semanas tienes?" type="number" formControlName="pregnancyWeeks"></ion-input>
           </ion-item>
         </div>
-      </div>
-    </ion-accordion>
+      </ion-accordion>
 
-    <!-- Temperature -->
-    <ion-accordion value="fourth" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Temperatura</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-item class="input">
-          <ion-input placeholder="Ej. 38°C" type="number"></ion-input>
+      <!-- Men & women options -->
+      <!-- Contraceptives -->
+      <ion-accordion value="second" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Anticonceptivos</ion-label>
         </ion-item>
-      </div>
-    </ion-accordion>
+        <div class="ion-padding" slot="content">
+          <ion-list lines="none">
+            <ion-item *ngFor="let c of contraceptivesList">
+              <ion-checkbox (ionChange)="toggleEmoji(c, selectedContraceptives)" [checked]="isSelected(c, selectedContraceptives)" class="check-clear">{{c}}</ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
 
-    <!-- Feelings and emotions -->
-    <ion-accordion value="fifth" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Sentimientos y emociones</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-text>{{ selectedEmojisEmotions.join('') }}</ion-text>
-        <ion-list lines="none" class="emoji-list">
-          <ion-item *ngFor="let emoji of emojisEmotions" class="emoji-list-item">
-            <div class="emoji-checkbox">
-              <ion-checkbox class="check-small" (ionChange)="toggleEmoji(emoji, selectedEmojisEmotions)" [checked]="isSelected(emoji, selectedEmojisEmotions)"></ion-checkbox>
-              <span class="emoji">{{ emoji }}</span>
-            </div>
+      <!-- Sexual act -->
+      <ion-accordion value="third" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Acto sexual</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-text>Uso del preservativo</ion-text>
+          <div class="flex" style="justify-content: space-around;">
+            <ion-checkbox id="btn-opre1" class="check-big condom" value="true"></ion-checkbox>
+            <ion-checkbox id="btn-opre2" class="check-big no-condom" value="false"></ion-checkbox>
+          </div>
+          <ion-text>Orgasmo</ion-text>
+          <div class="flex" style="justify-content: space-around;">
+            <ion-checkbox id="btn-opre1" class="check-big face" value="true"></ion-checkbox>
+            <ion-checkbox id="btn-opre2" class="check-big no-face" value="false"></ion-checkbox>
+          </div>
+          <ion-text>Número de actos sexuales</ion-text>
+          <div class="row">
+            <ion-item class="input">
+              <ion-input placeholder="Ej. 2" type="number" formControlName="sexualActs"></ion-input>
+            </ion-item>
+          </div>
+        </div>
+      </ion-accordion>
+
+      <!-- Temperature -->
+      <ion-accordion value="fourth" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Temperatura</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item class="input">
+            <ion-input placeholder="Ej. 38°C" type="number" formControlName="temperature"></ion-input>
           </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
+        </div>
+      </ion-accordion>
 
-    <!-- Symptoms -->
-    <ion-accordion value="sixth" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Síntomas</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-text>{{ selectedEmojisSymptoms.join('') }}</ion-text>
-        <ion-list lines="none" class="emoji-list">
-          <ion-item *ngFor="let emoji of emojisSymptoms" class="emoji-list-item">
-            <div class="emoji-checkbox">
-              <ion-checkbox class="check-small" (ionChange)="toggleEmoji(emoji, selectedEmojisSymptoms)" [checked]="isSelected(emoji, selectedEmojisSymptoms)"></ion-checkbox>
-              <span class="emoji">{{ emoji }}</span>
-            </div>
+      <!-- Feelings and emotions -->
+      <ion-accordion value="fifth" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Sentimientos y emociones</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-text>{{ selectedEmojisEmotions.join('') }}</ion-text>
+          <ion-list lines="none" class="emoji-list">
+            <ion-item *ngFor="let emoji of emojisEmotions" class="emoji-list-item">
+              <div class="emoji-checkbox">
+                <ion-checkbox class="check-small" (ionChange)="toggleEmoji(emoji, selectedEmojisEmotions)" [checked]="isSelected(emoji, selectedEmojisEmotions)"></ion-checkbox>
+                <span class="emoji">{{ emoji }}</span>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+
+      <!-- Symptoms -->
+      <ion-accordion value="sixth" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Síntomas</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-text>{{ selectedEmojisSymptoms.join('') }}</ion-text>
+          <ion-list lines="none" class="emoji-list">
+            <ion-item *ngFor="let emoji of emojisSymptoms" class="emoji-list-item">
+              <div class="emoji-checkbox">
+                <ion-checkbox class="check-small" (ionChange)="toggleEmoji(emoji, selectedEmojisSymptoms)" [checked]="isSelected(emoji, selectedEmojisSymptoms)"></ion-checkbox>
+                <span class="emoji">{{ emoji }}</span>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+
+      <!-- IMC -->
+      <ion-accordion value="seventh" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Peso y estatura</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item class="input">
+            <ion-input placeholder="Peso (Ej. 60kg)" type="number" formControlName="weight"></ion-input>
           </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
+          <ion-item class="input">
+            <ion-input placeholder="Estatura (Ej. 164cm)" type="number" formControlName="height"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
 
-    <!-- IMC -->
-    <ion-accordion value="seventh" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Peso y estatura</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-item class="input">
-          <ion-input placeholder="Peso (Ej. 60kg)" type="number"></ion-input>
+      <!-- Drink water -->
+      <ion-accordion value="eighth" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Beber agua</ion-label>
         </ion-item>
-        <ion-item class="input">
-          <ion-input placeholder="Estatura (Ej. 164cm)" type="number"></ion-input>
-        </ion-item>
-      </div>
-    </ion-accordion>
+        <div class="ion-padding" slot="content">
+          <ion-item class="input">
+            <ion-input placeholder="Ej. 1.8lt" type="number" formControlName="water"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
 
-    <!-- Drink water -->
-    <ion-accordion value="eighth" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Beber agua</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-item class="input">
-          <ion-input placeholder="Ej. 1.8lt" type="number"></ion-input>
+      <!-- Sleeping hours -->
+      <ion-accordion value="ninth" class="accordion">
+        <ion-item slot="header">
+          <ion-label class="big-text">Horas de sueño</ion-label>
         </ion-item>
-      </div>
-    </ion-accordion>
-
-    <!-- Sleeping hours -->
-    <ion-accordion value="ninth" class="accordion">
-      <ion-item slot="header">
-        <ion-label class="big-text">Horas de sueño</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        <ion-item class="input">
-          <ion-input placeholder="Ej. 8hr" type="number"></ion-input>
-        </ion-item>
-      </div>
-    </ion-accordion>
-  </ion-accordion-group>
+        <div class="ion-padding" slot="content">
+          <ion-item class="input">
+            <ion-input placeholder="Ej. 8hr" type="number" formControlName="sleep"></ion-input>
+          </ion-item>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </form>
 </ion-content>

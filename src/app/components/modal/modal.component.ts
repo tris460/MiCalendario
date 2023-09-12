@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { SharedService } from 'src/app/services/shared.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
@@ -10,11 +12,35 @@ export class ModalComponent  implements OnInit {
   name: string = '';
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
+  contraceptivesList = ['Píldora','Anillo hormonal','Inyección anticonceptiva','Implante','DIU','Esponja anticonceptiva','Diafragma','Parche anticonceptivo','Espermicida'];
 
   selectedEmojisEmotions: string[] = [];
   selectedEmojisSymptoms: string[] = [];
+  selectedContraceptives: string[] = [];
 
-  constructor(private modalCtrl: ModalController) {}
+  data = new FormGroup({
+    periodStarts: new FormControl(null),
+    periodEnds: new FormControl(null),
+    emergencyPill: new FormControl(null),
+    viagra: new FormControl(null),
+    testicularPain: new FormControl(null),
+    bald: new FormControl(null),
+    pregnant: new FormControl(null),
+    pregnancyWeeks: new FormControl(''),
+    contraceptives: new FormControl(this.selectedContraceptives),
+    condom: new FormControl(''),
+    orgasm: new FormControl(''),
+    sexualActs: new FormControl(''),
+    temperature: new FormControl(''),
+    emotions: new FormControl(this.selectedEmojisEmotions),
+    symptoms: new FormControl(this.selectedEmojisSymptoms),
+    weight: new FormControl(''),
+    height: new FormControl(''),
+    water: new FormControl(''),
+    sleep: new FormControl(''),
+  });
+
+  constructor(private modalCtrl: ModalController, private sharedService: SharedService) {}
 
   ngOnInit(){
   }
@@ -59,5 +85,9 @@ export class ModalComponent  implements OnInit {
    */
   isSelected(emoji: string, selected: string[]): boolean {
     return selected.includes(emoji);
+  }
+
+  onSubmit(formData: any) {
+    this.sharedService.formData = formData;
   }
 }

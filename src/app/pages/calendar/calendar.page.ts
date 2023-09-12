@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-calendar',
@@ -36,7 +37,7 @@ export class CalendarPage implements OnInit {
     }
   };
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController, private sharedService: SharedService) { }
 
   ngOnInit() {
   }
@@ -55,7 +56,12 @@ export class CalendarPage implements OnInit {
 
     if (role === 'confirm') {
       console.log('Save the data from form'); //TODO
+      console.log(this.getFormData())
       console.log(info.date);
     }
+  }
+
+  getFormData() {
+    return this.sharedService.formData;
   }
 }
