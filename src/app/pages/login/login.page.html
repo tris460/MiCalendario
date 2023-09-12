@@ -1,11 +1,16 @@
 <ion-content [fullscreen]="true">
+  <!-- Decorative images -->
   <ion-img src="assets/corner-lines.png" class="corner-top"></ion-img>
   <ion-img src="assets/corner-lines.png" class="corner-bottom"></ion-img>
   <div class="center" style="height: 100%;">
     <ion-img src="assets/logo.png" alt="Logo Mi Calendario" class="logo"></ion-img>
+
+    <!-- Password input -->
     <div class="center">
       <ion-input class="input" type="password" maxlength="4" [disabled]="true"></ion-input>
     </div>
+
+    <!-- Buttons for the numbers -->
     <div class="container">
       <div class="row">
         <ion-button class="button-circle">1</ion-button>
@@ -28,6 +33,8 @@
         <ion-button class="button-circle"><ion-icon name="arrow-forward"></ion-icon></ion-button>
       </div>
     </div>
+
+    <!-- Register link -->
     <ion-router-link routerLink="/register" class="center link">Cambiar de cuenta</ion-router-link>
   </div>
 </ion-content>

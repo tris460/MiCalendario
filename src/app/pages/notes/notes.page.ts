@@ -15,6 +15,9 @@ export class NotesPage implements OnInit {
   ngOnInit() {
   }
 
+   /**
+   * This function opens the modal when the user clicks the FAB button, it also saves the data added by the user
+   */
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: ModalAddNoteComponent,

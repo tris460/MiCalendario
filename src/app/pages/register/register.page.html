@@ -1,4 +1,5 @@
 <ion-content [fullscreen]="true">
+  <!-- Decorative images -->
   <ion-img src="assets/corner-lines.png" class="corner-top"></ion-img>
   <ion-img src="assets/corner-lines.png" class="corner-bottom"></ion-img>
   <div class="center" style="height: 100%;">
@@ -6,6 +7,8 @@
     <ion-text class="text">
       <h6>Para iniciar, introduce un email válido y un PIN</h6>
     </ion-text>
+
+    <!-- Form to save the user data -->
     <ion-item class="input">
       <ion-input placeholder="example@example.com" type="email"></ion-input>
     </ion-item>
@@ -21,6 +24,8 @@
         </ion-select>
       </ion-item>
     </ion-list>
+
+    <!-- Buttons to start -->
     <ion-button expand="full" class="button" shape="round" style="margin: 50px 0;">Iniciar</ion-button>
     <ion-router-link routerLink="/register" class="center link">Continuar sin iniciar</ion-router-link>
   </div>

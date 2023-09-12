@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Toolbar options -->
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -7,7 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Calendar -->
   <full-calendar [options]="calendarOptions" class="calendar"></full-calendar>
+
+  <!-- Data saved the current day -->
   <ion-card class="card">
     <ion-card-header>
       <ion-card-title>09 de septiembre</ion-card-title>
@@ -19,6 +23,8 @@
       <ion-text>💊 Tomaste una pastilla de emergencia</ion-text>
     </ion-card-content>
   </ion-card>
+
+  <!-- Notes saved the current day -->
   <ion-card class="card">
     <ion-card-header>
       <ion-card-title>Título</ion-card-title>
@@ -28,6 +34,7 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Floating action button to navigate to the chat -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button class="fab" [routerLink]="['/chat']">
       <ion-icon name="chatbubble-ellipses"></ion-icon>

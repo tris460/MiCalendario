@@ -16,6 +16,7 @@ export class CalendarPage implements OnInit {
 
   name: string = '';
 
+  // Options to configure the calendar
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
@@ -40,6 +41,10 @@ export class CalendarPage implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * This function opens the modal when the user click a day, it also saves the data added by the user
+   * @param info Data coming from the calendar, it contains the information about the day clicked
+   */
   async openModal(info: DateClickArg) {
     const modal = await this.modalCtrl.create({
       component: ModalComponent,

@@ -13,10 +13,18 @@ export class ModalAddNoteComponent  implements OnInit {
 
   ngOnInit() {}
 
+  /**
+   * This function controls the action the modal it's going to do if the user clicks out
+   * of it or if the option 'cancel' is selected
+   */
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
+  /**
+   * This function controls the action the modal it's going to do if the user clicks in
+   * confirm in the modal
+   */
   confirm() {
     return this.modalCtrl.dismiss(this.name, 'confirm');
   }

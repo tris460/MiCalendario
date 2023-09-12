@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Toolbar options -->
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -9,6 +10,7 @@
 <ion-content [fullscreen]="true">
   <ion-card-title class="title-dark">Ciclos</ion-card-title>
 
+  <!-- History of cycles -->
   <ion-card class="card">
     <ion-card-header>
       <ion-card-title>Historial</ion-card-title>
@@ -25,6 +27,7 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Predictions of cycles -->
   <ion-card class="card">
     <ion-card-header>
       <ion-card-title>Predicciones</ion-card-title>
@@ -37,8 +40,10 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Button to download a full report -->
   <ion-button class="button-dark btn-fix-bottom" shape="round"><ion-icon name="cloud-download-outline" style="padding-right: 10px;"></ion-icon> Descargar reporte</ion-button>
 
+  <!-- Floating action button to navigate to the chat -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button class="fab" [routerLink]="['/chat']">
       <ion-icon name="chatbubble-ellipses"></ion-icon>
