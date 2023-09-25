@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cycles/cycles.module').then( m => m.CyclesPageModule)
   },
   {
+    path: 'doctor',
+    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule)
+  },
+  {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
@@ -32,12 +36,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/notes/notes.module').then( m => m.NotesPageModule)
   },
   {
+    path: 'patients',
+    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule)
+  },
+  {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
     path: 'settings',
     loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: 'patients',
+    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule)
+  },
+  {
+    path: 'doctor',
+    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule)
   }
 ];
 

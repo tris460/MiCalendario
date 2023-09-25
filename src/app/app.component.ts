@@ -10,6 +10,8 @@ export class AppComponent {
     { title: 'Calendario', url: '/calendar', icon: 'calendar' },
     { title: 'Notas', url: '/notes', icon: 'create' },
     { title: 'Ciclos', url: '/cycles', icon: 'reload' },
+    { title: 'Pacientes', url: '/patients', icon: 'people' },
+    { title: 'Doctor', url: '/doctor', icon: 'medkit' },
     { title: 'Ajustes', url: '/settings', icon: 'settings' },
   ];
 
