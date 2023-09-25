@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- Toolbar buttons -->
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Registrárme</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="data">
+    <ion-card class="card">
+      <ion-item class="input">
+        <ion-input placeholder="Nombre completo" type="text" formControlName="fullName"></ion-input>
+      </ion-item>
+      <ion-item class="input">
+        <ion-input placeholder="Correo electrónico" type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item class="input">
+        <ion-input placeholder="PIN" type="number" formControlName="pin" [maxlength]="4"></ion-input>
+      </ion-item>
+      <ion-checkbox labelPlacement="end" class="check-clear" formControlName="noPin" style="margin-left: 10px;">Continuar sin PIN</ion-checkbox><br>
+      <ion-list>
+        <ion-item class="select">
+          <ion-select formControlName="sex" aria-label="sex" interface="popover" placeholder="Seleccionar sexo">
+            <ion-select-option class="check" value="female">Mujer</ion-select-option>
+            <ion-select-option value="male">Hombre</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <!-- Form in case the user is a doctor -->
+      <ion-accordion-group style="margin-top: 20px;">
+        <ion-accordion value="doctor" class="accordion">
+          <ion-item slot="header">
+            <ion-label class="big-text">Soy un médico</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-item class="input">
+              <ion-input placeholder="Cédula profesional" type="text" formControlName="license"></ion-input>
+            </ion-item>
+            <ion-item class="input">
+              <ion-input placeholder="Profesion" type="text" formControlName="profession"></ion-input>
+            </ion-item>
+            <ion-item class="input">
+              <ion-input placeholder="Descripción" type="text" formControlName="description"></ion-input>
+            </ion-item>
+            <ion-item class="input">
+              <ion-input placeholder="Costo por consulta" type="number" formControlName="cost"></ion-input>
+            </ion-item>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-card>
+  </form>
+</ion-content>

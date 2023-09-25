@@ -43,7 +43,7 @@ export class CalendarPage implements OnInit {
   }
 
   /**
-   * This function opens the modal when the user click a day, it also saves the data added by the user
+   * This function opens the modal when the user clicks a day, it also saves the data added by the user
    * @param info Data coming from the calendar, it contains the information about the day clicked
    */
   async openModal(info: DateClickArg) {

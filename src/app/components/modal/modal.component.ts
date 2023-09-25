@@ -9,7 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent  implements OnInit {
-  name: string = '';
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
   contraceptivesList = ['Píldora','Anillo hormonal','Inyección anticonceptiva','Implante','DIU','Esponja anticonceptiva','Diafragma','Parche anticonceptivo','Espermicida'];
@@ -59,7 +58,7 @@ export class ModalComponent  implements OnInit {
    */
   confirm() {
     this.sharedService.formData = this.data;
-    return this.modalCtrl.dismiss(this.name, 'confirm');
+    return this.modalCtrl.dismiss(this.data, 'confirm');
   }
 
   /**

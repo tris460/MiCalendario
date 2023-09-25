@@ -2,7 +2,7 @@
   <!-- Decorative images -->
   <ion-img src="assets/corner-lines.png" class="corner-top"></ion-img>
   <ion-img src="assets/corner-lines.png" class="corner-bottom"></ion-img>
-  <div class="center" style="height: 100%;">
+  <div class="center-horizontal main-container">
     <ion-img src="assets/logo.png" alt="Logo Mi Calendario" class="logo"></ion-img>
     <ion-text class="text">
       <h6>Para iniciar, introduce un email válido y un PIN</h6>
@@ -17,20 +17,17 @@
         <ion-input placeholder="PIN" type="password" maxlength="4" formControlName="pin"></ion-input>
       </ion-item>
       <ion-checkbox labelPlacement="end" class="check">Continuar sin PIN</ion-checkbox>
-      <ion-list class="bg-white">
-        <ion-item class="select">
-          <ion-select formControlName="sex" aria-label="sex" interface="popover" placeholder="Seleccionar sexo">
-            <ion-select-option class="check" value="female">Mujer</ion-select-option>
-            <ion-select-option value="male">Hombre</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
     </form>
 
     <!-- Buttons to start -->
-    <ion-button expand="full" class="button" shape="round" style="margin: 50px 0;" (click)="register()">Iniciar</ion-button>
-    <ion-router-link routerLink="/login" class="center link">Ya tengo una cuenta</ion-router-link>
-    <ion-router-link routerLink="/register" class="center link" style="padding-top: 0px;" id="present-alert">Continuar sin iniciar</ion-router-link>
+    <div class="center-space-bw">
+      <ion-button expand="full" class="button" shape="round" (click)="login()" style="margin-top: 15px;">Iniciar</ion-button>
+      <div>
+        <ion-button expand="full" class="button-white" shape="round" (click)="openModalRegister()" style="border: 1px solid #000;">Registrarme</ion-button>
+        <ion-router-link routerLink="/login" class="center link" style="margin-bottom: 10px;">Ya tengo una cuenta</ion-router-link>
+        <ion-router-link routerLink="/register" class="center link" style="margin-top: 0px;" id="present-alert">Continuar sin iniciar</ion-router-link>
+      </div>
+    </div>
   </div>
 
   <!-- Alert in case the user doesn't want to login/register -->

@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IonModal, ModalController } from '@ionic/angular';
+import { ModalRegisterUserComponent } from 'src/app/components/modal-register-user/modal-register-user.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +14,6 @@ export class RegisterPage implements OnInit {
   userData = new FormGroup({
     email: new FormControl(''),
     pin: new FormControl(''),
-    sex: new FormControl(''),
   });
 
   public alertButtons = [
@@ -29,13 +31,39 @@ export class RegisterPage implements OnInit {
     },
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService) { }
 
   ngOnInit() {
   }
 
-  register() {
+  login() {
     //TODO: Register data in the BD
     console.log(this.userData.value);
+  }
+
+  /**
+   * This function opens the modal when the user clicks the button, it also saves the data added by the user
+   */
+  async openModalRegister() {
+    const modal = await this.modalCtrl.create({
+      component: ModalRegisterUserComponent,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      console.log('Save the data from form'); //TODO
+      console.log(this.getFormData())
+      //TODO: Redirect to home/login
+    }
+  }
+
+  /**
+   * This function obtains the data saved by the user in the form
+   * @returns The last data saved by the user from the form in the modal
+   */
+  getFormData() {
+    return this.sharedService.formDataRegister;
   }
 }
