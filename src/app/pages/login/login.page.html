@@ -2,39 +2,41 @@
   <!-- Decorative images -->
   <ion-img src="assets/corner-lines.png" class="corner-top"></ion-img>
   <ion-img src="assets/corner-lines.png" class="corner-bottom"></ion-img>
-  <div class="center" style="height: 100%;">
+  <div class="center-horizontal main-container">
     <ion-img src="assets/logo.png" alt="Logo Mi Calendario" class="logo"></ion-img>
 
-    <!-- Password input -->
-    <div class="center">
-      <ion-input class="input" type="password" maxlength="4" [disabled]="true" [(ngModel)]="pin" style="color: #000; opacity: 1;"></ion-input>
-    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <!-- Password input -->
+      <div class="center">
+        <ion-input class="input" type="password" maxlength="4" [disabled]="true" [(ngModel)]="pin" style="color: #000; opacity: 1;"></ion-input>
+      </div>
 
-    <!-- Buttons for the numbers -->
-    <div class="container">
-      <div class="row">
-        <ion-button class="button-circle" (click)="write(1)">1</ion-button>
-        <ion-button class="button-circle" (click)="write(2)">2</ion-button>
-        <ion-button class="button-circle" (click)="write(3)">3</ion-button>
-      </div>
-      <div class="row">
-        <ion-button class="button-circle" (click)="write(4)">4</ion-button>
-        <ion-button class="button-circle" (click)="write(5)">5</ion-button>
-        <ion-button class="button-circle" (click)="write(6)">6</ion-button>
-      </div>
-      <div class="row">
-        <ion-button class="button-circle" (click)="write(7)">7</ion-button>
-        <ion-button class="button-circle" (click)="write(8)">8</ion-button>
-        <ion-button class="button-circle" (click)="write(9)">9</ion-button>
-      </div>
-      <div class="row">
-        <ion-button class="button-circle" (click)="delete()">X</ion-button>
-        <ion-button class="button-circle" (click)="write(0)">0</ion-button>
-        <ion-button class="button-circle" (click)="login()"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+      <!-- Buttons for the numbers -->
+      <div class="container">
+        <div class="row">
+          <ion-button class="button-circle" (click)="write(1)">1</ion-button>
+          <ion-button class="button-circle" (click)="write(2)">2</ion-button>
+          <ion-button class="button-circle" (click)="write(3)">3</ion-button>
+        </div>
+        <div class="row">
+          <ion-button class="button-circle" (click)="write(4)">4</ion-button>
+          <ion-button class="button-circle" (click)="write(5)">5</ion-button>
+          <ion-button class="button-circle" (click)="write(6)">6</ion-button>
+        </div>
+        <div class="row">
+          <ion-button class="button-circle" (click)="write(7)">7</ion-button>
+          <ion-button class="button-circle" (click)="write(8)">8</ion-button>
+          <ion-button class="button-circle" (click)="write(9)">9</ion-button>
+        </div>
+        <div class="row">
+          <ion-button class="button-circle" (click)="delete()">X</ion-button>
+          <ion-button class="button-circle" (click)="write(0)">0</ion-button>
+          <ion-button class="button-circle" (click)="login()"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+        </div>
       </div>
     </div>
 
     <!-- Register link -->
-    <ion-router-link routerLink="/register" class="center link">Cambiar de cuenta</ion-router-link>
+    <ion-router-link routerLink="/register" class="center link flex" style="justify-content: end; margin-top: 15px;">Cambiar de cuenta</ion-router-link>
   </div>
 </ion-content>
