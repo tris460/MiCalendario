@@ -169,3 +169,8 @@ a {
 .flex {
   display: flex;
 }
+
+.thumbnail-big {
+  --size: 140px;
+  --border-radius: 14px;
+}

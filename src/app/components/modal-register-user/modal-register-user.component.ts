@@ -20,6 +20,7 @@ export class ModalRegisterUserComponent  implements OnInit {
     profession: new FormControl(null),
     description: new FormControl(null),
     cost: new FormControl(null),
+    officeAddress: new FormControl(null),
   });
 
   constructor(private modalCtrl: ModalController, private sharedService: SharedService) { }
