@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
 import { ModalRegisterUserComponent } from 'src/app/components/modal-register-user/modal-register-user.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +32,7 @@ export class RegisterPage implements OnInit {
     },
   ];
 
-  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService) { }
+  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -53,9 +54,12 @@ export class RegisterPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log('Save the data from form'); //TODO
-      console.log(this.getFormData())
-      //TODO: Redirect to home/login
+      let data = this.getFormData()?.value;
+      this.userService.createUser(data)
+      .then(res => {
+        //TODO: Redirect to home/login
+      })
+      .catch(err => console.error(err))
     }
   }
 
