@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { ModalRegisterUserComponent } from 'src/app/components/modal-register-user/modal-register-user.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
@@ -12,9 +12,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  isNoPinDisabled = false;
+
   userData = new FormGroup({
-    email: new FormControl(''),
-    pin: new FormControl(''),
+    email: new FormControl(null),
+    pin: new FormControl(null),
+    noPin: new FormControl(null),
   });
 
   public alertButtons = [
@@ -32,14 +35,42 @@ export class RegisterPage implements OnInit {
     },
   ];
 
-  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService) { }
+  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
+    // Validate if the PIN input is disabled or not
+    this.userData.get('noPin')!.valueChanges.subscribe((value) => {
+      if (value) {
+        this.isNoPinDisabled = true;
+        this.userData.get('pin')!.reset();
+        this.userData.get('pin')!.disable();
+      } else {
+        this.isNoPinDisabled = false;
+        this.userData.get('pin')!.enable();
+      }
+    });
+  }
 
   ngOnInit() {
   }
 
+  /**
+   * This function logs in an user
+   */
   login() {
-    //TODO: Register data in the BD
-    console.log(this.userData.value);
+    this.userService.loginUser(this.userData.value)
+      .then(res => {
+        console.log('Credenciales válidas')
+        //TODO: Redirect to home
+        //TODO: Save credentials somewhere
+      })
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Las credenciales ingresadas son incorrectas, intenta nuevamente',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
   }
 
   /**
@@ -69,5 +100,23 @@ export class RegisterPage implements OnInit {
    */
   getFormData() {
     return this.sharedService.formDataRegister;
+  }
+
+  /**
+   * This function validates the form to submit it
+   */
+  isValidForm(): boolean {
+    const email = this.userData.get('email')!.value;
+    const pin = this.userData.get('pin')!.value;
+    const noPin = this.userData.get('noPin')!.value;
+
+    const isEmailValid = !!email;
+    let isPinValid = !!pin;
+
+    if(noPin) {
+      isPinValid = true;
+    }
+
+    return isEmailValid && isPinValid;
   }
 }
