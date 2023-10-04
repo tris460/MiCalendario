@@ -58,9 +58,8 @@ export class RegisterPage implements OnInit {
   login() {
     this.userService.loginUser(this.userData.value)
       .then(res => {
-        console.log('Credenciales válidas')
-        //TODO: Redirect to home
-        //TODO: Save credentials somewhere
+        this.router.navigate(['/home']);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!);
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({
@@ -88,9 +87,18 @@ export class RegisterPage implements OnInit {
       let data = this.getFormData()?.value;
       this.userService.createUser(data)
       .then(res => {
-        //TODO: Redirect to home/login
+        this.router.navigate(['/home']);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!);
       })
-      .catch(err => console.error(err))
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
     }
   }
 
