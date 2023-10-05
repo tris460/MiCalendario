@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,9 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
   pin = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private sharedService: SharedService) {
+    if(!this.sharedService.isLoggedIn) this.router.navigate(['/register']);
+  }
 
   ngOnInit() {
   }
@@ -29,5 +32,10 @@ export class LoginPage implements OnInit {
 
   delete() {
     this.pin = '';
+  }
+
+  goToRegister() {
+    sessionStorage.removeItem('userMiCalendario');
+    this.router.navigate(['/register']);
   }
 }

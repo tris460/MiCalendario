@@ -26,4 +26,14 @@ export class UserService {
   loginUser(data: any) { //TODO: Type
     return this.http.put(`${this.URL}/login`, data).toPromise();
   }
+
+  /**
+   * This function gets an user's info
+   * @param email User's email to search in the DB
+   * @returns A promise
+   */
+  getUser(email: string) {
+    const params = {email: email};
+    return this.http.get(`${this.URL}/user`, { params: params}).toPromise();
+  }
 }
