@@ -20,21 +20,6 @@ export class RegisterPage implements OnInit {
     noPin: new FormControl(null),
   });
 
-  public alertButtons = [
-    {
-      text: 'Cancel',
-      role: 'cancel',
-    },
-    {
-      text: 'Continuar',
-      role: 'confirm',
-      handler: () => {
-        //TODO: Create a fake profile to login
-        this.router.navigate(['/home']);
-      },
-    },
-  ];
-
   constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
     // Validate if the PIN input is disabled or not
     this.userData.get('noPin')!.valueChanges.subscribe((value) => {
@@ -79,7 +64,7 @@ export class RegisterPage implements OnInit {
         this.sharedService.currentUser = res.data;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-        sessionStorage.setItem('userMiCalendario', this.userData.value.email!);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({
@@ -110,7 +95,7 @@ export class RegisterPage implements OnInit {
         this.sharedService.currentUser = data;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-        sessionStorage.setItem('userMiCalendario', this.userData.value.email!);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({

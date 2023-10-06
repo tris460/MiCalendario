@@ -20,15 +20,7 @@
       <ion-button expand="full" class="button" shape="round" (click)="login()" style="margin-top: 15px;" [disabled]="!isValidForm()">Iniciar</ion-button>
       <div>
         <ion-button expand="full" class="button-white" shape="round" (click)="openModalRegister()" style="border: 1px solid #000;">Registrarme</ion-button>
-        <ion-router-link routerLink="/register" class="center link" style="margin-top: 0px;" id="present-alert">Continuar sin iniciar</ion-router-link>
       </div>
     </div>
   </div>
-
-  <!-- Alert in case the user doesn't want to login/register -->
-  <ion-alert
-    trigger="present-alert"
-    header="Si continuas sin iniciar, no podrás realizar copias de seguridad ni recuperar tus datos si desinstalas la aplicación"
-    [buttons]="alertButtons"
-    class="alert"></ion-alert>
 </ion-content>
