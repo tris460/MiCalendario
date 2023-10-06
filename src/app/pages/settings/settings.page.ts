@@ -73,7 +73,7 @@ export class SettingsPage implements OnInit {
     this.modal.dismiss(this.selectedImage, 'confirm');
     this.userService.updatePet(this.selectedImage)
       .then((res: any) => {
-        this.sharedService.currentUser =res.data;
+        this.sharedService.currentUser.data = res.data;
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({
@@ -104,7 +104,5 @@ export class SettingsPage implements OnInit {
    */
   selectImage(imagePath: string) {
     this.selectedImage = imagePath;
-    console.log(this.selectedImage)
-    console.log(this.sharedService.currentUser)
   }
 }

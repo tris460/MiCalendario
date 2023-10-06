@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, IonModal, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ModalRegisterUserComponent } from 'src/app/components/modal-register-user/modal-register-user.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
@@ -39,12 +39,11 @@ export class RegisterPage implements OnInit {
       this.userService.getUser(email)
       .then(res => {
         this.sharedService.currentUser = res;
+        this.sharedService.isLoggedIn = true;
 
         if(this.sharedService.currentUser.data.pin) {
-          this.sharedService.isLoggedIn = true;
           this.router.navigate(['/login']);
         } else {
-          this.sharedService.isLoggedIn = true;
           this.router.navigate(['/home']);
         }
       })
@@ -61,7 +60,7 @@ export class RegisterPage implements OnInit {
   login() {
     this.userService.loginUser(this.userData.value)
       .then((res: any) => { // TODO: Type
-        this.sharedService.currentUser = res.data;
+        this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
         sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
