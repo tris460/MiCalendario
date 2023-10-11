@@ -15,9 +15,9 @@
           <ion-label>Editar datos de inicio de sesión</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
-          <ion-input type="text" fill="solid" label="Nombre" labelPlacement="floating" errorText="Nombre inválido" [(ngModel)]="user.fullName" text></ion-input>
-          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email inválido" [(ngModel)]="user.email" email></ion-input>
-          <ion-input type="number" fill="solid" label="PIN" labelPlacement="floating" errorText="PIN inválido" [(ngModel)]="user.pin" pattern="[0-9]*" maxlength="4"></ion-input>
+          <ion-input type="text" label="Nombre" labelPlacement="floating" errorText="Nombre inválido" [(ngModel)]="user.fullName" text></ion-input>
+          <ion-input type="email" label="Email" labelPlacement="floating" errorText="Email inválido" [(ngModel)]="user.email" email></ion-input>
+          <ion-input type="number" label="PIN" labelPlacement="floating" errorText="PIN inválido" [(ngModel)]="user.pin" pattern="[0-9]*" maxlength="4"></ion-input>
           <ion-checkbox labelPlacement="end" class="check-clear"  style="margin-left: 10px;" [(ngModel)]="user.noPin">Continuar sin PIN</ion-checkbox><br>
           <ion-list>
             <ion-item class="select">
@@ -35,11 +35,11 @@
                 <ion-label class="big-text">Soy un médico</ion-label>
               </ion-item>
               <div class="ion-padding" slot="content">
-                <ion-input type="text" fill="solid" label="Profesión" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.profession"></ion-input>
-                <ion-input type="text" fill="solid" label="Descripción" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.description"></ion-input>
-                <ion-input type="text" fill="solid" label="Cédula profesional" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.license"></ion-input>
-                <ion-input type="number" fill="solid" label="Costo por consulta" labelPlacement="floating" errorText="Costo inválido" [(ngModel)]="user.cost"></ion-input>
-                <ion-input type="text" fill="solid" label="Dirección del consultorio" labelPlacement="floating" errorText="Dirección inválida" [(ngModel)]="user.officeAddress"></ion-input>
+                <ion-input type="text" label="Profesión" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.profession"></ion-input>
+                <ion-input type="text" label="Descripción" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.description"></ion-input>
+                <ion-input type="text" label="Cédula profesional" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.license"></ion-input>
+                <ion-input type="number" label="Costo por consulta" labelPlacement="floating" errorText="Costo inválido" [(ngModel)]="user.cost"></ion-input>
+                <ion-input type="text" label="Dirección del consultorio" labelPlacement="floating" errorText="Dirección inválida" [(ngModel)]="user.officeAddress"></ion-input>
               </div>
             </ion-accordion>
           </ion-accordion-group>
@@ -56,10 +56,10 @@
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
-              <ion-button (click)="cancel()">Cancelar</ion-button>
+              <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
             </ion-buttons>
             <ion-buttons slot="end">
-              <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+              <ion-button color="light" (click)="confirm()" [strong]="true">Guardar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>

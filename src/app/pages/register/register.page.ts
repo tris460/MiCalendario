@@ -19,7 +19,7 @@ export class RegisterPage implements OnInit {
 
   public alertButtons = [
     {
-      text: 'Cancel',
+      text: 'Cancelar',
       role: 'cancel',
     },
     {

@@ -126,6 +126,7 @@
 .button {
   --background: #000;
   --background-hover-opacity: .14;
+  --color: #fff;
   border-radius: 50px;
 
   &-white {
@@ -143,27 +144,28 @@ a {
 
 .check {
   --border-radius: 50px;
-  --border-color: #000;
-  --border-color-checked: #000;
-  --checkbox-background: #fff;
-  --checkbox-background-checked: #000;
-  color: #000;
+  --border-color: var(--ion-color-primary);
+  --border-color-checked: var(--ion-color-primary);
+  --checkbox-background: var(--ion-color-primary-contrast);
+  --checkbox-background-checked: var(--ion-color-primary);
+  --checkmark-color: var(--ion-color-primary-contrast);;
+  color: var(--ion-color-primary);
   padding-top: 10px;
 
   &-clear {
     --border-radius: 50px;
-    --border-color: #fff;
-    --border-color-checked: #fff;
-    --checkbox-background: #000;
-    --checkbox-background-checked: #fff;
-    --checkmark-color: #000;
-    color: #fff;
+    --border-color: var(--ion-color-primary-contrast);
+    --border-color-checked: var(--ion-color-primary-contrast);
+    --checkbox-background: var(--ion-color-primary);
+    --checkbox-background-checked: var(--ion-color-primary-contrast);
+    --checkmark-color: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);;
   }
 }
 
 .accordion {
-  color: #ffffff;
-  background-color: #000;
+  color: var(--ion-color-primary-contrast);
+  background-color: var(--ion-color-primary);
 }
 
 .flex {
