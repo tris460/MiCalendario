@@ -176,3 +176,7 @@ a {
   --size: 140px;
   --border-radius: 14px;
 }
+
+.alert-button.sc-ion-alert-md {
+  color: var(--ion-color-primary-contrast) !important;
+}
