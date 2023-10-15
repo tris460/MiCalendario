@@ -41,7 +41,7 @@ export class ChatPage implements OnInit {
       this.preguntaActual++;
     } else if (respuestaFallo === "No") {
       // Manejar lógica para respuesta "No" si es necesario
-      this.preguntaActual = 3;
+      this.preguntaActual = 4;
     }
     // Puedes agregar lógica adicional aquí según tus necesidades
 
