@@ -10,12 +10,8 @@
 
     <!-- Form to save the user data -->
     <form [formGroup]="userData">
-      <ion-item class="input">
-        <ion-input placeholder="example@example.com" type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <ion-item class="input">
-        <ion-input placeholder="PIN" type="password" maxlength="4" formControlName="pin"></ion-input>
-      </ion-item>
+        <ion-input placeholder="example@example.com" type="email" formControlName="email" errorText="Email inválido" email style="color: #000;"></ion-input>
+        <ion-input placeholder="PIN" type="password" maxlength="4" formControlName="pin" errorText="PIN inválido" pattern="[0-9]*"style="color: #000;"></ion-input>
       <ion-checkbox labelPlacement="end" class="check">Continuar sin PIN</ion-checkbox>
     </form>
 
@@ -34,6 +30,5 @@
   <ion-alert
     trigger="present-alert"
     header="Si continuas sin iniciar, no podrás realizar copias de seguridad ni recuperar tus datos si desinstalas la aplicación"
-    [buttons]="alertButtons"
-    class="alert"></ion-alert>
+    [buttons]="alertButtons"></ion-alert>
 </ion-content>

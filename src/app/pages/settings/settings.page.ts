@@ -12,6 +12,19 @@ export class SettingsPage implements OnInit {
 
   images: string[] = [];
   selectedImage: string = '';
+  user = {
+    fullName: null,
+    email: null,
+    pin: null,
+    noPin: null,
+    sex: null,
+    doctor: null,
+    license: null,
+    profession: null,
+    description: null,
+    cost: null,
+    officeAddress: null,
+  }
 
   constructor() {
     for (let i = 1; i <= 10; i++) {
@@ -23,6 +36,11 @@ export class SettingsPage implements OnInit {
   }
 
   logout() {
+    //TODO: Implement function
+  }
+
+  updateLoginData() {
+    console.log(this.user);
     //TODO: Implement function
   }
 

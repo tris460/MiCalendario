@@ -8,6 +8,47 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <div style="margin: 10px;">
+    <!-- Edit login data -->
+    <ion-accordion-group>
+      <ion-accordion value="editLoginData" class="accordion">
+        <ion-item slot="header" style="text-align: center;">
+          <ion-label>Editar datos de inicio de sesión</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-input type="text" label="Nombre" labelPlacement="floating" errorText="Nombre inválido" [(ngModel)]="user.fullName" text></ion-input>
+          <ion-input type="email" label="Email" labelPlacement="floating" errorText="Email inválido" [(ngModel)]="user.email" email></ion-input>
+          <ion-input type="number" label="PIN" labelPlacement="floating" errorText="PIN inválido" [(ngModel)]="user.pin" pattern="[0-9]*" maxlength="4"></ion-input>
+          <ion-checkbox labelPlacement="end" class="check-clear"  style="margin-left: 10px;" [(ngModel)]="user.noPin">Continuar sin PIN</ion-checkbox><br>
+          <ion-list>
+            <ion-item class="select">
+              <ion-select [(ngModel)]="user.sex" aria-label="sex" interface="popover" placeholder="Seleccionar sexo">
+                <ion-select-option class="check" value="female">Mujer</ion-select-option>
+                <ion-select-option value="male">Hombre</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list><br>
+
+          <!-- Doctor options -->
+          <ion-accordion-group>
+            <ion-accordion value="doctor" class="accordion">
+              <ion-item slot="header">
+                <ion-label class="big-text">Soy un médico</ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <ion-input type="text" label="Profesión" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.profession"></ion-input>
+                <ion-input type="text" label="Descripción" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.description"></ion-input>
+                <ion-input type="text" label="Cédula profesional" labelPlacement="floating" errorText="Texto inválido" [(ngModel)]="user.license"></ion-input>
+                <ion-input type="number" label="Costo por consulta" labelPlacement="floating" errorText="Costo inválido" [(ngModel)]="user.cost"></ion-input>
+                <ion-input type="text" label="Dirección del consultorio" labelPlacement="floating" errorText="Dirección inválida" [(ngModel)]="user.officeAddress"></ion-input>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+
+          <ion-button expand="full" class="button-white" shape="round" (click)="updateLoginData()" style="border: 1px solid #000;">Guardar</ion-button>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
     <!-- Option to change pet -->
     <ion-button id="open-modal-pet" expand="block">Cambiar mascota</ion-button>
     <ion-modal trigger="open-modal-pet" (willDismiss)="onWillDismiss($event)">
@@ -15,10 +56,10 @@
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
-              <ion-button (click)="cancel()">Cancelar</ion-button>
+              <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
             </ion-buttons>
             <ion-buttons slot="end">
-              <ion-button (click)="confirm()" [strong]="true">Guardar</ion-button>
+              <ion-button color="light" (click)="confirm()" [strong]="true">Guardar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
@@ -35,4 +76,11 @@
     <!-- Logout button -->
     <ion-button expand="full" class="button-white" shape="round" (click)="logout()" style="border: 1px solid #000;">Cerrar sesión</ion-button>
   </div>
+
+  <!-- Floating action button to navigate to the chat -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab" [routerLink]="['/chat']">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
