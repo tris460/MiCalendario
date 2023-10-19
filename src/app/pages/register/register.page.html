@@ -10,25 +10,17 @@
 
     <!-- Form to save the user data -->
     <form [formGroup]="userData">
-        <ion-input placeholder="example@example.com" type="email" formControlName="email" errorText="Email inválido" email style="color: #000;"></ion-input>
-        <ion-input placeholder="PIN" type="password" maxlength="4" formControlName="pin" errorText="PIN inválido" pattern="[0-9]*"style="color: #000;"></ion-input>
-      <ion-checkbox labelPlacement="end" class="check">Continuar sin PIN</ion-checkbox>
+      <ion-input placeholder="example@example.com" type="email" formControlName="email" errorText="Email inválido" email style="color: #000;"></ion-input>
+      <ion-input placeholder="PIN" type="number" maxlength="4" formControlName="pin" errorText="PIN inválido" pattern="[0-9]*"style="color: #000;"></ion-input>
+      <ion-checkbox labelPlacement="end" class="check" formControlName="noPin">Continuar sin PIN</ion-checkbox>
     </form>
 
     <!-- Buttons to start -->
     <div class="center-space-bw">
-      <ion-button expand="full" class="button" shape="round" (click)="login()" style="margin-top: 15px;">Iniciar</ion-button>
+      <ion-button expand="full" class="button" shape="round" (click)="login()" style="margin-top: 15px;" [disabled]="!isValidForm()">Iniciar</ion-button>
       <div>
         <ion-button expand="full" class="button-white" shape="round" (click)="openModalRegister()" style="border: 1px solid #000;">Registrarme</ion-button>
-        <ion-router-link routerLink="/login" class="center link" style="margin-bottom: 10px;">Ya tengo una cuenta</ion-router-link>
-        <ion-router-link routerLink="/register" class="center link" style="margin-top: 0px;" id="present-alert">Continuar sin iniciar</ion-router-link>
       </div>
     </div>
   </div>
-
-  <!-- Alert in case the user doesn't want to login/register -->
-  <ion-alert
-    trigger="present-alert"
-    header="Si continuas sin iniciar, no podrás realizar copias de seguridad ni recuperar tus datos si desinstalas la aplicación"
-    [buttons]="alertButtons"></ion-alert>
 </ion-content>

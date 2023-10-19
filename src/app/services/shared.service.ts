@@ -7,6 +7,8 @@ import { FormGroup } from '@angular/forms';
 export class SharedService {
   public formData: FormGroup | undefined;
   public formDataRegister: FormGroup | undefined;
+  public currentUser: any; //TODO: Type
+  public isLoggedIn: Boolean = false;
 
   constructor() { }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  pet: string = '';
 
-  constructor() { }
+  constructor(private sharedService: SharedService) {
+    this.pet = this.sharedService.currentUser.data.pet;
+  }
 
   ngOnInit() {
   }

@@ -1,31 +1,37 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './services/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/register',
     pathMatch: 'full'
   },
   {
     path: 'calendar',
-    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
+    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'chat',
-    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cycles',
-    loadChildren: () => import('./pages/cycles/cycles.module').then( m => m.CyclesPageModule)
+    loadChildren: () => import('./pages/cycles/cycles.module').then( m => m.CyclesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'doctor',
-    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule)
+    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -33,11 +39,13 @@ const routes: Routes = [
   },
   {
     path: 'notes',
-    loadChildren: () => import('./pages/notes/notes.module').then( m => m.NotesPageModule)
+    loadChildren: () => import('./pages/notes/notes.module').then( m => m.NotesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'patients',
-    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule)
+    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -45,15 +53,18 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'patients',
-    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule)
+    loadChildren: () => import('./pages/patients/patients.module').then( m => m.PatientsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'doctor',
-    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule)
+    loadChildren: () => import('./pages/doctor/doctor.module').then( m => m.DoctorPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 

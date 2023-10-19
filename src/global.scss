@@ -55,7 +55,7 @@
 
 .center-horizontal {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   flex-direction: column;
@@ -175,4 +175,8 @@ a {
 .thumbnail-big {
   --size: 140px;
   --border-radius: 14px;
+}
+
+.alert-button.sc-ion-alert-md {
+  color: var(--ion-color-primary-contrast) !important;
 }
