@@ -38,10 +38,9 @@ export class RegisterPage implements OnInit {
     if(email) {
       this.userService.getUser(email)
       .then((res: any) => { //TODO: Type
-        this.sharedService.role = res.data.role;
-        this.sharedService.sex = res.data.sex,
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
+        this.sharedService.updateCurrentUser(res);
 
         if(this.sharedService.currentUser.data.pin) {
           this.router.navigate(['/login']);
@@ -64,6 +63,7 @@ export class RegisterPage implements OnInit {
       .then((res: any) => { // TODO: Type
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
+        this.sharedService.updateCurrentUser(res);
         this.router.navigate(['/home']);
         sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
       })
@@ -90,18 +90,19 @@ export class RegisterPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      let data = this.getFormData()?.value;
-      this.userService.createUser(data)
-      .then(res => {
-        this.sharedService.currentUser.data = data;
+      let userData = this.getFormData()?.value;
+      this.userService.createUser(userData)
+      .then((res: any) => {
+        this.sharedService.currentUser.data = res.data;
         this.sharedService.isLoggedIn = true;
+        this.sharedService.updateCurrentUser(res.data);
         this.router.navigate(['/home']);
         sessionStorage.setItem('userMiCalendario', data.email!); //TODO: Encrypt
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({
           header: 'Error',
-          message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+          message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos ',
           buttons: ['OK'],
         });
 

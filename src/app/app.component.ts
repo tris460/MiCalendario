@@ -15,13 +15,15 @@ export class AppComponent {
     { title: 'Doctor', url: '/doctor', icon: 'medkit' },
     { title: 'Ajustes', url: '/settings', icon: 'settings' },
   ];
-  role: string = 'patient';
-  sex: string = 'female';
+  role: string | undefined;
+  sex: string | undefined;
 
   constructor(private sharedService: SharedService) {
-    setTimeout(() => { //TODO: Add spinner
-      this.role = this.sharedService.role;
-      this.sex = this.sharedService.sex;
-    }, 1500);
+    this.sharedService.loggedUser.subscribe((user: any) => {
+      if (user) {
+        this.role = user.data.role;
+        this.sex = user.data.sex;
+      }
+    });
   }
 }

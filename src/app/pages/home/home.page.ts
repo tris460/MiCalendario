@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
 
   constructor(private sharedService: SharedService) {
     this.pet = this.sharedService.currentUser.data.pet;
-    if (this.sharedService.sex === 'male') {
+    if (this.sharedService.currentUser.data.sex === 'male') {
       this.selectedMessages = this.maleMessages;
     } else  {
       this.selectedMessages = this.femaleMessages;

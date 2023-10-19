@@ -50,6 +50,7 @@ export class SettingsPage implements OnInit {
     sessionStorage.clear();
     sessionStorage.removeItem('userMiCalendario'); //TODO: cuando el usuario cierra sesión y tiene PIN, mandar a /login
     this.router.navigate(['/register']);
+    location.reload();
   }
 
   updateLoginData() {
