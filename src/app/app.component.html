@@ -4,10 +4,34 @@
       <ion-content>
         <ion-img src="assets/logo.png" class="menu_img"></ion-img>
         <ion-list id="menu-list">
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" [routerLink]="[appPages[0].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[0].icon + '-outline'" [md]="appPages[0].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[0].title }}</ion-label>
+            </ion-item>
+            <ion-item routerDirection="root" [routerLink]="[appPages[1].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[1].icon + '-outline'" [md]="appPages[1].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[1].title }}</ion-label>
+            </ion-item>
+            <ion-item routerDirection="root" [routerLink]="[appPages[2].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[2].icon + '-outline'" [md]="appPages[2].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[2].title }}</ion-label>
+            </ion-item>
+            <ion-item *ngIf="sex === 'female'" routerDirection="root" [routerLink]="[appPages[3].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[3].icon + '-outline'" [md]="appPages[3].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[3].title }}</ion-label>
+            </ion-item>
+            <ion-item *ngIf="role === 'doctor'" routerDirection="root" [routerLink]="[appPages[4].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[4].icon + '-outline'" [md]="appPages[4].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[4].title }}</ion-label>
+            </ion-item>
+            <ion-item *ngIf="role === 'patient'" routerDirection="root" [routerLink]="[appPages[5].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[5].icon + '-outline'" [md]="appPages[5].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[5].title }}</ion-label>
+            </ion-item>
+            <ion-item routerDirection="root" [routerLink]="[appPages[6].url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [ios]="appPages[6].icon + '-outline'" [md]="appPages[6].icon + '-sharp'"></ion-icon>
+              <ion-label>{{ appPages[6].title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

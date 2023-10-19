@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharedService } from './services/shared.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,6 +15,13 @@ export class AppComponent {
     { title: 'Doctor', url: '/doctor', icon: 'medkit' },
     { title: 'Ajustes', url: '/settings', icon: 'settings' },
   ];
+  role: string = 'patient';
+  sex: string = 'female';
 
-  constructor() {}
+  constructor(private sharedService: SharedService) {
+    setTimeout(() => { //TODO: Add spinner
+      this.role = this.sharedService.role;
+      this.sex = this.sharedService.sex;
+    }, 1500);
+  }
 }

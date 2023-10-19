@@ -39,7 +39,6 @@ export class RegisterPage implements OnInit {
       this.userService.getUser(email)
       .then((res: any) => { //TODO: Type
         this.sharedService.role = res.data.role;
-        console.log(res.data)
         this.sharedService.sex = res.data.sex,
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
