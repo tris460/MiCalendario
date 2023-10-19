@@ -37,7 +37,10 @@ export class RegisterPage implements OnInit {
     const email = sessionStorage.getItem('userMiCalendario')
     if(email) {
       this.userService.getUser(email)
-      .then(res => {
+      .then((res: any) => { //TODO: Type
+        this.sharedService.role = res.data.role;
+        console.log(res.data)
+        this.sharedService.sex = res.data.sex,
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
 
@@ -91,10 +94,10 @@ export class RegisterPage implements OnInit {
       let data = this.getFormData()?.value;
       this.userService.createUser(data)
       .then(res => {
-        this.sharedService.currentUser = data;
+        this.sharedService.currentUser.data = data;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
+        sessionStorage.setItem('userMiCalendario', data.email!); //TODO: Encrypt
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({

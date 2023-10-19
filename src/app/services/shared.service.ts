@@ -9,6 +9,8 @@ export class SharedService {
   public formDataRegister: FormGroup | undefined;
   public currentUser: any; //TODO: Type
   public isLoggedIn: Boolean = false;
+  public sex: string = 'female'
+  public role: string = 'patient'
 
   constructor() { }
 }

@@ -48,7 +48,7 @@ export class SettingsPage implements OnInit {
     this.sharedService.currentUser = null;
     this.sharedService.isLoggedIn = false;
     sessionStorage.clear();
-    sessionStorage.removeItem('userMiCalendario');
+    sessionStorage.removeItem('userMiCalendario'); //TODO: cuando el usuario cierra sesión y tiene PIN, mandar a /login
     this.router.navigate(['/register']);
   }
 
