@@ -9,6 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent  implements OnInit {
+  sex: string | undefined;
+
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
   contraceptivesList = ['Píldora','Anillo hormonal','Inyección anticonceptiva','Implante','DIU','Esponja anticonceptiva','Diafragma','Parche anticonceptivo','Espermicida'];
@@ -39,7 +41,11 @@ export class ModalComponent  implements OnInit {
     sleep: new FormControl(''),
   });
 
-  constructor(private modalCtrl: ModalController, private sharedService: SharedService) {}
+  constructor(private modalCtrl: ModalController, private sharedService: SharedService) {
+    this.sharedService.loggedUser.subscribe((user: any) => {
+      if (user) this.sex = user.data.sex;
+    })
+  }
 
   ngOnInit(){
   }
