@@ -30,6 +30,8 @@ export class HomePage implements OnInit {
   selectedMessages = this.femaleMessages;
   messageToPrint: string = '¿Tas bien? Regístralo en el calendario';
 
+  sex: string | undefined;
+
   constructor(private sharedService: SharedService) {
     this.pet = this.sharedService.currentUser.data.pet;
     if (this.sharedService.currentUser.data.sex === 'male') {
@@ -37,6 +39,12 @@ export class HomePage implements OnInit {
     } else  {
       this.selectedMessages = this.femaleMessages;
     }
+
+    this.sharedService.loggedUser.subscribe((user: any) => {
+      if (user) {
+        this.sex = user.data.sex;
+      }
+    });
   }
 
   ngOnInit() {
