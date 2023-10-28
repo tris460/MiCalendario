@@ -5,6 +5,7 @@ import { AlertController, IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { isValidForm } from 'src/app/utils/isValidForm';
 
 @Component({
   selector: 'app-settings',
@@ -185,5 +186,13 @@ export class SettingsPage implements OnInit {
    */
   selectImage(imagePath: string) {
     this.selectedImage = imagePath;
+  }
+
+  /**
+   * This function verifies if the given form is filled correctly
+   * @returns Boolean, true if the form is correct, false if not
+   */
+  isValidForm(): boolean {
+    return isValidForm(this.data);
   }
 }

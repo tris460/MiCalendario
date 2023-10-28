@@ -49,7 +49,7 @@
             </ion-card>
           </form>
 
-          <ion-button expand="full" class="button-white" shape="round" (click)="updateLoginData()" style="border: 1px solid #000;">Guardar</ion-button>
+          <ion-button expand="full" class="button-white" shape="round" (click)="updateLoginData()" [disabled]="!isValidForm()" style="border: 1px solid #000;">Guardar</ion-button>
         </div>
       </ion-accordion>
     </ion-accordion-group>

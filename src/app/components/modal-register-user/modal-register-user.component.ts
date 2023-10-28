@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { SharedService } from 'src/app/services/shared.service';
+import { isValidForm } from 'src/app/utils/isValidForm';
 
 @Component({
   selector: 'app-modal-register-user',
@@ -85,56 +86,10 @@ export class ModalRegisterUserComponent  implements OnInit {
   }
 
   /**
-   * This function validates the form to submit it
+   * This function verifies if the given form is filled correctly
+   * @returns Boolean, true if the form is correct, false if not
    */
   isValidForm(): boolean {
-    const fullName = this.data.get('fullName')!.value;
-    const email = this.data.get('email')!.value;
-    const isDoctor = this.data.get('isDoctor')!.value;
-
-    // Verify if there're null values
-    const isFullNameValid = !!fullName;
-    const isEmailValid = !!email;
-    const isPinValid = this.validatePin();
-
-    if(isDoctor) {
-      this.data.get('role')?.setValue('doctor');
-
-      const license = this.data.get('license')!.value;
-      const profession = this.data.get('profession')!.value;
-      const description = this.data.get('description')!.value;
-      const cost = this.data.get('cost')!.value;
-      const officeAddress = this.data.get('officeAddress')!.value;
-
-      // Verify if there're null values
-      const isLicenseValid = !!license;
-      const isProfessionValid = !!profession;
-      const isDescriptionValid = !!description;
-      const isCostValid = !!cost;
-      const isOfficeAddressValid = !!officeAddress;
-
-      const isDoctorValid = isLicenseValid && isProfessionValid && isDescriptionValid && isCostValid && isOfficeAddressValid;
-
-      return isDoctorValid && isFullNameValid && isEmailValid && isPinValid;
-    }
-
-    this.data.get('role')?.setValue('patient');
-    return isFullNameValid && isEmailValid && isPinValid;
-  }
-
-  /**
-   * Verifies the content of the PIN input
-   * @returns Boolean depending if the value in the PIN input is valid
-   */
-  validatePin(): boolean {
-    const pin = this.data.get('pin')!.value;
-    const noPin = this.data.get('noPin')!.value;
-
-    if(noPin) return true;
-    if (pin && /^[0-9]{4}$/.test(pin)) {
-      return true;
-    }
-
-    return false;
+    return isValidForm(this.data);
   }
 }
