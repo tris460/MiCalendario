@@ -55,8 +55,35 @@ export class ChatPage implements OnInit {
     {
       preguntaAyuda: "¿Quieres agregar más detalles?",
       respuestasAyuda: ["Sí", "No"],
+    },{
+      preguntaAyuda: "¿Experimentaste algún error o mensaje de error específico?",
+      respuestasAyuda: ["Sí", "No"],
     },
-    // Agrega más preguntas y respuestas según sea necesario
+    {
+      preguntaAyuda: "¿Puedes describir con más detalle cuándo y cómo ocurrió el fallo?",
+      respuestasAyuda: ["Sí", "No"],
+    },
+    {
+      preguntaAyuda: "¿Has intentado alguna solución por tu cuenta? (por ejemplo, reiniciar la aplicación)",
+      respuestasAyuda: ["Sí", "No"],
+    },
+    {
+      preguntaAyuda: "¿En qué parte de la aplicación ocurrió el fallo? (por ejemplo, en la pantalla de inicio, al realizar una acción específica)",
+      respuestasAyuda: ["Sí", "No"],
+    },
+    {
+      preguntaAyuda: "¿Puedes proporcionar detalles sobre el dispositivo o navegador que estabas usando cuando ocurrió el fallo?",
+      respuestasAyuda: ["Sí", "No"],
+    },
+    {
+      preguntaAyuda: "¿Has recibido algún mensaje de error en particular? Si es así, ¿puedes proporcionar el texto del mensaje?",
+      respuestasAyuda: ["Sí", "No"],
+    },
+    {
+      preguntaAyuda: "¿Estás utilizando la versión más reciente de la aplicación?",
+      respuestasAyuda: ["Sí", "No"],
+    },
+
   ];
   preguntaActualAyuda = 0;
 
@@ -65,7 +92,7 @@ export class ChatPage implements OnInit {
       // Si la respuesta es "Sí", avanzar a la siguiente pregunta
       this.preguntaActualAyuda++;
     } else if (respuestaAyuda === "No") {
-      // Manejar lógica para respuesta "No" si es necesario
+      this.preguntaActualAyuda = 8;
     }
     // Puedes agregar lógica adicional aquí según tus necesidades
 

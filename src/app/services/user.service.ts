@@ -38,6 +38,11 @@ export class UserService {
     return this.http.get(`${this.URL}/user`, { params: params}).toPromise();
   }
 
+  // Get from users
+  getUsers() {
+    return this.http.get(`${this.URL}/users`).toPromise();
+  }
+
   /**
    * This function updates the pet of an user
    * @param pet Url of the image the user selected

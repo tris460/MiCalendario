@@ -21,6 +21,8 @@ export class RegisterPage implements OnInit {
   });
 
   constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
+    
+    
     // Validate if the PIN input is disabled or not
     this.userData.get('noPin')!.valueChanges.subscribe((value) => {
       if (value) {
@@ -52,6 +54,15 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
+    // Get from users
+    this.userService
+      .getUsers()
+      .then((data: any) => {
+        console.log(data.data);
+      })
+      .catch((error) => {
+        console.log(`Error getting users: ${error}`);
+      });
   }
 
   /**
@@ -84,29 +95,54 @@ export class RegisterPage implements OnInit {
       component: ModalRegisterUserComponent,
     });
     modal.present();
-
+  
     const { data, role } = await modal.onWillDismiss();
-
+  
     if (role === 'confirm') {
-      let data = this.getFormData()?.value;
-      this.userService.createUser(data)
-      .then(res => {
-        this.sharedService.currentUser = data;
-        this.sharedService.isLoggedIn = true;
-        this.router.navigate(['/home']);
-        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
-      })
-      .catch(async(err) => {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
-          buttons: ['OK'],
+      let formData = this.getFormData()?.value;
+      const InfoEmail = formData.email;
+  
+      this.userService.getUsers()
+        .then(async(users: any) => {
+          const InfoUser = users.data;
+          // Utiliza map para obtener un array de correos electrónicos
+          const emails = InfoUser.map((user: { email: string }) => user.email);
+          console.log(emails);
+          console.log(InfoUser);
+          
+          
+          if (emails.includes(InfoEmail)) {
+            const alert = await this.alertController.create({
+              header: 'Error',
+              message: 'Este email ya existe',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          } else {
+            // El email no existe, puedes proceder a crear el usuario
+            this.userService.createUser(formData)
+              .then(res => {
+                this.sharedService.currentUser = formData;
+                this.sharedService.isLoggedIn = true;
+                this.router.navigate(['/home']);
+                sessionStorage.setItem('userMiCalendario', this.userData.value.email!); // TODO: Encrypt
+              })
+              .catch(async (err) => {
+                const alert = await this.alertController.create({
+                  header: 'Error',
+                  message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+                  buttons: ['OK'],
+                });
+                await alert.present();
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(`Error getting users: ${error}`);
         });
-
-        await alert.present();
-      })
     }
   }
+  
 
   /**
    * This function obtains the data saved by the user in the form
