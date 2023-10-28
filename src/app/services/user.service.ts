@@ -39,6 +39,16 @@ export class UserService {
   }
 
   /**
+   * This function updates the data of a user
+   * @param id Identifier of the user in the database
+   * @param data Data to put instead the original one
+   * @returns A promise
+   */
+  updateUser(id: string, data: any) {
+    return this.http.put(`${this.URL}/users/${id}`, data).toPromise();
+  }
+
+  /**
    * This function updates the pet of an user
    * @param pet Url of the image the user selected
    * @returns A promise

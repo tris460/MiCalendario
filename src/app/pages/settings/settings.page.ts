@@ -34,6 +34,7 @@ export class SettingsPage implements OnInit {
 
   isNoPinDisabled: boolean | undefined;
   registerForDoctor: boolean | undefined;
+  userId: string | undefined;
 
   constructor(private sharedService: SharedService, private router: Router, private userService: UserService, private alertController: AlertController) {
     for (let i = 1; i <= 10; i++) {
@@ -45,6 +46,7 @@ export class SettingsPage implements OnInit {
     //Get the data of the current user
     this.sharedService.loggedUser.subscribe((userData: any) => {
       if (userData.data) {
+        this.userId = userData.data._id;
         if (!userData.data.pin) {
           userData.data.pin = '';
           userData.data.noPin = true;
@@ -134,9 +136,28 @@ export class SettingsPage implements OnInit {
     location.reload();
   }
 
+  /**
+   * This function updates the user's data in the database
+   */
   updateLoginData() {
-    console.log(this.data);
-    //TODO: Implement function
+    this.userService.updateUser(this.userId!, this.data.value)
+      .then(async(res: any) => {
+        const alert = await this.alertController.create({
+          message: 'Tus datos fueron actualizados correctamente',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
+      .catch(async(err)=> {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
   }
 
   /**
