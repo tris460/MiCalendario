@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ModalRegisterUserComponent } from 'src/app/components/modal-register-user/modal-register-user.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
@@ -12,34 +12,68 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  isNoPinDisabled = false;
+
   userData = new FormGroup({
-    email: new FormControl(''),
-    pin: new FormControl(''),
+    email: new FormControl(null),
+    pin: new FormControl(null),
+    noPin: new FormControl(null),
   });
 
-  public alertButtons = [
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-    },
-    {
-      text: 'Continuar',
-      role: 'confirm',
-      handler: () => {
-        //TODO: Create a fake profile to login
-        this.router.navigate(['/home']);
-      },
-    },
-  ];
+  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
+    // Validate if the PIN input is disabled or not
+    this.userData.get('noPin')!.valueChanges.subscribe((value) => {
+      if (value) {
+        this.isNoPinDisabled = true;
+        this.userData.get('pin')!.reset();
+        this.userData.get('pin')!.disable();
+      } else {
+        this.isNoPinDisabled = false;
+        this.userData.get('pin')!.enable();
+      }
+    });
 
-  constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService) { }
+    // If there's an user logged in and has a PIN, redirect him to login, else, redirect him to home
+    const email = sessionStorage.getItem('userMiCalendario')
+    if(email) {
+      this.userService.getUser(email)
+      .then(res => {
+        this.sharedService.currentUser = res;
+        this.sharedService.isLoggedIn = true;
+
+        if(this.sharedService.currentUser.data.pin) {
+          this.router.navigate(['/login']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      })
+      .catch(err => console.error("Can't save user's data"));
+    }
+  }
 
   ngOnInit() {
   }
 
+  /**
+   * This function logs in an user
+   */
   login() {
-    //TODO: Register data in the BD
-    console.log(this.userData.value);
+    this.userService.loginUser(this.userData.value)
+      .then((res: any) => { // TODO: Type
+        this.sharedService.currentUser = res;
+        this.sharedService.isLoggedIn = true;
+        this.router.navigate(['/home']);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
+      })
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Las credenciales ingresadas son incorrectas, intenta nuevamente',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
   }
 
   /**
@@ -57,9 +91,20 @@ export class RegisterPage implements OnInit {
       let data = this.getFormData()?.value;
       this.userService.createUser(data)
       .then(res => {
-        //TODO: Redirect to home/login
+        this.sharedService.currentUser = data;
+        this.sharedService.isLoggedIn = true;
+        this.router.navigate(['/home']);
+        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
       })
-      .catch(err => console.error(err))
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
     }
   }
 
@@ -69,5 +114,23 @@ export class RegisterPage implements OnInit {
    */
   getFormData() {
     return this.sharedService.formDataRegister;
+  }
+
+  /**
+   * This function validates the form to submit it
+   */
+  isValidForm(): boolean {
+    const email = this.userData.get('email')!.value;
+    const pin = this.userData.get('pin')!.value;
+    const noPin = this.userData.get('noPin')!.value;
+
+    const isEmailValid = !!email;
+    let isPinValid = !!pin;
+
+    if(noPin) {
+      isPinValid = true;
+    }
+
+    return isEmailValid && isPinValid;
   }
 }

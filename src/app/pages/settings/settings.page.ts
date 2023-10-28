@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { SharedService } from 'src/app/services/shared.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +14,7 @@ export class SettingsPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   images: string[] = [];
-  selectedImage: string = '';
+  selectedImage: string;
   user = {
     fullName: null,
     email: null,
@@ -26,17 +29,27 @@ export class SettingsPage implements OnInit {
     officeAddress: null,
   }
 
-  constructor() {
+  constructor(private sharedService: SharedService, private router: Router, private userService: UserService, private alertController: AlertController) {
     for (let i = 1; i <= 10; i++) {
       this.images.push(`assets/pets/pet${i}.png`);
     }
+
+    this.selectedImage = this.sharedService.currentUser.data.pet;
   }
 
   ngOnInit() {
   }
 
+  /**
+   * This function logs out an user by removing the data from the shared service and session storage
+   * and redirects the user to register
+   */
   logout() {
-    //TODO: Implement function
+    this.sharedService.currentUser = null;
+    this.sharedService.isLoggedIn = false;
+    sessionStorage.clear();
+    sessionStorage.removeItem('userMiCalendario');
+    this.router.navigate(['/register']);
   }
 
   updateLoginData() {
@@ -58,7 +71,19 @@ export class SettingsPage implements OnInit {
    */
   confirm() {
     this.modal.dismiss(this.selectedImage, 'confirm');
-    //TODO: Update user's pet in DB
+    this.userService.updatePet(this.selectedImage)
+      .then((res: any) => {
+        this.sharedService.currentUser.data = res.data;
+      })
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible actualizar la mascota, intenta nuevamente',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
   }
 
   /**
@@ -73,6 +98,10 @@ export class SettingsPage implements OnInit {
     }
   }
 
+  /**
+   * This function selects an image to be updated in the user profile
+   * @param imagePath Url of the image selected
+   */
   selectImage(imagePath: string) {
     this.selectedImage = imagePath;
   }

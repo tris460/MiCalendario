@@ -16,7 +16,7 @@ export class ModalRegisterUserComponent  implements OnInit {
     fullName: new FormControl(null),
     email: new FormControl(null),
     pin: new FormControl(null),
-    noPin: new FormControl(null), //TODO: Validate we need this variable
+    noPin: new FormControl(null),
     sex: new FormControl('female'),
     isDoctor: new FormControl(null),
     license: new FormControl({value: null, disabled: true}),
