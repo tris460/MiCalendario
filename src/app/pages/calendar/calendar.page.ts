@@ -18,6 +18,9 @@ export class CalendarPage implements OnInit {
 
   name: string = '';
   userId: string | undefined;
+  todayDate: any = new Date();
+  isTodayData: boolean = false;
+  todayData: any;
 
   // Options to configure the calendar
   calendarOptions: CalendarOptions = {
@@ -29,8 +32,8 @@ export class CalendarPage implements OnInit {
         start: '2023-10-10',
         end: '2023-10-10',
         allDay: true,
-        backgroundColor: '#f00',
-        borderColor: '#f0f',
+        backgroundColor: '#fff',
+        borderColor: '#fff',
       }
     ],
     locale: esLocale,
@@ -44,6 +47,18 @@ export class CalendarPage implements OnInit {
     this.sharedService.loggedUser.subscribe((userData: any) => {
       if (userData.data) {
         this.userId = userData.data._id;
+      }
+    })
+
+    this.todayDate = this.parseDate(this.todayDate);
+    this.userService.getSymptom(this.userId!, this.todayDate)
+    .then((res: any) => {
+      this.isTodayData = true;
+      this.todayData = res!.data[0]
+    })
+    .catch((err) => {
+      if (err.error == "No symptoms found for the specified date") {
+        this.isTodayData = false
       }
     })
   }

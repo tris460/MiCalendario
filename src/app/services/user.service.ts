@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { SharedService } from './shared.service';
 
 @Injectable({
@@ -66,5 +66,10 @@ export class UserService {
    */
   addSymptoms(id: string, data: any) {
     return this.http.post(`${this.URL}/users/${id}/symptoms`, data).toPromise();
+  }
+
+  getSymptom(id: string, date: any) {
+    const params = new HttpParams().set('date', date);
+    return this.http.get(`${this.URL}/users/${id}/symptoms`, { params }).toPromise();
   }
 }
