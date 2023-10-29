@@ -1,11 +1,12 @@
 import { Component, OnInit,  ViewChild } from '@angular/core';
-import { IonModal, ModalController } from '@ionic/angular';
+import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-calendar',
@@ -16,6 +17,7 @@ export class CalendarPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   name: string = '';
+  userId: string | undefined;
 
   // Options to configure the calendar
   calendarOptions: CalendarOptions = {
@@ -24,11 +26,11 @@ export class CalendarPage implements OnInit {
     events: [
       {
         title: '🤢🤧🥱',
-        start: '2023-09-10',
-        end: '2023-09-10',
+        start: '2023-10-10',
+        end: '2023-10-10',
         allDay: true,
-        backgroundColor: '#fff',
-        borderColor: '#fff',
+        backgroundColor: '#f00',
+        borderColor: '#f0f',
       }
     ],
     locale: esLocale,
@@ -37,7 +39,14 @@ export class CalendarPage implements OnInit {
     }
   };
 
-  constructor(private modalCtrl: ModalController, private sharedService: SharedService) { }
+  constructor(private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
+    //Get the data of the current user
+    this.sharedService.loggedUser.subscribe((userData: any) => {
+      if (userData.data) {
+        this.userId = userData.data._id;
+      }
+    })
+  }
 
   ngOnInit() {
   }
@@ -55,9 +64,20 @@ export class CalendarPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log('Save the data from form'); //TODO
-      console.log(this.getFormData())
-      console.log(info.date);
+      const formData: any = this.getFormData()!.value
+      const date = this.parseDate(info.date)
+      formData.date = date;
+      this.userService.addSymptoms(this.userId!, formData)
+      .catch(async(err)=> {
+        console.error(err)
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
     }
   }
 
@@ -67,5 +87,25 @@ export class CalendarPage implements OnInit {
    */
   getFormData() {
     return this.sharedService.formData;
+  }
+
+  /**
+   * This function updates a date into YYYY-MM-DD format
+   * @param originalDate Date to parse
+   * @returns A string with the new date
+   */
+  parseDate(originalDate: any) {
+    // Parse the original date in a date objet
+    const date = new Date(originalDate);
+
+    // Get year, month and date
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    // Format date "YYYY-MM-DD"
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+    return formattedDate;
   }
 }

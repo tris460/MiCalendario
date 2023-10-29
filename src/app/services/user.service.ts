@@ -57,4 +57,14 @@ export class UserService {
     const data = { "pet": pet };
     return this.http.put(`${this.URL}/users/${this.sharedService.currentUser.data._id}/pet`, data).toPromise()
   }
+
+  /**
+   * This function saves the symptoms of the user in the database
+   * @param id Identifier of the user in the database
+   * @param data Data to be saved
+   * @returns A promise
+   */
+  addSymptoms(id: string, data: any) {
+    return this.http.post(`${this.URL}/users/${id}/symptoms`, data).toPromise();
+  }
 }
