@@ -54,15 +54,7 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
-    // Get from users
-    this.userService
-      .getUsers()
-      .then((data: any) => {
-        console.log(data.data);
-      })
-      .catch((error) => {
-        console.log(`Error getting users: ${error}`);
-      });
+    
   }
 
   /**
@@ -105,12 +97,9 @@ export class RegisterPage implements OnInit {
       this.userService.getUsers()
         .then(async(users: any) => {
           const InfoUser = users.data;
-          // Utiliza map para obtener un array de correos electrónicos
+          // Use map to get an array of emails
           const emails = InfoUser.map((user: { email: string }) => user.email);
-          console.log(emails);
-          console.log(InfoUser);
-          
-          
+         
           if (emails.includes(InfoEmail)) {
             const alert = await this.alertController.create({
               header: 'Error',
@@ -119,7 +108,7 @@ export class RegisterPage implements OnInit {
             });
             await alert.present();
           } else {
-            // El email no existe, puedes proceder a crear el usuario
+            // The email does not exist, you can proceed to create the user
             this.userService.createUser(formData)
               .then(res => {
                 this.sharedService.currentUser = formData;

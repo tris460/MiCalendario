@@ -26,6 +26,7 @@ export class UserService {
    */
   loginUser(data: any) { //TODO: Type
     return this.http.put(`${this.URL}/login`, data).toPromise();
+    
   }
 
   /**
