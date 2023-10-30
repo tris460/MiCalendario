@@ -6,6 +6,15 @@ import { ModalRegisterUserComponent } from 'src/app/components/modal-register-us
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
 
+async function sha256(input: string) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const emailHash = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+  return emailHash;
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -62,11 +71,21 @@ export class RegisterPage implements OnInit {
    */
   login() {
     this.userService.loginUser(this.userData.value)
-      .then((res: any) => { // TODO: Type
+      .then((res: any) => {
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-        sessionStorage.setItem('userMiCalendario', this.userData.value.email!); //TODO: Encrypt
+
+        if (this.userData.value.email) {
+          // El correo no es nulo o indefinido, calcula y guarda el hash en sessionStorage
+          sha256(this.userData.value.email).then(emailHash => {
+            sessionStorage.setItem('userMiCalendario', emailHash);
+          });
+        } else {
+          // El correo es nulo o indefinido, muestra un mensaje de error o maneja la situación
+          console.error('El correo electrónico es nulo o indefinido');
+          // Puedes mostrar un mensaje de error al usuario o realizar cualquier otra acción apropiada.
+        }
       })
       .catch(async(err) => {
         const alert = await this.alertController.create({
@@ -114,7 +133,16 @@ export class RegisterPage implements OnInit {
                 this.sharedService.currentUser = formData;
                 this.sharedService.isLoggedIn = true;
                 this.router.navigate(['/home']);
-                sessionStorage.setItem('userMiCalendario', this.userData.value.email!); // TODO: Encrypt
+                if (this.userData.value.email) {
+                  // El correo no es nulo o indefinido, calcula y guarda el hash en sessionStorage
+                  sha256(this.userData.value.email).then(emailHash => {
+                    sessionStorage.setItem('userMiCalendario', emailHash);
+                  });
+                } else {
+                  // El correo es nulo o indefinido, muestra un mensaje de error o maneja la situación
+                  console.error('El correo electrónico es nulo o indefinido');
+                  // Puedes mostrar un mensaje de error al usuario o realizar cualquier otra acción apropiada.
+                }
               })
               .catch(async (err) => {
                 const alert = await this.alertController.create({
