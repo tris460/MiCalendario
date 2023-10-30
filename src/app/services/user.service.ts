@@ -68,8 +68,23 @@ export class UserService {
     return this.http.post(`${this.URL}/users/${id}/symptoms`, data).toPromise();
   }
 
+  /**
+   * This function returns the symptoms of the user on a specific date
+   * @param id Identifier of the user in the database
+   * @param date Date to filter the symptoms
+   * @returns A promise
+   */
   getSymptom(id: string, date: any) {
     const params = new HttpParams().set('date', date);
     return this.http.get(`${this.URL}/users/${id}/symptoms`, { params }).toPromise();
+  }
+
+  /**
+   * This function obtains all the symptoms of the user
+   * @param id Identifier of the user in the database
+   * @returns A promise
+   */
+  getSymptoms(id: string){
+    return this.http.get(`${this.URL}/users/${id}/symptoms/all`).toPromise();
   }
 }

@@ -26,16 +26,6 @@ export class CalendarPage implements OnInit {
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
-    events: [
-      {
-        title: '🤢🤧🥱',
-        start: '2023-10-10',
-        end: '2023-10-10',
-        allDay: true,
-        backgroundColor: '#fff',
-        borderColor: '#fff',
-      }
-    ],
     locale: esLocale,
     dateClick: async (info) => {
       await this.openModal(info);
@@ -64,6 +54,25 @@ export class CalendarPage implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getSymptoms(this.userId!)
+    .then((res: any) => {
+      const symptoms = res.data;
+
+      const events = symptoms.map((symptom: any) => {
+        const generatedTitle = this.generateEventTitle(symptom);
+        return {
+          title: generatedTitle,
+          start: symptom.date,
+          end: symptom.date,
+          allDay: true,
+          backgroundColor: '#fff',
+          borderColor: '#fff',
+        }
+      });
+
+      this.calendarOptions.events = events;
+    })
+    .catch(err => console.error(err))
   }
 
   /**
@@ -122,5 +131,64 @@ export class CalendarPage implements OnInit {
     const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
     return formattedDate;
+  }
+
+  /**
+   * Generates the title depending on symptoms
+   */
+  generateEventTitle(symptom: any): string {
+    let title = '';
+
+    if (symptom.condom || symptom.orgasm || symptom.sexualActs) {
+      title += '❤️';
+    }
+    if (symptom.viagra || symptom.emergencyPill || symptom.contraceptives) {
+      title += '💊';
+    }
+    if (symptom.periodStarts || symptom.periodEnds) {
+      title += '🩸';
+    }
+    if (symptom.pregnant || symptom.pregnancyWeeks) {
+      title += '🤰🏻';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.height || symptom.weight) {
+      title += '📏';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.sleep) {
+      title += '💤';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.temperature) {
+      title += '🌡️';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.water) {
+      title += '💧';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.bald) {
+      title += '👨🏻‍🦲';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.testicularPain) {
+      title += '⚫';
+      if (title.length >= 3) return title;
+    }
+    if (symptom.emotions.length > 0) {
+      for (let i = 0; i < symptom.emotions.length; i++) {
+        title += symptom.emotions[i]
+        if (title.length >= 3) return title;
+      }
+    }
+    if (symptom.symptoms.length > 0) {
+      for (let i = 0; i < symptom.symptoms.length; i++) {
+        title += symptom.symptoms[i]
+        if (title.length >= 3) return title;
+      }
+    }
+    console.log(title)
+    return title;
   }
 }
