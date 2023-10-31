@@ -10,7 +10,7 @@ export class HomePage implements OnInit {
   pet: string = '';
 
   constructor(private sharedService: SharedService) {
-    this.pet = this.sharedService.currentUser.data.pet;
+    //this.pet = this.sharedService.currentUser.data.pet;
   }
 
   ngOnInit() {

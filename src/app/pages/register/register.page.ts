@@ -45,22 +45,23 @@ export class RegisterPage implements OnInit {
     });
 
     // If there's an user logged in and has a PIN, redirect him to login, else, redirect him to home
-    const email = sessionStorage.getItem('userMiCalendario')
-    if(email) {
-      this.userService.getUser(email)
-      .then(res => {
-        this.sharedService.currentUser = res;
-        this.sharedService.isLoggedIn = true;
+    const email = sessionStorage.getItem('userMiCalendario');
+      console.log('Correo electrónico en sessionStorage:', email);
 
-        if(this.sharedService.currentUser.data.pin) {
-          this.router.navigate(['/login']);
-        } else {
-          this.router.navigate(['/home']);
-        }
-      })
-      .catch(err => console.error("Can't save user's data"));
-    }
-  }
+      if(email) {
+        this.userService.getUser(email)
+          .then(res => {
+            this.sharedService.currentUser = res;
+            this.sharedService.isLoggedIn = true;
+            if(this.sharedService.currentUser.data.pin) {
+              this.router.navigate(['/login']);
+            } else {
+              this.router.navigate(['/home']);
+            }
+          })
+          .catch(err => console.error("No se puede obtener los datos del usuario"));
+          }
+      }
 
   ngOnInit() {
     
@@ -70,21 +71,27 @@ export class RegisterPage implements OnInit {
    * This function logs in an user
    */
   login() {
-    this.userService.loginUser(this.userData.value)
+    let formData = this.userData.value;
+  
+    if (formData.noPin) {
+      formData = {
+        email: formData.email,
+        pin: null,
+      }
+    }
+  
+    this.userService.loginUser(formData)
       .then((res: any) => {
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-
-        if (this.userData.value.email) {
-          // El correo no es nulo o indefinido, calcula y guarda el hash en sessionStorage
-          sha256(this.userData.value.email).then(emailHash => {
-            sessionStorage.setItem('userMiCalendario', emailHash);
-          });
+  
+        if (formData.email) {
+          // El correo no es nulo o indefinido, guarda el correo en sessionStorage
+          sessionStorage.setItem('userMiCalendario', formData.email);
         } else {
           // El correo es nulo o indefinido, muestra un mensaje de error o maneja la situación
           console.error('El correo electrónico es nulo o indefinido');
-          // Puedes mostrar un mensaje de error al usuario o realizar cualquier otra acción apropiada.
         }
       })
       .catch(async(err) => {
@@ -93,7 +100,7 @@ export class RegisterPage implements OnInit {
           message: 'Las credenciales ingresadas son incorrectas, intenta nuevamente',
           buttons: ['OK'],
         });
-
+  
         await alert.present();
       })
   }
@@ -110,16 +117,14 @@ export class RegisterPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
   
     if (role === 'confirm') {
-      let formData = this.getFormData()?.value;
-      const InfoEmail = formData.email;
-  
+      let data = this.getFormData()?.value;
+      
       this.userService.getUsers()
         .then(async(users: any) => {
-          const InfoUser = users.data;
-          // Use map to get an array of emails
+          const InfoUser = users.data;        
           const emails = InfoUser.map((user: { email: string }) => user.email);
-         
-          if (emails.includes(InfoEmail)) {
+
+          if (emails.includes(data.email)) {
             const alert = await this.alertController.create({
               header: 'Error',
               message: 'Este email ya existe',
@@ -127,31 +132,66 @@ export class RegisterPage implements OnInit {
             });
             await alert.present();
           } else {
-            // The email does not exist, you can proceed to create the user
-            this.userService.createUser(formData)
-              .then(res => {
-                this.sharedService.currentUser = formData;
-                this.sharedService.isLoggedIn = true;
-                this.router.navigate(['/home']);
-                if (this.userData.value.email) {
-                  // El correo no es nulo o indefinido, calcula y guarda el hash en sessionStorage
-                  sha256(this.userData.value.email).then(emailHash => {
-                    sessionStorage.setItem('userMiCalendario', emailHash);
+            console.log(data.noPin === true);
+            
+            if (data.noPin === true) {
+              data = {
+                  email: data.email,
+                  fullName: data.fullName,
+                  isDoctor: data.isDoctor,
+                  noPin: data.noPin,
+                  role: data.role,
+                  sex: data.sex,
+                  pin: null,
+              }
+              this.userService.createUser(data)
+                .then(res => {
+                  console.log('Usuario creado exitosamente:', res);
+                  this.sharedService.currentUser = data;
+                  this.sharedService.isLoggedIn = true;
+                  this.router.navigate(['/home'])
+                  .then(() => console.log('Redirigiendo a /home'))
+                  .catch(err => console.log('Error al redirigir:', err));  
+                  if (data.email) {
+                    sessionStorage.setItem('userMiCalendario', data.email);
+                  } else {
+                    console.error('El correo electrónico es nulo o indefinido');
+                  }
+                })
+                .catch(async (err) => {
+                  console.error('Error al crear usuario:', err);  
+                  const alert = await this.alertController.create({
+                    header: 'Error',
+                    message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+                    buttons: ['OK'],
                   });
-                } else {
-                  // El correo es nulo o indefinido, muestra un mensaje de error o maneja la situación
-                  console.error('El correo electrónico es nulo o indefinido');
-                  // Puedes mostrar un mensaje de error al usuario o realizar cualquier otra acción apropiada.
-                }
-              })
-              .catch(async (err) => {
-                const alert = await this.alertController.create({
-                  header: 'Error',
-                  message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
-                  buttons: ['OK'],
+                  await alert.present();
                 });
-                await alert.present();
-              });
+            }else{
+              this.userService.createUser(data)
+                .then(res => {
+                  console.log('Usuario creado exitosamente:', res);
+                  this.sharedService.currentUser = data;
+                  this.sharedService.isLoggedIn = true;
+                  this.router.navigate(['/home'])
+                  .then(() => console.log('Redirigiendo a /home'))
+                  .catch(err => console.log('Error al redirigir:', err));  
+                  if (data.email) {
+                    sessionStorage.setItem('userMiCalendario', data.email);
+                  } else {
+                    console.error('El correo electrónico es nulo o indefinido');
+                  }
+                })
+                .catch(async (err) => {
+                  console.error('Error al crear usuario:', err);  
+                  const alert = await this.alertController.create({
+                    header: 'Error',
+                    message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+                });
+            }
           }
         })
         .catch((error) => {
