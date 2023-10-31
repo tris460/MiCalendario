@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginPage implements OnInit {
   pin = '';
+  email = sessionStorage.getItem('userMiCalendario');
 
   constructor(private router: Router, private sharedService: SharedService, private userService: UserService) {
     if(!this.sharedService.isLoggedIn) this.router.navigate(['/register']);
@@ -24,14 +25,13 @@ export class LoginPage implements OnInit {
   login() {
     if(this.pin.length < 4) return;
 
-    const email = sessionStorage.getItem('userMiCalendario');
     let pin;
 
-    if(this.sharedService.currentUser.pin) {
+    if(this.sharedService.currentUser.data.pin) {
       if(this.sharedService.currentUser.pin == this.pin) this.router.navigateByUrl('/home')
       else this.delete();
     } else {
-      this.userService.getUser(email!)
+      this.userService.getUser(this.email!)
         .then((res: any) => { //TODO: Type
           pin = res.data.pin;
           if(pin == this.pin) this.router.navigateByUrl('/home');
