@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { compareSync } from 'bcryptjs';
 
 @Component({
   selector: 'app-login',
@@ -28,13 +29,16 @@ export class LoginPage implements OnInit {
     let pin;
 
     if(this.sharedService.currentUser.data.pin) {
-      if(this.sharedService.currentUser.pin == this.pin) this.router.navigateByUrl('/home')
+      const isPinValid = compareSync(this.pin.toString(), this.sharedService.currentUser.data.pin);
+      
+      if(isPinValid === true) this.router.navigateByUrl('/home')
       else this.delete();
     } else {
       this.userService.getUser(this.email!)
         .then((res: any) => { //TODO: Type
           pin = res.data.pin;
-          if(pin == this.pin) this.router.navigateByUrl('/home');
+          const isPinValid = compareSync(this.pin.toString(), pin);
+          if(isPinValid!) this.router.navigateByUrl('/home');
           else this.delete()
         })
         .catch(err => console.error("Can't save user's data"));
