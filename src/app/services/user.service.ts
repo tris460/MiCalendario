@@ -26,6 +26,7 @@ export class UserService {
    */
   loginUser(data: any) { //TODO: Type
     return this.http.put(`${this.URL}/login`, data).toPromise();
+    
   }
 
   /**
@@ -36,6 +37,11 @@ export class UserService {
   getUser(email: string) {
     const params = {email: email};
     return this.http.get(`${this.URL}/user`, { params: params}).toPromise();
+  }
+
+  // Get from users
+  getUsers() {
+    return this.http.get(`${this.URL}/users`).toPromise();
   }
 
   /**
