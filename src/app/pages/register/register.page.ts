@@ -30,8 +30,6 @@ export class RegisterPage implements OnInit {
   });
 
   constructor(private router: Router,private modalCtrl: ModalController, private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
-    
-    
     // Validate if the PIN input is disabled or not
     this.userData.get('noPin')!.valueChanges.subscribe((value) => {
       if (value) {
@@ -46,52 +44,45 @@ export class RegisterPage implements OnInit {
 
     // If there's an user logged in and has a PIN, redirect him to login, else, redirect him to home
     const email = sessionStorage.getItem('userMiCalendario');
-      console.log('Correo electrónico en sessionStorage:', email);
 
-      if(email) {
-        this.userService.getUser(email)
-          .then(res => {
-            this.sharedService.currentUser = res;
-            this.sharedService.isLoggedIn = true;
-            if(this.sharedService.currentUser.data.pin) {
-              this.router.navigate(['/login']);
-            } else {
-              this.router.navigate(['/home']);
-            }
-          })
-          .catch(err => console.error("No se puede obtener los datos del usuario"));
+    if(email) {
+      this.userService.getUser(email)
+        .then(res => {
+          this.sharedService.currentUser = res;
+          this.sharedService.isLoggedIn = true;
+          if(this.sharedService.currentUser.data.pin) {
+            this.router.navigate(['/login']);
+          } else {
+            this.router.navigate(['/home']);
           }
-      }
-
-  ngOnInit() {
-    
+        })
+        .catch(err => console.error("No se puede obtener los datos del usuario")); //TODO: Agregar alerta
+    }
   }
+
+  ngOnInit() {}
 
   /**
    * This function logs in an user
    */
   login() {
     let formData = this.userData.value;
-  
+
     if (formData.noPin) {
       formData = {
         email: formData.email,
         pin: null,
       }
     }
-  
+
     this.userService.loginUser(formData)
       .then((res: any) => {
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
         this.router.navigate(['/home']);
-  
+
         if (formData.email) {
-          // El correo no es nulo o indefinido, guarda el correo en sessionStorage
           sessionStorage.setItem('userMiCalendario', formData.email);
-        } else {
-          // El correo es nulo o indefinido, muestra un mensaje de error o maneja la situación
-          console.error('El correo electrónico es nulo o indefinido');
         }
       })
       .catch(async(err) => {
@@ -100,7 +91,7 @@ export class RegisterPage implements OnInit {
           message: 'Las credenciales ingresadas son incorrectas, intenta nuevamente',
           buttons: ['OK'],
         });
-  
+
         await alert.present();
       })
   }
@@ -113,16 +104,16 @@ export class RegisterPage implements OnInit {
       component: ModalRegisterUserComponent,
     });
     modal.present();
-  
+
     const { data, role } = await modal.onWillDismiss();
-  
+
     if (role === 'confirm') {
       let data = this.getFormData()?.value;
-      
+
       this.userService.getUsers()
         .then(async(users: any) => {
-          const InfoUser = users.data;        
-          const emails = InfoUser.map((user: { email: string }) => user.email);
+          const infoUser = users.data;
+          const emails = infoUser.map((user: { email: string }) => user.email);
 
           if (emails.includes(data.email)) {
             const alert = await this.alertController.create({
@@ -132,8 +123,6 @@ export class RegisterPage implements OnInit {
             });
             await alert.present();
           } else {
-            console.log(data.noPin === true);
-            
             if (data.noPin === true) {
               data = {
                   email: data.email,
@@ -146,20 +135,13 @@ export class RegisterPage implements OnInit {
               }
               this.userService.createUser(data)
                 .then(res => {
-                  console.log('Usuario creado exitosamente:', res);
-                  this.sharedService.currentUser = data;
+                  this.sharedService.currentUser = res;
                   this.sharedService.isLoggedIn = true;
                   this.router.navigate(['/home'])
-                  .then(() => console.log('Redirigiendo a /home'))
-                  .catch(err => console.log('Error al redirigir:', err));  
-                  if (data.email) {
-                    sessionStorage.setItem('userMiCalendario', data.email);
-                  } else {
-                    console.error('El correo electrónico es nulo o indefinido');
-                  }
+                  sessionStorage.setItem('userMiCalendario', data.email);
                 })
                 .catch(async (err) => {
-                  console.error('Error al crear usuario:', err);  
+                  console.log(err)
                   const alert = await this.alertController.create({
                     header: 'Error',
                     message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
@@ -167,23 +149,15 @@ export class RegisterPage implements OnInit {
                   });
                   await alert.present();
                 });
-            }else{
+            } else {
               this.userService.createUser(data)
                 .then(res => {
-                  console.log('Usuario creado exitosamente:', res);
                   this.sharedService.currentUser = data;
                   this.sharedService.isLoggedIn = true;
                   this.router.navigate(['/home'])
-                  .then(() => console.log('Redirigiendo a /home'))
-                  .catch(err => console.log('Error al redirigir:', err));  
-                  if (data.email) {
-                    sessionStorage.setItem('userMiCalendario', data.email);
-                  } else {
-                    console.error('El correo electrónico es nulo o indefinido');
-                  }
+                  sessionStorage.setItem('userMiCalendario', data.email);
                 })
                 .catch(async (err) => {
-                  console.error('Error al crear usuario:', err);  
                   const alert = await this.alertController.create({
                     header: 'Error',
                     message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
@@ -199,7 +173,6 @@ export class RegisterPage implements OnInit {
         });
     }
   }
-  
 
   /**
    * This function obtains the data saved by the user in the form
