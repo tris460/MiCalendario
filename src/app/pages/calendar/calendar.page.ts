@@ -54,25 +54,7 @@ export class CalendarPage implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getSymptoms(this.userId!)
-    .then((res: any) => {
-      const symptoms = res.data;
-
-      const events = symptoms.map((symptom: any) => {
-        const generatedTitle = this.generateEventTitle(symptom);
-        return {
-          title: generatedTitle,
-          start: symptom.date,
-          end: symptom.date,
-          allDay: true,
-          backgroundColor: '#fff',
-          borderColor: '#fff',
-        }
-      });
-
-      this.calendarOptions.events = events;
-    })
-    .catch(err => console.error(err))
+    this.getUserSymptoms();
   }
 
   /**
@@ -88,10 +70,11 @@ export class CalendarPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      const formData: any = this.getFormData()!.value
+     const formData: any = this.getFormData()!.value
       const date = this.parseDate(info.date)
       formData.date = date;
       this.userService.addSymptoms(this.userId!, formData)
+      .then((res) => this.getUserSymptoms())
       .catch(async(err)=> {
         console.error(err)
         const alert = await this.alertController.create({
@@ -190,5 +173,30 @@ export class CalendarPage implements OnInit {
     }
     console.log(title)
     return title;
+  }
+
+  /**
+   * This function gets the registered symptoms of the user
+   */
+  getUserSymptoms() {
+    this.userService.getSymptoms(this.userId!)
+    .then((res: any) => {
+      const symptoms = res.data;
+
+      const events = symptoms.map((symptom: any) => {
+        const generatedTitle = this.generateEventTitle(symptom);
+        return {
+          title: generatedTitle,
+          start: symptom.date,
+          end: symptom.date,
+          allDay: true,
+          backgroundColor: '#fff',
+          borderColor: '#fff',
+        }
+      });
+
+      this.calendarOptions.events = events;
+    })
+    .catch(err => console.error(err))
   }
 }
