@@ -9,6 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent  implements OnInit {
+  sex: string | undefined;
+
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
   contraceptivesList = ['Píldora','Anillo hormonal','Inyección anticonceptiva','Implante','DIU','Esponja anticonceptiva','Diafragma','Parche anticonceptivo','Espermicida'];
@@ -25,21 +27,25 @@ export class ModalComponent  implements OnInit {
     testicularPain: new FormControl(null),
     bald: new FormControl(null),
     pregnant: new FormControl(null),
-    pregnancyWeeks: new FormControl(''),
+    pregnancyWeeks: new FormControl(null),
     contraceptives: new FormControl(this.selectedContraceptives),
-    condom: new FormControl(''),
-    orgasm: new FormControl(''),
-    sexualActs: new FormControl(''),
-    temperature: new FormControl(''),
+    condom: new FormControl(null),
+    orgasm: new FormControl(null),
+    sexualActs: new FormControl(null),
+    temperature: new FormControl(null),
     emotions: new FormControl(this.selectedEmojisEmotions),
     symptoms: new FormControl(this.selectedEmojisSymptoms),
-    weight: new FormControl(''),
-    height: new FormControl(''),
-    water: new FormControl(''),
-    sleep: new FormControl(''),
+    weight: new FormControl(null),
+    height: new FormControl(null),
+    water: new FormControl(null),
+    sleep: new FormControl(null),
   });
 
-  constructor(private modalCtrl: ModalController, private sharedService: SharedService) {}
+  constructor(private modalCtrl: ModalController, private sharedService: SharedService) {
+    this.sharedService.loggedUser.subscribe((user: any) => {
+      if (user) this.sex = user.data.sex;
+    })
+  }
 
   ngOnInit(){
   }

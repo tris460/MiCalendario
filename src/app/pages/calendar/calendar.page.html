@@ -11,17 +11,39 @@
   <!-- Calendar -->
   <full-calendar [options]="calendarOptions" class="calendar"></full-calendar>
 
-  <!-- Data saved the current day -->
-  <ion-card class="card">
+  <!-- Data saved the current day if there is -->
+  <ion-card class="card" *ngIf="isTodayData">
     <ion-card-header>
-      <ion-card-title>09 de septiembre</ion-card-title>
+      <ion-card-title>{{ todayData.date }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>💧 1.2 litros de agua tomados</ion-text><br>
-      <ion-text>53 kg   1.64cm</ion-text><br>
-      <ion-text>🤢🤧🥱</ion-text><br>
-      <ion-text>💊 Tomaste una pastilla de emergencia</ion-text>
+      <ion-text *ngIf="todayData.bald">👨🏻‍🦲 Calvicie<br></ion-text>
+      <ion-text *ngIf="todayData.condom">✔️ Usaste condón<br></ion-text>
+      <ion-text *ngIf="todayData.sexualActs">✔️ Tuviste {{ todayData.sexualActs }} actos sexuales<br></ion-text>
+      <ion-text *ngIf="todayData.orgasm">✔️ Tuviste un orgasmo<br></ion-text>
+      <ion-text *ngIf="todayData.contraceptives.length > 0">💊 Utilizaste: {{ todayData.contraceptives}}<br></ion-text>
+      <ion-text *ngIf="todayData.emergencyPill">💊 Tomaste la pastilla de emergencia<br></ion-text>
+      <ion-text *ngIf="todayData.emotions.length > 0">{{ todayData.emotions }}<br></ion-text>
+      <ion-text *ngIf="todayData.height">✔️ Mides {{ todayData.height }}cm<br></ion-text>
+      <ion-text *ngIf="todayData.weight">✔️ Pesas {{ todayData.weight }}kg<br></ion-text>
+      <ion-text *ngIf="todayData.water">💧 Tomaste {{ todayData.water }}lt de agua<br></ion-text>
+      <ion-text *ngIf="todayData.periodStarts">🩸 Inició tu periodo<br></ion-text>
+      <ion-text *ngIf="todayData.periodEnds">🩸 Terminó tu periodo<br></ion-text>
+      <ion-text *ngIf="todayData.pregnant">🤰 Estás embarazada<br></ion-text>
+      <ion-text *ngIf="todayData.pregnancyWeeks">🤰 Tienes {{ todayData.pregnancyWeeks }} semanas de embarazo<br></ion-text>
+      <ion-text *ngIf="todayData.sleep">💤 Dormiste {{ todayData.sleep }}hr<br></ion-text>
+      <ion-text *ngIf="todayData.symptoms.length > 0">{{ todayData.symptoms }}<br></ion-text>
+      <ion-text *ngIf="todayData.temperature">🌡️ Tu temperatura fue de {{ todayData.temperature }}°C<br></ion-text>
+      <ion-text *ngIf="todayData.testicularPain">⚫ Tuviste dolor testicular<br></ion-text>
+      <ion-text *ngIf="todayData.viagra">💊 Usaste viagra<br></ion-text>
     </ion-card-content>
+  </ion-card>
+
+  <!-- Card to show if there is not data saved that day -->
+  <ion-card class="card" *ngIf="!isTodayData">
+    <ion-card-header>
+      <ion-card-title>No hay datos guardados para el día de hoy</ion-card-title>
+    </ion-card-header>
   </ion-card>
 
   <!-- Notes saved the current day -->

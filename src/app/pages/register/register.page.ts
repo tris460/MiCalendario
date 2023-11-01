@@ -47,16 +47,18 @@ export class RegisterPage implements OnInit {
 
     if(email) {
       this.userService.getUser(email)
-        .then(res => {
-          this.sharedService.currentUser = res;
-          this.sharedService.isLoggedIn = true;
-          if(this.sharedService.currentUser.data.pin) {
-            this.router.navigate(['/login']);
-          } else {
-            this.router.navigate(['/home']);
-          }
-        })
-        .catch(err => console.error("No se puede obtener los datos del usuario")); //TODO: Agregar alerta
+      .then((res: any) => { //TODO: Type
+        this.sharedService.currentUser = res;
+        this.sharedService.isLoggedIn = true;
+        this.sharedService.updateCurrentUser(res);
+
+        if(this.sharedService.currentUser.data.pin) {
+          this.router.navigate(['/login']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      })
+      .catch(err => console.error("Can't save user's data")); //TODO: Agregar alerta
     }
   }
 
@@ -79,6 +81,7 @@ export class RegisterPage implements OnInit {
       .then((res: any) => {
         this.sharedService.currentUser = res;
         this.sharedService.isLoggedIn = true;
+        this.sharedService.updateCurrentUser(res);
         this.router.navigate(['/home']);
 
         if (formData.email) {
@@ -137,6 +140,7 @@ export class RegisterPage implements OnInit {
                 .then(res => {
                   this.sharedService.currentUser = res;
                   this.sharedService.isLoggedIn = true;
+                  this.sharedService.updateCurrentUser(res);
                   this.router.navigate(['/home'])
                   sessionStorage.setItem('userMiCalendario', data.email);
                 })
@@ -152,7 +156,7 @@ export class RegisterPage implements OnInit {
             } else {
               this.userService.createUser(data)
                 .then(res => {
-                  this.sharedService.currentUser = data;
+                  this.sharedService.currentUser = res;
                   this.sharedService.isLoggedIn = true;
                   this.router.navigate(['/home'])
                   sessionStorage.setItem('userMiCalendario', data.email);

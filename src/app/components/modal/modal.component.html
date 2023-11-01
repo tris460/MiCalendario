@@ -12,18 +12,22 @@
 <ion-content class="ion-padding">
   <form [formGroup]="data">
     <!-- Women checks -->
-    <ion-checkbox labelPlacement="end" class="check" formControlName="periodStarts">Inicio del periodo</ion-checkbox><br>
-    <ion-checkbox labelPlacement="end" class="check" formControlName="periodEnds">Fin del periodo</ion-checkbox><br>
-    <ion-checkbox labelPlacement="end" class="check" formControlName="emergencyPill">Pastilla de emergencia</ion-checkbox><br>
+    <div *ngIf="sex === 'female'">
+      <ion-checkbox labelPlacement="end" class="check" formControlName="periodStarts">Inicio del periodo</ion-checkbox><br>
+      <ion-checkbox labelPlacement="end" class="check" formControlName="periodEnds">Fin del periodo</ion-checkbox><br>
+      <ion-checkbox labelPlacement="end" class="check" formControlName="emergencyPill">Pastilla de emergencia</ion-checkbox><br>
+    </div>
     <!-- Men checks -->
-    <ion-checkbox labelPlacement="end" class="check" formControlName="viagra">Viagra</ion-checkbox><br>
-    <ion-checkbox labelPlacement="end" class="check" formControlName="testicularPain">Dolor testicular</ion-checkbox><br>
-    <ion-checkbox labelPlacement="end" class="check" formControlName="bald">Pérdida de cabello</ion-checkbox><br>
+    <div *ngIf="sex !== 'female'">
+      <ion-checkbox labelPlacement="end" class="check" formControlName="viagra">Viagra</ion-checkbox><br>
+      <ion-checkbox labelPlacement="end" class="check" formControlName="testicularPain">Dolor testicular</ion-checkbox><br>
+      <ion-checkbox labelPlacement="end" class="check" formControlName="bald">Pérdida de cabello</ion-checkbox><br>
+    </div>
 
     <ion-accordion-group style="margin-top: 30px;">
       <!-- Women accordions -->
       <!-- Pregnancy -->
-      <ion-accordion value="first" class="accordion">
+      <ion-accordion value="first" class="accordion" *ngIf="sex === 'female'">
         <ion-item slot="header">
           <ion-label class="big-text">Embarazo</ion-label>
         </ion-item>
@@ -35,9 +39,8 @@
         </div>
       </ion-accordion>
 
-      <!-- Men & women options -->
       <!-- Contraceptives -->
-      <ion-accordion value="second" class="accordion">
+      <ion-accordion value="second" class="accordion" *ngIf="sex === 'female'">
         <ion-item slot="header">
           <ion-label class="big-text">Anticonceptivos</ion-label>
         </ion-item>
@@ -50,6 +53,7 @@
         </div>
       </ion-accordion>
 
+      <!-- Men & women options -->
       <!-- Sexual act -->
       <ion-accordion value="third" class="accordion">
         <ion-item slot="header">

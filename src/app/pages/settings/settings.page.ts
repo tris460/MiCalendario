@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { isValidForm } from 'src/app/utils/isValidForm';
 
 @Component({
   selector: 'app-settings',
@@ -15,19 +17,24 @@ export class SettingsPage implements OnInit {
 
   images: string[] = [];
   selectedImage: string;
-  user = {
-    fullName: null,
-    email: null,
-    pin: null,
-    noPin: null,
-    sex: null,
-    doctor: null,
-    license: null,
-    profession: null,
-    description: null,
-    cost: null,
-    officeAddress: null,
-  }
+  data = new FormGroup({
+    fullName: new FormControl(null),
+    email: new FormControl(null),
+    pin: new FormControl(null),
+    noPin: new FormControl(null),
+    sex: new FormControl('female'),
+    isDoctor: new FormControl(null),
+    license: new FormControl({value: null, disabled: true}),
+    profession: new FormControl({value: null, disabled: true}),
+    description: new FormControl({value: null, disabled: true}),
+    cost: new FormControl({value: null, disabled: true}),
+    officeAddress: new FormControl({value: null, disabled: true}),
+    role: new FormControl('patient')
+  });
+
+  isNoPinDisabled: boolean | undefined;
+  registerForDoctor: boolean | undefined;
+  userId: string | undefined;
 
   constructor(private sharedService: SharedService, private router: Router, private userService: UserService, private alertController: AlertController) {
     for (let i = 1; i <= 10; i++) {
@@ -35,6 +42,83 @@ export class SettingsPage implements OnInit {
     }
 
     this.selectedImage = this.sharedService.currentUser.data.pet;
+
+    //Get the data of the current user
+    this.sharedService.loggedUser.subscribe((userData: any) => {
+      if (userData.data) {
+        this.userId = userData.data._id;
+        if (!userData.data.pin) {
+          userData.data.pin = '';
+          userData.data.noPin = true;
+          this.isNoPinDisabled = true;
+          this.data.get('pin')!.disable();
+        } else {
+          this.isNoPinDisabled = false;
+          this.data.get('pin')!.enable();
+        }
+
+        if (userData.data.role !== 'doctor') {
+          userData.data.isDoctor = false;
+          this.registerForDoctor = false;
+          this.data.get('license')!.disable();
+          this.data.get('profession')!.disable();
+          this.data.get('description')!.disable();
+          this.data.get('cost')!.disable();
+          this.data.get('officeAddress')!.disable();
+        } else {
+          userData.data.isDoctor = true;
+          this.registerForDoctor = true;
+          this.data.get('license')!.enable();
+          this.data.get('profession')!.enable();
+          this.data.get('description')!.enable();
+          this.data.get('cost')!.enable();
+          this.data.get('officeAddress')!.enable();
+        }
+
+        Object.keys(userData.data).forEach(key => {
+          if (key !== '_id') {
+            this.data.get(key)?.setValue(userData.data[key]);
+          }
+        });
+        this.data.get('pin')?.setValue(null);
+      }
+    });
+
+    // Validate if the PIN input is disabled or not
+    this.data.get('noPin')!.valueChanges.subscribe((value) => {
+      if (value) {
+        this.isNoPinDisabled = true;
+        this.data.get('pin')!.reset();
+        this.data.get('pin')!.disable();
+      } else {
+        this.isNoPinDisabled = false;
+        this.data.get('pin')!.enable();
+      }
+    });
+
+    // Disable inputs if the user isn't a doctor
+    this.data.get('isDoctor')!.valueChanges.subscribe((value) => {
+      if (value) {
+        this.registerForDoctor = true;
+        this.data.get('license')!.enable();
+        this.data.get('profession')!.enable();
+        this.data.get('description')!.enable();
+        this.data.get('cost')!.enable();
+        this.data.get('officeAddress')!.enable();
+      } else {
+        this.registerForDoctor = false;
+        this.data.get('license')!.reset();
+        this.data.get('license')!.disable();
+        this.data.get('profession')!.reset();
+        this.data.get('profession')!.disable();
+        this.data.get('description')!.reset();
+        this.data.get('description')!.disable();
+        this.data.get('cost')!.reset();
+        this.data.get('cost')!.disable();
+        this.data.get('officeAddress')!.reset();
+        this.data.get('officeAddress')!.disable();
+      }
+    });
   }
 
   ngOnInit() {
@@ -48,13 +132,33 @@ export class SettingsPage implements OnInit {
     this.sharedService.currentUser = null;
     this.sharedService.isLoggedIn = false;
     sessionStorage.clear();
-    sessionStorage.removeItem('userMiCalendario');
+    sessionStorage.removeItem('userMiCalendario'); //TODO: cuando el usuario cierra sesión y tiene PIN, mandar a /login
     this.router.navigate(['/register']);
+    location.reload();
   }
 
+  /**
+   * This function updates the user's data in the database
+   */
   updateLoginData() {
-    console.log(this.user);
-    //TODO: Implement function
+    this.userService.updateUser(this.userId!, this.data.value)
+      .then(async(res: any) => {
+        const alert = await this.alertController.create({
+          message: 'Tus datos fueron actualizados correctamente',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
+      .catch(async(err)=> {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      })
   }
 
   /**
@@ -104,5 +208,13 @@ export class SettingsPage implements OnInit {
    */
   selectImage(imagePath: string) {
     this.selectedImage = imagePath;
+  }
+
+  /**
+   * This function verifies if the given form is filled correctly
+   * @returns Boolean, true if the form is correct, false if not
+   */
+  isValidForm(): boolean {
+    return isValidForm(this.data);
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharedService } from './services/shared.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,6 +15,15 @@ export class AppComponent {
     { title: 'Doctor', url: '/doctor', icon: 'medkit' },
     { title: 'Ajustes', url: '/settings', icon: 'settings' },
   ];
+  role: string | undefined;
+  sex: string | undefined;
 
-  constructor() {}
+  constructor(private sharedService: SharedService) {
+    this.sharedService.loggedUser.subscribe((user: any) => {
+      if (user) {
+        this.role = user.data.role;
+        this.sex = user.data.sex;
+      }
+    });
+  }
 }

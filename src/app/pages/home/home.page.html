@@ -11,12 +11,12 @@
   <!-- Card to show the advice of the day -->
   <ion-card class="card">
     <ion-card-header>
-      <ion-card-subtitle style="text-align: center;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas illum consequatur sit aspernatur reiciendis vero.</ion-card-subtitle>
+      <ion-card-subtitle style="text-align: center;">{{messageToPrint}}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 
   <!-- Card to show next period -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="sex === 'female'">
     <ion-card-header>
       <ion-card-subtitle>Faltan</ion-card-subtitle>
       <ion-card-title class="title">10 días</ion-card-title>
@@ -28,8 +28,21 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Card to go to calendar -->
+  <ion-card class="card" *ngIf="sex !== 'female'">
+    <ion-card-header>
+      <ion-card-subtitle>Edita tus</ion-card-subtitle>
+      <ion-card-title class="title">Síntomas</ion-card-title>
+      <ion-card-subtitle>Para monitorearlos</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Ver calendario</ion-button>
+      <ion-img [src]="pet" class="pet"></ion-img>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Card to show next fertile day -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="sex === 'female'">
     <ion-card-header>
       <ion-card-subtitle>Próximo día fértil</ion-card-subtitle>
       <ion-card-title class="title">08 de septiembre</ion-card-title>
