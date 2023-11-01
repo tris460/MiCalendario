@@ -80,6 +80,7 @@ export class SettingsPage implements OnInit {
             this.data.get(key)?.setValue(userData.data[key]);
           }
         });
+        this.data.get('pin')?.setValue(null);
       }
     });
 
