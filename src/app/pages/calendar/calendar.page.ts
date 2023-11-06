@@ -41,16 +41,7 @@ export class CalendarPage implements OnInit {
     })
 
     this.todayDate = this.parseDate(this.todayDate);
-    this.userService.getSymptom(this.userId!, this.todayDate)
-    .then((res: any) => {
-      this.isTodayData = true;
-      this.todayData = res!.data[0]
-    })
-    .catch((err) => {
-      if (err.error == "No symptoms found for the specified date") {
-        this.isTodayData = false
-      }
-    })
+    this.getTodaySymptoms();
   }
 
   ngOnInit() {
@@ -85,6 +76,10 @@ export class CalendarPage implements OnInit {
 
         await alert.present();
       })
+
+      if (date == this.todayDate) {
+        this.getTodaySymptoms();
+      }
     }
   }
 
@@ -171,7 +166,7 @@ export class CalendarPage implements OnInit {
         if (title.length >= 3) return title;
       }
     }
-    console.log(title)
+
     return title;
   }
 
@@ -198,5 +193,21 @@ export class CalendarPage implements OnInit {
       this.calendarOptions.events = events;
     })
     .catch(err => console.error(err))
+  }
+
+  /**
+   * This function returns the symptoms registered for the current date
+   */
+  getTodaySymptoms() {
+    this.userService.getSymptom(this.userId!, this.todayDate)
+    .then((res: any) => {
+      this.isTodayData = true;
+      this.todayData = res!.data[0]
+    })
+    .catch((err) => {
+      if (err.error == "No symptoms found for the specified date") {
+        this.isTodayData = false
+      }
+    })
   }
 }
