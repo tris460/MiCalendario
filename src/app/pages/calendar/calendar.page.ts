@@ -7,6 +7,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { parseDate } from 'src/app/utils/parseDate';
 
 @Component({
   selector: 'app-calendar',
@@ -40,7 +41,7 @@ export class CalendarPage implements OnInit {
       }
     })
 
-    this.todayDate = this.parseDate(this.todayDate);
+    this.todayDate = this.parseTodayDate(this.todayDate);
     this.getTodaySymptoms();
   }
 
@@ -56,13 +57,19 @@ export class CalendarPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: ModalComponent,
     });
+
+    if (this.todayData) {
+      this.sharedService.modalDate = this.parseTodayDate(info.date);
+      this.sharedService.formDataSymptoms = this.todayData;
+    }
+
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
      const formData: any = this.getFormData()!.value
-      const date = this.parseDate(info.date)
+      const date = this.parseTodayDate(info.date)
       formData.date = date;
       this.userService.addSymptoms(this.userId!, formData)
       .then((res) => this.getUserSymptoms())
@@ -96,19 +103,8 @@ export class CalendarPage implements OnInit {
    * @param originalDate Date to parse
    * @returns A string with the new date
    */
-  parseDate(originalDate: any) {
-    // Parse the original date in a date objet
-    const date = new Date(originalDate);
-
-    // Get year, month and date
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    // Format date "YYYY-MM-DD"
-    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
-    return formattedDate;
+  parseTodayDate(originalDate: any) {
+    return parseDate(originalDate);
   }
 
   /**
