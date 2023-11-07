@@ -22,6 +22,7 @@ export class CalendarPage implements OnInit {
   todayDate: any = new Date();
   isTodayData: boolean = false;
   todayData: any;
+  symptoms: any = null;
 
   // Options to configure the calendar
   calendarOptions: CalendarOptions = {
@@ -58,9 +59,15 @@ export class CalendarPage implements OnInit {
       component: ModalComponent,
     });
 
-    if (this.todayData) {
-      this.sharedService.modalDate = this.parseTodayDate(info.date);
-      this.sharedService.formDataSymptoms = this.todayData;
+    const selectedDate = this.parseTodayDate(info.date)
+    const symptomsOfTheDate = this.symptoms.find((symptom: any) => symptom.date == selectedDate);
+
+    if (symptomsOfTheDate) {
+      this.sharedService.modalDate = selectedDate;
+      this.sharedService.formDataSymptoms = symptomsOfTheDate;
+    } else {
+      this.sharedService.modalDate = null;
+      this.sharedService.formDataSymptoms = null;
     }
 
     modal.present();
@@ -172,9 +179,9 @@ export class CalendarPage implements OnInit {
   getUserSymptoms() {
     this.userService.getSymptoms(this.userId!)
     .then((res: any) => {
-      const symptoms = res.data;
+      this.symptoms = res.data;
 
-      const events = symptoms.map((symptom: any) => {
+      const events = this.symptoms.map((symptom: any) => {
         const generatedTitle = this.generateEventTitle(symptom);
         return {
           title: generatedTitle,

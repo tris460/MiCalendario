@@ -49,31 +49,33 @@ export class ModalComponent  implements OnInit {
       if (user) this.sex = user.data.sex;
     })
 
-    if (this.sharedService.formDataSymptoms.date == this.sharedService.modalDate) {
-      this.formDataToLoad = {
-        bald: this.sharedService.formDataSymptoms.bald,
-        emergencyPill: this.sharedService.formDataSymptoms.emergencyPill,
-        height: this.sharedService.formDataSymptoms.height,
-        periodEnds: this.sharedService.formDataSymptoms.periodEnds,
-        periodStarts: this.sharedService.formDataSymptoms.periodStarts,
-        pregnancyWeeks: this.sharedService.formDataSymptoms.pregnancyWeeks,
-        pregnant: this.sharedService.formDataSymptoms.pregnant,
-        sexualActs: this.sharedService.formDataSymptoms.sexualActs,
-        sleep: this.sharedService.formDataSymptoms.sleep,
-        temperature: this.sharedService.formDataSymptoms.temperature,
-        testicularPain: this.sharedService.formDataSymptoms.testicularPain,
-        viagra: this.sharedService.formDataSymptoms.viagra,
-        water: this.sharedService.formDataSymptoms.water,
-        weight: this.sharedService.formDataSymptoms.weight,
+    if (this.sharedService.formDataSymptoms) {
+      if (this.sharedService.formDataSymptoms.date == this.sharedService.modalDate) {
+        this.formDataToLoad = {
+          bald: this.sharedService.formDataSymptoms.bald,
+          emergencyPill: this.sharedService.formDataSymptoms.emergencyPill,
+          height: this.sharedService.formDataSymptoms.height,
+          periodEnds: this.sharedService.formDataSymptoms.periodEnds,
+          periodStarts: this.sharedService.formDataSymptoms.periodStarts,
+          pregnancyWeeks: this.sharedService.formDataSymptoms.pregnancyWeeks,
+          pregnant: this.sharedService.formDataSymptoms.pregnant,
+          sexualActs: this.sharedService.formDataSymptoms.sexualActs,
+          sleep: this.sharedService.formDataSymptoms.sleep,
+          temperature: this.sharedService.formDataSymptoms.temperature,
+          testicularPain: this.sharedService.formDataSymptoms.testicularPain,
+          viagra: this.sharedService.formDataSymptoms.viagra,
+          water: this.sharedService.formDataSymptoms.water,
+          weight: this.sharedService.formDataSymptoms.weight,
+        }
+
+        this.selectedContraceptives = this.sharedService.formDataSymptoms.contraceptives;
+        this.selectedEmojisSymptoms = this.sharedService.formDataSymptoms.symptoms;
+        this.selectedEmojisEmotions = this.sharedService.formDataSymptoms.emotions;
+        if (this.sharedService.formDataSymptoms.condom) this.condom = this.sharedService.formDataSymptoms.condom.toString();
+        if (this.sharedService.formDataSymptoms.orgasm) this.orgasm = this.sharedService.formDataSymptoms.orgasm.toString();
+
+        this.data.patchValue(this.formDataToLoad)
       }
-
-      this.selectedContraceptives = this.sharedService.formDataSymptoms.contraceptives;
-      this.selectedEmojisSymptoms = this.sharedService.formDataSymptoms.symptoms;
-      this.selectedEmojisEmotions = this.sharedService.formDataSymptoms.emotions;
-      this.condom = this.sharedService.formDataSymptoms.condom.toString();
-      this.orgasm = this.sharedService.formDataSymptoms.orgasm.toString();
-
-      this.data.patchValue(this.formDataToLoad)
     }
   }
 
