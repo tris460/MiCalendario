@@ -75,23 +75,37 @@ export class CalendarPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-     const formData: any = this.getFormData()!.value
-      const date = this.parseTodayDate(info.date)
-      formData.date = date;
-      this.userService.addSymptoms(this.userId!, formData)
-      .then((res) => this.getUserSymptoms())
-      .catch(async(err)=> {
-        console.error(err)
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
-          buttons: ['OK'],
+      const formData: any = this.getFormData()!.value
+       formData.date = selectedDate;
+
+      // Data is true if the symptom has to be updated, false if it's a new symptom
+      if (data) {
+        this.userService.updateSymptom(this.userId!, selectedDate, formData)
+        .then((res) => this.getUserSymptoms())
+        .catch(async(err)=> {
+          console.error(err)
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'No fue posible actualizar tus síntomas, intenta nuevamente en unos minutos',
+            buttons: ['OK'],
+          });
+          await alert.present();
         });
+      } else {
+        this.userService.addSymptoms(this.userId!, formData)
+        .then((res) => this.getUserSymptoms())
+        .catch(async(err)=> {
+          console.error(err)
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
+            buttons: ['OK'],
+          });
+          await alert.present();
+        });
+      }
 
-        await alert.present();
-      })
-
-      if (date == this.todayDate) {
+      if (selectedDate == this.todayDate) {
         this.getTodaySymptoms();
       }
     }

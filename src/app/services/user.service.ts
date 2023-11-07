@@ -26,7 +26,7 @@ export class UserService {
    */
   loginUser(data: any) { //TODO: Type
     return this.http.put(`${this.URL}/login`, data).toPromise();
-    
+
   }
 
   /**
@@ -39,7 +39,10 @@ export class UserService {
     return this.http.get(`${this.URL}/user`, { params: params}).toPromise();
   }
 
-  // Get from users
+  /**
+   * This function gets all the registered users
+   * @returns A promise
+   */
   getUsers() {
     return this.http.get(`${this.URL}/users`).toPromise();
   }
@@ -92,5 +95,16 @@ export class UserService {
    */
   getSymptoms(id: string){
     return this.http.get(`${this.URL}/users/${id}/symptoms/all`).toPromise();
+  }
+
+  /**
+   * This function updates the data of the symptoms on a specific date
+   * @param id Identifier for the current user
+   * @param date Date of the symptoms to update
+   * @param symptoms Data to update
+   * @returns A promise
+   */
+  updateSymptom(id: string, date: string, symptoms: any) {
+    return this.http.put(`${this.URL}/users/${id}/symptoms/${date}`, symptoms).toPromise();
   }
 }

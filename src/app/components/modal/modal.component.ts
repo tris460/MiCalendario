@@ -13,6 +13,7 @@ export class ModalComponent  implements OnInit {
   formDataToLoad: any;
   condom: string = "";
   orgasm: string = "";
+  updateSymptoms: boolean = false;
 
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
@@ -74,7 +75,9 @@ export class ModalComponent  implements OnInit {
         if (this.sharedService.formDataSymptoms.condom) this.condom = this.sharedService.formDataSymptoms.condom.toString();
         if (this.sharedService.formDataSymptoms.orgasm) this.orgasm = this.sharedService.formDataSymptoms.orgasm.toString();
 
-        this.data.patchValue(this.formDataToLoad)
+        this.data.patchValue(this.formDataToLoad);
+
+        this.updateSymptoms = true;
       }
     }
   }
@@ -96,7 +99,7 @@ export class ModalComponent  implements OnInit {
    */
   confirm() {
     this.sharedService.formData = this.data;
-    return this.modalCtrl.dismiss(this.data, 'confirm');
+    return this.modalCtrl.dismiss(this.updateSymptoms, 'confirm');
   }
 
   /**
