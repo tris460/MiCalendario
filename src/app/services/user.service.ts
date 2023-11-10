@@ -107,4 +107,25 @@ export class UserService {
   updateSymptom(id: string, date: string, symptoms: any) {
     return this.http.put(`${this.URL}/users/${id}/symptoms/${date}`, symptoms).toPromise();
   }
+
+  /**
+   * This function adds a note in case it didn't exist, else, it updates the note
+   * @param id User's identification
+   * @param date Note's date
+   * @param data Note's data
+   * @returns A promise
+   */
+  addNote(id: string, date: string | Date, data: any) {
+    return this.http.put(`${this.URL}/users/${id}/symptoms/${date}/notes`, data).toPromise();
+  }
+
+  /**
+   * This function gets a note of a specific date
+   * @param id User's identification
+   * @param date Note's date
+   * @returns A promise
+   */
+  getTodaysNote(id: string, date: string | Date) {
+    return this.http.get(`${this.URL}/users/${id}/symptoms/${date}/notes`).toPromise();
+  }
 }
