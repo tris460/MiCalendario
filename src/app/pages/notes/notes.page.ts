@@ -15,6 +15,7 @@ export class NotesPage implements OnInit {
 
   date: string | Date = new Date();
   userId: string | undefined;
+  notes: any[] = [];
 
   constructor(private modalCtrl: ModalController, private userService: UserService, private sharedService: SharedService, private alertController: AlertController) {
     //Get the data of the current user
@@ -28,6 +29,7 @@ export class NotesPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllNotes();
   }
 
    /**
@@ -45,19 +47,33 @@ export class NotesPage implements OnInit {
       data.value.date = this.date;
 
       this.userService.addNote(this.userId!, this.date, data.value)
-        .then((res: any) => {
-          //TODO: Get the data from all notes
+        .then(res => {
+          this.getAllNotes();
         })
         .catch(async(err)=> {
-          console.log(err)
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'No fue posible guardar la nota, intenta nuevamente en unos minutos',
             buttons: ['OK'],
           });
-
           await alert.present();
         });
     }
+  }
+
+  /**
+   * This function get all notes of the user
+   */
+  getAllNotes() {
+    this.userService.getNotes(this.userId!)
+      .then((res: any) => this.notes = res.data)
+      .catch(async(err)=> {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No fue posible obtener tus notas, intenta nuevamente en unos minutos',
+          buttons: ['OK'],
+        });
+        await alert.present();
+      })
   }
 }

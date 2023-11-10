@@ -128,4 +128,13 @@ export class UserService {
   getTodaysNote(id: string, date: string | Date) {
     return this.http.get(`${this.URL}/users/${id}/symptoms/${date}/notes`).toPromise();
   }
+
+  /**
+   * This function gets all notes of an user
+   * @param id User's identification
+   * @returns A promise
+   */
+  getNotes(id: string) {
+    return this.http.get(`${this.URL}/users/${id}/notes`).toPromise();
+  }
 }
