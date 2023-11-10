@@ -22,6 +22,7 @@ export class CalendarPage implements OnInit {
   todayDate: any = new Date();
   isTodayData: boolean = false;
   todayData: any;
+  todayNote: any;
   symptoms: any = null;
 
   // Options to configure the calendar
@@ -43,6 +44,12 @@ export class CalendarPage implements OnInit {
     })
 
     this.todayDate = this.parseTodayDate(this.todayDate);
+
+    // Get today's note
+    this.userService.getTodaysNote(this.userId!, this.todayDate)
+      .then((res: any) => this.todayNote = res.data)
+      .catch(err => console.error(err))
+
     this.getTodaySymptoms();
   }
 
