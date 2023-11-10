@@ -38,7 +38,7 @@ export class ModalAddNoteComponent  implements OnInit {
 
         this.data.patchValue(this.formDataToLoad);
       })
-      .catch(err => console.error(err))
+      .catch(err => {})
   }
 
   ngOnInit() {}

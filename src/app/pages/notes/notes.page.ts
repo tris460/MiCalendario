@@ -47,9 +47,7 @@ export class NotesPage implements OnInit {
       data.value.date = this.date;
 
       this.userService.addNote(this.userId!, this.date, data.value)
-        .then(res => {
-          this.getAllNotes();
-        })
+        .then(res => this.getAllNotes())
         .catch(async(err)=> {
           const alert = await this.alertController.create({
             header: 'Error',

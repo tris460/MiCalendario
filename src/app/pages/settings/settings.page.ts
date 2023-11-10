@@ -197,9 +197,7 @@ export class SettingsPage implements OnInit {
    */
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      console.log(ev.detail.data);
-    }
+    if (ev.detail.role === 'confirm') {}
   }
 
   /**

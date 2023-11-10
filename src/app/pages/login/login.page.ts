@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
 
     if(this.sharedService.currentUser.data.pin) {
       const isPinValid = compareSync(this.pin.toString(), this.sharedService.currentUser.data.pin);
-      
+
       if(isPinValid === true) this.router.navigateByUrl('/home')
       else this.delete();
     } else {
@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
           if(isPinValid!) this.router.navigateByUrl('/home');
           else this.delete()
         })
-        .catch(err => console.error("Can't save user's data"));
+        .catch(err => {});
     }
   }
 
