@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { addDays, format } from 'date-fns';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import esLocale from 'date-fns/locale/es';
 
 @Component({
   selector: 'app-cycles',
@@ -9,8 +11,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CyclesPage implements OnInit {
   lastPeriodDate: Date | undefined;
+  lastPeriodFormatted: any;
   userId: string | undefined;
   symptomsExist: boolean = false;
+  menstrualCycle = 28;
+  nextPeriod: any[] = [];
 
   constructor(private sharedService: SharedService, private userService: UserService) {
     //Get the data of the current user
@@ -23,8 +28,7 @@ export class CyclesPage implements OnInit {
     this.getLastPeriod();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   /**
    * This function obtains the date of the last period
@@ -41,7 +45,17 @@ export class CyclesPage implements OnInit {
           for (let i = res.data.length -1; i >= 0; i--) {
             if (res.data[i].periodStarts) {
               this.lastPeriodDate = res.data[i].date;
+              this.lastPeriodDate = new Date(this.lastPeriodDate!);
+              this.lastPeriodFormatted = format(this.lastPeriodDate, "EEEE d 'de' MMMM 'de' yyyy", {locale: esLocale});
               this.symptomsExist = true;
+
+              // Calculate the next periods
+              for (let i = 0; i <= 11; i++) {
+                const date: string | Date = addDays(this.lastPeriodDate, this.menstrualCycle * i);
+                const formattedDate = format(date, "EEEE d 'de' MMMM 'de' yyyy", {locale: esLocale});
+                this.nextPeriod.push(formattedDate);
+              }
+
               break;
             } else {
               this.symptomsExist = false;

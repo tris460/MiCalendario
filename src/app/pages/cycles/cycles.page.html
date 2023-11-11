@@ -10,33 +10,23 @@
 <ion-content [fullscreen]="true">
   <ion-card-title class="title-dark">Ciclos</ion-card-title>
 
-  <!-- History of cycles -->
+  <!-- Last cycle -->
   <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
-      <ion-card-title>Historial</ion-card-title>
+      <ion-card-title>Último periodo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>12-18 de enero (6 días)</ion-text><br>
-      <ion-text>13-18 de febrero (5 días)</ion-text><br>
-      <ion-text>15-21 de marzo ( 6 días)</ion-text><br>
-      <ion-text>15-20 de abril (5 días)</ion-text><br>
-      <ion-text>14-19 de mayo (5 días)</ion-text><br>
-      <ion-text>14-19 de junio (5 días)</ion-text><br>
-      <ion-text>15-21 de julio (6 días)</ion-text><br>
-      <ion-text>17-22 de agosto (5 días)</ion-text>
+      <ion-text>{{ lastPeriodFormatted }}<br></ion-text>
     </ion-card-content>
   </ion-card>
 
-  <!-- Predictions of cycles -->
+  <!-- History of cycles -->
   <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
-      <ion-card-title>Predicciones</ion-card-title>
+      <ion-card-title>Siguientes periodos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>17-23 de septiembre (6 días)</ion-text><br>
-      <ion-text>17-22 de octubre (5 días)</ion-text><br>
-      <ion-text>16-22 de noviembre ( 6 días)</ion-text><br>
-      <ion-text>16-21 de diciembre (5 días)</ion-text>
+      <ion-text *ngFor="let period of nextPeriod">{{ period }}<br></ion-text>
     </ion-card-content>
   </ion-card>
 
