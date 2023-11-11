@@ -22,6 +22,7 @@ export class CalendarPage implements OnInit {
   todayDate: any = new Date();
   isTodayData: boolean = false;
   todayData: any;
+  todayNote: any;
   symptoms: any = null;
 
   // Options to configure the calendar
@@ -43,6 +44,12 @@ export class CalendarPage implements OnInit {
     })
 
     this.todayDate = this.parseTodayDate(this.todayDate);
+
+    // Get today's note
+    this.userService.getTodaysNote(this.userId!, this.todayDate)
+      .then((res: any) => this.todayNote = res.data)
+      .catch(err => {})
+
     this.getTodaySymptoms();
   }
 
@@ -83,7 +90,6 @@ export class CalendarPage implements OnInit {
         this.userService.updateSymptom(this.userId!, selectedDate, formData)
         .then((res) => this.getUserSymptoms())
         .catch(async(err)=> {
-          console.error(err)
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'No fue posible actualizar tus síntomas, intenta nuevamente en unos minutos',
@@ -95,7 +101,6 @@ export class CalendarPage implements OnInit {
         this.userService.addSymptoms(this.userId!, formData)
         .then((res) => this.getUserSymptoms())
         .catch(async(err)=> {
-          console.error(err)
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
@@ -209,7 +214,7 @@ export class CalendarPage implements OnInit {
 
       this.calendarOptions.events = events;
     })
-    .catch(err => console.error(err))
+    .catch(err => {})
   }
 
   /**

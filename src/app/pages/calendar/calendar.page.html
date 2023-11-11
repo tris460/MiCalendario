@@ -47,12 +47,14 @@
   </ion-card>
 
   <!-- Notes saved the current day -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="todayNote">
     <ion-card-header>
-      <ion-card-title>Título</ion-card-title>
+      <ion-card-title>{{todayNote.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, repudiandae. Facilis esse, suscipit voluptatibus eveniet hic labore, expedita laborum aliquam quis sed sunt animi minima tempora nostrum quas dolorum nesciunt?</ion-text>
+      <ion-text>
+        <b>{{todayNote.date.slice(0, 10)}}</b> - {{todayNote.note}}
+      </ion-text>
     </ion-card-content>
   </ion-card>
 

@@ -11,6 +11,7 @@
   <ion-card *ngIf="preguntaActual < preguntasFallo.length">
     <ion-card-content>
       <p>{{ preguntasFallo[preguntaActual].informacion }}</p> 
+      <ion-input *ngIf="preguntaActual === 1" placeholder="Reporta tu fallo aquí" type="text" text></ion-input>
       <p>{{ preguntasFallo[preguntaActual].preguntaFallo }}</p>
     </ion-card-content>
       <ion-button (click)="mostrarPreguntaFallo('Sí')">Sí</ion-button>
@@ -39,3 +40,7 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<script>
+
+</script>

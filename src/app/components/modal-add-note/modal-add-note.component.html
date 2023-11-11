@@ -14,12 +14,14 @@
   <!-- Card for saving a new note -->
   <ion-card class="card">
     <ion-card-content>
-      <ion-item class="input" style="--padding-start: 0;">
-        <ion-input placeholder="Título" type="text"></ion-input>
-      </ion-item>
-      <ion-item class="input" style="--padding-start: 0;">
-        <ion-textarea rows="4" placeholder="¿En qué estás pensando?"></ion-textarea>
-      </ion-item>
+      <form [formGroup]="data">
+        <ion-item class="input" style="--padding-start: 0;">
+          <ion-input placeholder="Título" type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item class="input" style="--padding-start: 0;">
+          <ion-textarea rows="4" placeholder="¿En qué estás pensando?" formControlName="note"></ion-textarea>
+        </ion-item>
+      </form>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -58,7 +58,15 @@ export class RegisterPage implements OnInit {
           this.router.navigate(['/home']);
         }
       })
-      .catch(err => console.error("Can't save user's data")); //TODO: Agregar alerta
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No se pudieron recuperar los datos de inicio de sesión',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      });
     }
   }
 
@@ -145,7 +153,6 @@ export class RegisterPage implements OnInit {
                   sessionStorage.setItem('userMiCalendario', data.email);
                 })
                 .catch(async (err) => {
-                  console.log(err)
                   const alert = await this.alertController.create({
                     header: 'Error',
                     message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
@@ -172,9 +179,7 @@ export class RegisterPage implements OnInit {
             }
           }
         })
-        .catch((error) => {
-          console.log(`Error getting users: ${error}`);
-        });
+        .catch((error) => {});
     }
   }
 
