@@ -11,7 +11,7 @@
   <ion-card-title class="title-dark">Ciclos</ion-card-title>
 
   <!-- History of cycles -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
       <ion-card-title>Historial</ion-card-title>
     </ion-card-header>
@@ -28,7 +28,7 @@
   </ion-card>
 
   <!-- Predictions of cycles -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
       <ion-card-title>Predicciones</ion-card-title>
     </ion-card-header>
@@ -38,6 +38,15 @@
       <ion-text>16-22 de noviembre ( 6 días)</ion-text><br>
       <ion-text>16-21 de diciembre (5 días)</ion-text>
     </ion-card-content>
+  </ion-card>
+
+  <ion-card class="card" *ngIf="!symptomsExist">
+    <ion-card-header>
+      <ion-card-title>No tienes registrado el periodo</ion-card-title>
+      <ion-card-content style="padding-inline-start: 0; padding-bottom: 0;">
+        <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Ir al calendario</ion-button>
+      </ion-card-content>
+    </ion-card-header>
   </ion-card>
 
   <!-- Button to download a full report -->
