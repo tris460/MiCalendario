@@ -50,7 +50,7 @@ export class CyclesPage implements OnInit {
               this.symptomsExist = true;
 
               // Calculate the next periods
-              for (let i = 0; i <= 11; i++) {
+              for (let i = 1; i <= 12; i++) {
                 const date: string | Date = addDays(this.lastPeriodDate, this.menstrualCycle * i);
                 const formattedDate = format(date, "EEEE d 'de' MMMM 'de' yyyy", {locale: esLocale});
                 this.nextPeriod.push(formattedDate);
@@ -66,7 +66,7 @@ export class CyclesPage implements OnInit {
           this.symptomsExist = false;
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => {})
   }
 
 }
