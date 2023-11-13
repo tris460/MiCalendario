@@ -21,6 +21,103 @@ export class CyclesPage implements OnInit {
   symptomsExist: boolean = false;
   menstrualCycle = 28;
   nextPeriod: any[] = [];
+  emotionTitles: any = {
+    '🙂': 'Feliz',
+    '🙃': 'Feliz invertido',
+    '😉': 'Feliz guiñando',
+    '🫠': 'Derritiendose',
+    '😊': 'Feliz tierno',
+    '😇': 'Bendecido',
+    '😀': 'Muy feliz',
+    '😄': 'Divertido',
+    '😁': 'Demasiado feliz',
+    '😆': 'Demasiado divertido',
+    '😅': 'Dudoso',
+    '😂': 'Carcajadas',
+    '🥰': 'Amoroso',
+    '😍': 'Enamorado',
+    '🤩': 'Maravillado',
+    '😘': 'Cariñoso',
+    '😗': 'Afectuoso',
+    '😚': 'Besable',
+    '🥲': 'Conmovido',
+    '😋': 'Delicioso',
+    '😛': 'Loco',
+    '😜': 'Alocado',
+    '🤪': 'Muy alocado',
+    '🤑': 'Millonario',
+    '🤗': 'Agradecido',
+    '🫢': 'Sorprendido',
+    '🤭': 'Riseño',
+    '🫣': 'Reflexivo',
+    '🤫': 'Silencioso',
+    '🤔': 'Pensativo',
+    '🫡': 'Obediente',
+    '🤐': 'Silencioso',
+    '🤨': 'Dudoso',
+    '😐': 'Serio',
+    '😑': 'Molesto',
+    '😶': 'Sin palabras',
+    '🫥': 'Diferente',
+    '😏': 'Pervertido',
+    '😒': 'Descepcionado',
+    '🙄': 'Desafiante',
+    '😬': 'Ansioso',
+    '😮‍💨': 'Cansado',
+    '🤥': 'Mentiroso',
+    '😌': 'Calmado',
+    '😔': 'Triste',
+    '😪': 'Cansado',
+    '🤤': 'Antojado',
+    '😴': 'Muy somnoliento',
+    '🤯': 'Desconcertado',
+    '😵‍💫': 'Mareado',
+    '🥳': 'Fiestero',
+    '🥸': 'Desconfiado',
+    '🫤': 'Confuso',
+    '😕': 'Nerioso',
+    '😟': 'Desilusionado',
+    '🙁': 'Desanimado',
+    '😮': 'Sorprendido',
+    '😳': 'Avergonzado',
+    '🥺': 'Tierno',
+    '🥹': 'Muy tierno',
+    '😦': 'Asustado',
+    '😨': 'Preocupado',
+    '😰': 'Muy preocupado',
+    '😢': 'Melancólico',
+    '😭': 'Muy triste',
+    '😱': 'Muy asustado',
+    '😖': 'Irritado',
+    '😓': 'Desgastado',
+    '😩': 'Desesperado',
+    '🥱': 'Somnoliento',
+    '😤': 'Molesto',
+    '😡': 'Enojado',
+    '🤬': 'Muy enojado',
+    '😠': 'Muy molesto',
+  };
+
+  symptomTitles: any = {
+    '😷': 'Enfermedad general',
+    '😴': 'Somnoliento',
+    '🤒': 'Febril',
+    '🤕': 'Dolor de cabeza',
+    '🤢': 'Nauseas',
+    '🤮': 'Vómito',
+    '🤧': 'Estornudos',
+    '🥵': 'Calor',
+    '🥶': 'Frio',
+    '🥴': 'Mareos',
+    '🤯': 'Migraña',
+    '💩': 'Diarrea',
+    '👃': 'Congestion nasal',
+    '🧠': 'Dolor cerebral',
+    '🫀': 'Dolor de corazon',
+    '🫁': 'Dolor de pulmones',
+    '🦷': 'Dolor de muelas',
+    '🦴': 'Dolor de huesos'
+  };
 
   constructor(private sharedService: SharedService, private userService: UserService) {
     //Get the data of the current user
@@ -80,9 +177,13 @@ export class CyclesPage implements OnInit {
   generatePDF(): void {
     this.userService.getSymptoms(this.userId!)
       .then((res: any) => {
-        console.log(res) //TODO: Ver porque trae fechas mal (un dia despues de lo registrado)
+        let originalDate;
+
         res.data.forEach((item: any) => {
-          item.date = new Date(item.date);
+          originalDate = item.date;
+          const newDate = new Date(originalDate);
+          newDate.setDate(newDate.getDate() + 1);
+          item.date = newDate;
         });
 
         res.data.sort((a: any, b: any) => b.date.getTime() - a.date.getTime());
@@ -116,17 +217,17 @@ export class CyclesPage implements OnInit {
                   ...res.data.map((symptom: any) => [
                     parseDate(symptom.date),
                     symptom.contraceptives ? symptom.contraceptives.join(', ') : '',
-                    symptom.emergencyPill ? 'X' : '',
-                    symptom.emotions ? symptom.emotions.join(', ') : '',
-                    symptom.weight ? `${symptom.weight}Kg` : '',
-                    symptom.height ? `${symptom.height}cm` : '',
-                    symptom.periodStarts ? 'X' : '',
-                    symptom.periodEnds ? 'X' : '',
-                    symptom.pregnant ? 'X' : '',
-                    symptom.pregnancyWeeks ? symptom.pregnancyWeeks : '',
-                    symptom.sleep ? `${symptom.sleep}hr` : '',
-                    symptom.symptoms ? symptom.symptoms.join(', ') : '',
-                    symptom.temperature ? `${symptom.temperature}°C` : '',
+                    { text: symptom.emergencyPill ? 'X' : '', style: 'center' },
+                    this.getTitle(symptom.emotions, this.emotionTitles),
+                    { text: symptom.weight ? `${symptom.weight}Kg` : '', style: 'center' },
+                    { text: symptom.height ? `${symptom.height}cm` : '', style: 'center' },
+                    { text: symptom.periodStarts ? 'X' : '', style: 'center' },
+                    { text: symptom.periodEnds ? 'X' : '', style: 'center' },
+                    { text: symptom.pregnant ? 'X' : '', style: 'center' },
+                    { text: symptom.pregnancyWeeks ? symptom.pregnancyWeeks : '', style: 'center' },
+                    { text: symptom.sleep ? `${symptom.sleep}hr` : '', style: 'center' },
+                    this.getTitle(symptom.symptoms, this.symptomTitles),
+                    { text: symptom.temperature ? `${symptom.temperature}°C` : '', style: 'center' },
                   ]),
                 ],
               },
@@ -141,11 +242,31 @@ export class CyclesPage implements OnInit {
               bold: true,
               alignment: 'center' as Alignment,
             },
+            center: {
+              alignment: 'center' as Alignment,
+            }
           },
         };
 
-        pdfMake.createPdf(documentDefinition).download('reporte_sintomas.pdf'); //TODO: Update file name
+        pdfMake.createPdf(documentDefinition).download(`${originalDate}_reporte_sintomas_Mi_Calendario.pdf`);
       })
       .catch(err => {});
   }
+
+  /**
+   * This function converts the emojis sended into a string with the titles of those symptoms
+   * @param emojis Emojis selected
+   * @param titles Titles of the emojis
+   * @returns A string wuth the titles
+   */
+  getTitle(emojis: string[], titles: any): string {
+    let text = '';
+
+    for (let i=0; i<emojis.length; i++) {
+      const emoji: any = emojis[i];
+      text += `${titles[emoji]}, `;
+    }
+    return text;
+  }
+
 }

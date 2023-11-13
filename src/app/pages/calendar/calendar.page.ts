@@ -142,7 +142,7 @@ export class CalendarPage implements OnInit {
     if (symptom.condom || symptom.orgasm || symptom.sexualActs) {
       title += '❤️';
     }
-    if (symptom.viagra || symptom.emergencyPill || symptom.contraceptives) {
+    if (symptom.viagra || symptom.emergencyPill || symptom.contraceptives.length > 0) {
       title += '💊';
     }
     if (symptom.periodStarts || symptom.periodEnds) {
