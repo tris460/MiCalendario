@@ -6,7 +6,7 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  URL = 'http://127.0.0.1:3000';
+  URL = 'https://comfortable-underclothes-colt.cyclic.app';
 
   constructor(private http: HttpClient, private sharedService: SharedService) { }
 
