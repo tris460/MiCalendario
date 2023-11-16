@@ -22,6 +22,7 @@ async function sha256(input: string) {
 })
 export class RegisterPage implements OnInit {
   isNoPinDisabled = false;
+  isLoading: boolean = false;
 
   userData = new FormGroup({
     email: new FormControl(null),
@@ -111,10 +112,13 @@ export class RegisterPage implements OnInit {
    * This function opens the modal when the user clicks the button, it also saves the data added by the user
    */
   async openModalRegister() {
+    this.isLoading = true;
     const modal = await this.modalCtrl.create({
       component: ModalRegisterUserComponent,
     });
     modal.present();
+
+    this.isLoading = false;
 
     const { data, role } = await modal.onWillDismiss();
 

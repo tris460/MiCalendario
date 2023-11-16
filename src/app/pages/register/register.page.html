@@ -25,9 +25,13 @@
   </div>
 </ion-content>
 
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>
+
 <script>
   const pinInput = document.querySelector('ion-input[formControlName="pin"]');
-  
+
   pinInput.addEventListener('input', function (e) {
     const inputValue = e.target.value;
     // Replaces any character that is not a number with an empty string
