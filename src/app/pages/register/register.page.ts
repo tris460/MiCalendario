@@ -143,6 +143,11 @@ export class RegisterPage implements OnInit {
                   role: data.role,
                   sex: data.sex,
                   pin: null,
+                  license: data.license,
+                  profession: data.profession,
+                  description: data.description,
+                  cost: data.cost,
+                  officeAddress: data.officeAddress
               }
               this.userService.createUser(data)
                 .then(res => {
