@@ -10,11 +10,11 @@
 <ion-content [fullscreen]="true">
   <ion-card class="card" *ngFor="let doc of doctors">
     <ion-card-header>
-      <ion-card-subtitle>Puesto</ion-card-subtitle>
+      <ion-card-subtitle>{{doc.profession}}</ion-card-subtitle>
       <ion-card-title>{{doc.fullName}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button class="button-white" shape="round" style="margin: 0; margin-right: 10px;">
+      <ion-button class="button-white" shape="round" style="margin: 0; margin-right: 10px;" (click)="showDoctorInfo(doc)">
         <ion-icon name="information-circle-outline" style="font-size: 2em;"></ion-icon>
       </ion-button>
       <ion-button class="button-white" shape="round" style="margin: 0;">

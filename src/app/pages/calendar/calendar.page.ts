@@ -102,7 +102,10 @@ export class CalendarPage implements OnInit {
         });
       } else {
         this.userService.addSymptoms(this.userId!, formData)
-        .then((res) => this.getUserSymptoms())
+        .then((res) => {
+          this.getUserSymptoms();
+          this.getTodaySymptoms();
+        })
         .catch(async(err)=> {
           const alert = await this.alertController.create({
             header: 'Error',

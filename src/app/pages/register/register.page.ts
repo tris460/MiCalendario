@@ -177,6 +177,7 @@ export class RegisterPage implements OnInit {
                 .then(res => {
                   this.sharedService.currentUser = res;
                   this.sharedService.isLoggedIn = true;
+                  this.sharedService.updateCurrentUser(res);
                   this.router.navigate(['/home'])
                   sessionStorage.setItem('userMiCalendario', data.email);
                 })

@@ -82,11 +82,11 @@ export class HomePage implements OnInit {
       this.data.patchValue(this.formDataToLoad);
     })
     .catch(err => {})
+    this.calculateNextPeriod();
   }
 
   ngOnInit() {
     this.getRandomMessage();
-    this.calculateNextPeriod();
   }
 
   /**
