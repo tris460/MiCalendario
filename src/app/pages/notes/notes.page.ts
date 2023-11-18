@@ -16,6 +16,7 @@ export class NotesPage implements OnInit {
   date: string | Date = new Date();
   userId: string | undefined;
   notes: any[] = [];
+  isLoading: boolean = false;
 
   constructor(private modalCtrl: ModalController, private userService: UserService, private sharedService: SharedService, private alertController: AlertController) {
     //Get the data of the current user
@@ -36,16 +37,19 @@ export class NotesPage implements OnInit {
    * This function opens the modal when the user clicks the FAB button, it also saves the data added by the user
    */
   async openModal() {
+    this.isLoading = true;
     const modal = await this.modalCtrl.create({
       component: ModalAddNoteComponent,
     });
     modal.present();
 
+    this.isLoading = false;
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
       data.value.date = this.date;
 
+      this.isLoading = true;
       this.userService.addNote(this.userId!, this.date, data.value)
         .then(res => this.getAllNotes())
         .catch(async(err)=> {
@@ -55,7 +59,8 @@ export class NotesPage implements OnInit {
             buttons: ['OK'],
           });
           await alert.present();
-        });
+        })
+        .finally(() => this.isLoading = false);
     }
   }
 
@@ -63,6 +68,7 @@ export class NotesPage implements OnInit {
    * This function get all notes of the user
    */
   getAllNotes() {
+    this.isLoading = true;
     this.userService.getNotes(this.userId!)
       .then((res: any) => this.notes = res.data)
       .catch(async(err)=> {
@@ -73,5 +79,6 @@ export class NotesPage implements OnInit {
         });
         await alert.present();
       })
+      .finally(() => this.isLoading = false);
   }
 }

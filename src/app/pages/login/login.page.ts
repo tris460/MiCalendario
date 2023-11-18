@@ -12,6 +12,7 @@ import { compareSync } from 'bcryptjs';
 export class LoginPage implements OnInit {
   pin = '';
   email = sessionStorage.getItem('userMiCalendario');
+  isLoading: boolean = false;
 
   constructor(private router: Router, private sharedService: SharedService, private userService: UserService) {
     if(!this.sharedService.isLoggedIn) this.router.navigate(['/register']);
@@ -27,12 +28,15 @@ export class LoginPage implements OnInit {
     if(this.pin.length < 4) return;
 
     let pin;
+    this.isLoading = true;
 
     if(this.sharedService.currentUser.data.pin) {
       const isPinValid = compareSync(this.pin.toString(), this.sharedService.currentUser.data.pin);
 
       if(isPinValid === true) this.router.navigateByUrl('/home')
       else this.delete();
+
+      this.isLoading = false;
     } else {
       this.userService.getUser(this.email!)
         .then((res: any) => { //TODO: Type
@@ -41,7 +45,8 @@ export class LoginPage implements OnInit {
           if(isPinValid!) this.router.navigateByUrl('/home');
           else this.delete()
         })
-        .catch(err => {});
+        .catch(err => {})
+        .finally(() => this.isLoading = false);
     }
   }
 

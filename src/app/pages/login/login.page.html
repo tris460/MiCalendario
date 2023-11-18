@@ -40,3 +40,7 @@
     <ion-button expand="full" class="button-white" shape="round" (click)="goToRegister()" style="border: 1px solid #000;">Cambiar de cuenta</ion-button>
   </div>
 </ion-content>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>

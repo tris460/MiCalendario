@@ -118,6 +118,7 @@ export class CyclesPage implements OnInit {
     '🦷': 'Dolor de muelas',
     '🦴': 'Dolor de huesos'
   };
+  isLoading: boolean = false;
 
   constructor(private sharedService: SharedService, private userService: UserService) {
     //Get the data of the current user
@@ -136,6 +137,7 @@ export class CyclesPage implements OnInit {
    * This function obtains the date of the last period
    */
   getLastPeriod() {
+    this.isLoading = true;
     this.userService.getSymptoms(this.userId!)
       .then((res: any) => {
         if (res.data) {
@@ -169,12 +171,14 @@ export class CyclesPage implements OnInit {
         }
       })
       .catch(err => {})
+      .finally(() => this.isLoading = false)
   }
 
   /**
    * This function generates a PDF with the data of the symptoms
    */
   generatePDF(): void {
+    this.isLoading = true;
     this.userService.getSymptoms(this.userId!)
       .then((res: any) => {
         let originalDate;
@@ -250,7 +254,8 @@ export class CyclesPage implements OnInit {
 
         pdfMake.createPdf(documentDefinition).download(`${originalDate}_reporte_sintomas_Mi_Calendario.pdf`);
       })
-      .catch(err => {});
+      .catch(err => {})
+      .finally(() => this.isLoading = false)
   }
 
   /**

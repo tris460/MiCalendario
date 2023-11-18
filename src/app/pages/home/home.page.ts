@@ -49,6 +49,7 @@ export class HomePage implements OnInit {
     note: new FormControl(null),
     date: new FormControl(null)
   });
+  isLoading: boolean = false;
 
   constructor(private sharedService: SharedService, private userService: UserService, private alertController: AlertController) {
     this.pet = this.sharedService.currentUser.data.pet;
@@ -100,6 +101,7 @@ export class HomePage implements OnInit {
    * This function saves a new note
    */
   saveNote() {
+    this.isLoading = true;
     this.userService.addNote(this.userId!, this.date, this.data.value)
       .then(async(err)=> {
         const alert = await this.alertController.create({
@@ -116,7 +118,8 @@ export class HomePage implements OnInit {
           buttons: ['OK'],
         });
         await alert.present();
-      });
+      })
+      .finally(() => this.isLoading = false);
   }
 
   /**

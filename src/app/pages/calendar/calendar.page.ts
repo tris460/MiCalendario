@@ -24,6 +24,7 @@ export class CalendarPage implements OnInit {
   todayData: any;
   todayNote: any;
   symptoms: any = null;
+  isLoading: boolean = false;
 
   // Options to configure the calendar
   calendarOptions: CalendarOptions = {
@@ -31,7 +32,9 @@ export class CalendarPage implements OnInit {
     initialView: 'dayGridMonth',
     locale: esLocale,
     dateClick: async (info) => {
+      this.isLoading = true;
       await this.openModal(info);
+      this.isLoading = false;
     }
   };
 

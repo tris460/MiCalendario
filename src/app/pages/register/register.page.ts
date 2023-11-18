@@ -77,6 +77,7 @@ export class RegisterPage implements OnInit {
    * This function logs in an user
    */
   login() {
+    this.isLoading = true;
     let formData = this.userData.value;
 
     if (formData.noPin) {
@@ -106,6 +107,7 @@ export class RegisterPage implements OnInit {
 
         await alert.present();
       })
+      .finally(() => this.isLoading = false);
   }
 
   /**
@@ -125,6 +127,7 @@ export class RegisterPage implements OnInit {
     if (role === 'confirm') {
       let data = this.getFormData()?.value;
 
+      this.isLoading = true;
       this.userService.getUsers()
         .then(async(users: any) => {
           const infoUser = users.data;
@@ -188,7 +191,8 @@ export class RegisterPage implements OnInit {
             }
           }
         })
-        .catch((error) => {});
+        .catch((error) => {})
+        .finally(() => this.isLoading = false);
     }
   }
 

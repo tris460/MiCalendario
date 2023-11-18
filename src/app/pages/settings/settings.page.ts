@@ -35,6 +35,7 @@ export class SettingsPage implements OnInit {
   isNoPinDisabled: boolean | undefined;
   registerForDoctor: boolean | undefined;
   userId: string | undefined;
+  isLoading: boolean = false;
 
   constructor(private sharedService: SharedService, private router: Router, private userService: UserService, private alertController: AlertController) {
     for (let i = 1; i <= 10; i++) {
@@ -129,6 +130,7 @@ export class SettingsPage implements OnInit {
    * and redirects the user to register
    */
   logout() {
+    this.isLoading = true;
     this.sharedService.currentUser = null;
     this.sharedService.isLoggedIn = false;
     sessionStorage.clear();
@@ -141,6 +143,7 @@ export class SettingsPage implements OnInit {
    * This function updates the user's data in the database
    */
   updateLoginData() {
+    this.isLoading = true;
     this.userService.updateUser(this.userId!, this.data.value)
       .then(async(res: any) => {
         const alert = await this.alertController.create({
@@ -159,6 +162,7 @@ export class SettingsPage implements OnInit {
 
         await alert.present();
       })
+      .finally(() => this.isLoading = false);
   }
 
   /**
@@ -174,6 +178,7 @@ export class SettingsPage implements OnInit {
    * confirm in the modal
    */
   confirm() {
+    this.isLoading = true;
     this.modal.dismiss(this.selectedImage, 'confirm');
     this.userService.updatePet(this.selectedImage)
       .then((res: any) => {
@@ -188,6 +193,7 @@ export class SettingsPage implements OnInit {
 
         await alert.present();
       })
+      .finally(() => this.isLoading = false);
   }
 
   /**
