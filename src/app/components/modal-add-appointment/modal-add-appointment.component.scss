@@ -1,0 +1,16 @@
+ion-datetime {
+  --background: rgb(255, 255, 255);
+  --background-rgb: 100, 171, 247;
+  --wheel-highlight-background: rgb(167, 243, 255);
+  --wheel-fade-background-rgb: 189, 189, 189;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+ion-datetime::part(wheel-item) {
+  color: rgb(86, 86, 86);
+}
+
+ion-datetime::part(wheel-item active) {
+  color: rgb(255, 255, 255);
+}

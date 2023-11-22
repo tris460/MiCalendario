@@ -64,7 +64,19 @@ export class UserService {
    */
   updatePet(pet: string) {
     const data = { "pet": pet };
-    return this.http.put(`${this.URL}/users/${this.sharedService.currentUser.data._id}/pet`, data).toPromise()
+    return this.http.put(`${this.URL}/users/${this.sharedService.currentUser.data._id}/pet`, data).toPromise();
+  }
+
+  /**
+   * This function updates the appointments of the doctor and patient
+   * @param userId1 Identifier for the patient
+   * @param userId2 Identifier for the doctor
+   * @param appointment Information of the appointment
+   * @returns A promise
+   */
+  updateAppointments(userId1: string, userId2: string, appointment: string) {
+    const data = { "userId1": userId1, "userId2": userId2, "appointment": appointment };
+    return this.http.put(`${this.URL}/users/updateAppointments`, data).toPromise();
   }
 
   /**
