@@ -78,10 +78,22 @@ export class DoctorPage implements OnInit {
       const finalMessage = `${finalDate}. Doctor: '${doctorInfo.fullName}', Paciente: '${this.userName}'`;
 
       this.userService.updateAppointments(this.userId!, doctorInfo._id, finalMessage)
-      .then((res) => {
-        console.log(res) //TODO: Arreglar, no funciona
+      .then(async (res) => {
+        const alert = await this.alertController.create({
+          header: 'Éxito',
+          message: finalMessage,
+          buttons: ['OK'],
+        });
+        await alert.present();
       })
-      .catch((err) => {console.error(err)})
+      .catch(async (err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'La fecha seleccionada no esta disponible para agendar cita',
+          buttons: ['OK'],
+        });
+        await alert.present();
+      })
       .finally(() => this.isLoading = false);
     }
   }

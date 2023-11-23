@@ -6,7 +6,8 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  URL = 'https://comfortable-underclothes-colt.cyclic.app';
+  // URL = 'https://comfortable-underclothes-colt.cyclic.app';
+  URL = 'http://localhost:3000'
 
   constructor(private http: HttpClient, private sharedService: SharedService) { }
 
@@ -75,8 +76,8 @@ export class UserService {
    * @returns A promise
    */
   updateAppointments(userId1: string, userId2: string, appointment: string) {
-    const data = { "userId1": userId1, "userId2": userId2, "appointment": appointment };
-    return this.http.put(`${this.URL}/users/updateAppointments`, data).toPromise();
+    const data = { "appointment": appointment };
+    return this.http.put(`${this.URL}/users/appointments/${userId1}/${userId2}`, data).toPromise();
   }
 
   /**
