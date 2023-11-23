@@ -10,6 +10,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ModalComponent  implements OnInit {
   sex: string | undefined;
+  formDataToLoad: any;
+  condom: string = "";
+  orgasm: string = "";
+  updateSymptoms: boolean = false;
 
   emojisEmotions = ['🙂','🙃','😉','🫠','😊','😇','😀','😄','😁','😆','😅','😂','🥰','😍','🤩','😘','😗','😚','🥲','😋','😛','😜','🤪','🤑','🤗','🫢','🤭','🫣','🤫','🤔','🫡','🤐','🤨','😐','😑','😶','🫥','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','🤯','😵‍💫','🥳','🥸','🫤','😕','😟','🙁','😮','😳','🥺','🥹','😦','😨','😰','😢','😭','😱','😖','😓','😩','🥱','😤','😡','🤬','😠'];
   emojisSymptoms = ['😷','😴','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','🤯','💩','👃','🧠','🫀','🫁','🦷','🦴'];
@@ -45,6 +49,37 @@ export class ModalComponent  implements OnInit {
     this.sharedService.loggedUser.subscribe((user: any) => {
       if (user) this.sex = user.data.sex;
     })
+
+    if (this.sharedService.formDataSymptoms) {
+      if (this.sharedService.formDataSymptoms.date == this.sharedService.modalDate) {
+        this.formDataToLoad = {
+          bald: this.sharedService.formDataSymptoms.bald,
+          emergencyPill: this.sharedService.formDataSymptoms.emergencyPill,
+          height: this.sharedService.formDataSymptoms.height,
+          periodEnds: this.sharedService.formDataSymptoms.periodEnds,
+          periodStarts: this.sharedService.formDataSymptoms.periodStarts,
+          pregnancyWeeks: this.sharedService.formDataSymptoms.pregnancyWeeks,
+          pregnant: this.sharedService.formDataSymptoms.pregnant,
+          sexualActs: this.sharedService.formDataSymptoms.sexualActs,
+          sleep: this.sharedService.formDataSymptoms.sleep,
+          temperature: this.sharedService.formDataSymptoms.temperature,
+          testicularPain: this.sharedService.formDataSymptoms.testicularPain,
+          viagra: this.sharedService.formDataSymptoms.viagra,
+          water: this.sharedService.formDataSymptoms.water,
+          weight: this.sharedService.formDataSymptoms.weight,
+        }
+
+        this.selectedContraceptives = this.sharedService.formDataSymptoms.contraceptives;
+        this.selectedEmojisSymptoms = this.sharedService.formDataSymptoms.symptoms;
+        this.selectedEmojisEmotions = this.sharedService.formDataSymptoms.emotions;
+        if (this.sharedService.formDataSymptoms.condom) this.condom = this.sharedService.formDataSymptoms.condom.toString();
+        if (this.sharedService.formDataSymptoms.orgasm) this.orgasm = this.sharedService.formDataSymptoms.orgasm.toString();
+
+        this.data.patchValue(this.formDataToLoad);
+
+        this.updateSymptoms = true;
+      }
+    }
   }
 
   ngOnInit(){
@@ -64,7 +99,7 @@ export class ModalComponent  implements OnInit {
    */
   confirm() {
     this.sharedService.formData = this.data;
-    return this.modalCtrl.dismiss(this.data, 'confirm');
+    return this.modalCtrl.dismiss(this.updateSymptoms, 'confirm');
   }
 
   /**

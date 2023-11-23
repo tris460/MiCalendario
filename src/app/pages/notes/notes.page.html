@@ -11,15 +11,22 @@
   <ion-card-title class="title-dark">Notas</ion-card-title>
 
   <!-- Card to show existent notes -->
-  <ion-card class="card">
+  <ion-card class="card" *ngFor="let note of notes">
     <ion-card-header>
-      <ion-card-title>Título</ion-card-title>
+      <ion-card-title>{{note.notes.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-text>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae voluptates saepe quam sunt eius quaerat velit id! Ad corporis minima nostrum illum, enim nesciunt similique neque officiis, ex, unde placeat.
+        <b>{{note.notes.date.slice(0, 10)}}</b> - {{note.notes.note}}
       </ion-text>
     </ion-card-content>
+  </ion-card>
+
+  <!-- Card to show if there is not note -->
+  <ion-card class="card" *ngIf="notes.length === 0">
+    <ion-card-header>
+      <ion-card-title>No hay notas guardadas</ion-card-title>
+    </ion-card-header>
   </ion-card>
 
   <!-- Floating action button to navigate to open the modal for a new note -->
@@ -36,3 +43,7 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>

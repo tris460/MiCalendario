@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-datetime
+  [(ngModel)]="selectedDateTime"
+  [preferWheel]="true"
+  [showDefaultButtons]="true"
+  minuteValues="0,15,30,45"
+  hour-values="8,9,10,11,12,13,14,15,16,17,18"
+  size="cover"
+  #datetime
+  (ionChange)="confirm()"
+  doneText="Agendar"
+  cancelText="Cancelar">
+</ion-datetime>
+</ion-content>

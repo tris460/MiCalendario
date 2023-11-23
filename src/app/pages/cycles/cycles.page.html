@@ -10,38 +10,37 @@
 <ion-content [fullscreen]="true">
   <ion-card-title class="title-dark">Ciclos</ion-card-title>
 
-  <!-- History of cycles -->
-  <ion-card class="card">
+  <!-- Last cycle -->
+  <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
-      <ion-card-title>Historial</ion-card-title>
+      <ion-card-title>Último periodo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>12-18 de enero (6 días)</ion-text><br>
-      <ion-text>13-18 de febrero (5 días)</ion-text><br>
-      <ion-text>15-21 de marzo ( 6 días)</ion-text><br>
-      <ion-text>15-20 de abril (5 días)</ion-text><br>
-      <ion-text>14-19 de mayo (5 días)</ion-text><br>
-      <ion-text>14-19 de junio (5 días)</ion-text><br>
-      <ion-text>15-21 de julio (6 días)</ion-text><br>
-      <ion-text>17-22 de agosto (5 días)</ion-text>
+      <ion-text>{{ lastPeriodFormatted }}<br></ion-text>
     </ion-card-content>
   </ion-card>
 
-  <!-- Predictions of cycles -->
-  <ion-card class="card">
+  <!-- History of cycles -->
+  <ion-card class="card" *ngIf="symptomsExist">
     <ion-card-header>
-      <ion-card-title>Predicciones</ion-card-title>
+      <ion-card-title>Siguientes periodos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-text>17-23 de septiembre (6 días)</ion-text><br>
-      <ion-text>17-22 de octubre (5 días)</ion-text><br>
-      <ion-text>16-22 de noviembre ( 6 días)</ion-text><br>
-      <ion-text>16-21 de diciembre (5 días)</ion-text>
+      <ion-text *ngFor="let period of nextPeriod">{{ period }}<br></ion-text>
     </ion-card-content>
+  </ion-card>
+
+  <ion-card class="card" *ngIf="!symptomsExist">
+    <ion-card-header>
+      <ion-card-title>No tienes registrado el periodo</ion-card-title>
+      <ion-card-content style="padding-inline-start: 0; padding-bottom: 0;">
+        <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Ir al calendario</ion-button>
+      </ion-card-content>
+    </ion-card-header>
   </ion-card>
 
   <!-- Button to download a full report -->
-  <ion-button class="button-dark btn-fix-bottom" shape="round"><ion-icon name="cloud-download-outline" style="padding-right: 10px;"></ion-icon> Descargar reporte</ion-button>
+  <ion-button class="button-dark btn-fix-bottom" shape="round" (click)="generatePDF()"><ion-icon name="cloud-download-outline" style="padding-right: 10px;"></ion-icon> Descargar reporte</ion-button>
 
   <!-- Floating action button to navigate to the chat -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -50,3 +49,7 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>

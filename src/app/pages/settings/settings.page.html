@@ -19,7 +19,7 @@
             <ion-card class="card">
               <ion-input placeholder="Nombre completo" type="text" formControlName="fullName" errorText="Nombre inválido" text></ion-input>
               <ion-input placeholder="Correo electrónico" type="email" formControlName="email" errorText="Email inválido" email></ion-input>
-              <ion-input placeholder="PIN" type="password" formControlName="pin" errorText="PIN inválido" helperText="Debe contener 4 números (los números al inicio no se toman en cuenta)"></ion-input>
+              <ion-input placeholder="PIN" type="password" formControlName="pin" errorText="PIN inválido" helperText="Debe contener 4 números"></ion-input>
               <ion-checkbox labelPlacement="end" class="check-clear" formControlName="noPin" style="margin: 10px 0px;">Continuar sin PIN</ion-checkbox><br>
               <ion-list>
                 <ion-item class="select">
@@ -89,3 +89,7 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>

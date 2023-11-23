@@ -11,6 +11,7 @@ export class ChatPage implements OnInit {
    }
 
    ngOnInit() {
+    
   }
   preguntasFallo = [
     {
@@ -20,6 +21,7 @@ export class ChatPage implements OnInit {
     {
       informacion: "Envia un correo a Sebas@gmail.com",
       preguntaFallo: "¿Te gustaria conocer mas sobre nuestra aplicacion?",
+      Input: "",
       respuestasFallo: ["Sí", "No"],
     },
     {

@@ -17,10 +17,15 @@
 
   <!-- Card to show next period -->
   <ion-card class="card" *ngIf="sex === 'female'">
-    <ion-card-header>
+    <ion-card-header *ngIf="periodExists">
       <ion-card-subtitle>Faltan</ion-card-subtitle>
-      <ion-card-title class="title">10 días</ion-card-title>
+      <ion-card-title class="title">{{daysUntilNextPeriod}} días</ion-card-title>
       <ion-card-subtitle>Para tu próximo periodo</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-header *ngIf="!periodExists">
+      <ion-card-subtitle>Registra</ion-card-subtitle>
+      <ion-card-title class="title">Tu periodo</ion-card-title>
+      <ion-card-subtitle>Para calcular tu ciclo</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Editar periodo</ion-button>
@@ -45,7 +50,8 @@
   <ion-card class="card" *ngIf="sex === 'female'">
     <ion-card-header>
       <ion-card-subtitle>Próximo día fértil</ion-card-subtitle>
-      <ion-card-title class="title">08 de septiembre</ion-card-title>
+      <ion-card-title class="title" *ngIf="periodExists">{{nextFertileDay}}</ion-card-title>
+      <ion-card-title class="title" *ngIf="!periodExists">No has registrado tu periodo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-button class="button-white" shape="round" [routerLink]="['/calendar']">Ver calendario</ion-button>
@@ -58,13 +64,15 @@
       <ion-card-subtitle>Agregar nota</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-item class="input" style="--padding-start: 0;">
-        <ion-input placeholder="Título" type="text"></ion-input>
-      </ion-item>
-      <ion-item class="input" style="--padding-start: 0;">
-        <ion-textarea rows="4" placeholder="¿En qué estás pensando?"></ion-textarea>
-      </ion-item>
-      <ion-button class="button-white" shape="round">Guardar</ion-button>
+      <form [formGroup]="data">
+        <ion-item class="input" style="--padding-start: 0;">
+          <ion-input placeholder="Título" type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item class="input" style="--padding-start: 0;">
+          <ion-textarea rows="4" placeholder="¿En qué estás pensando?" formControlName="note"></ion-textarea>
+        </ion-item>
+      </form>
+      <ion-button class="button-white" shape="round"(click)="saveNote()">Guardar</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -75,3 +83,7 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<div class="spinner-container" *ngIf="isLoading">
+  <ion-spinner name="bubbles" color="primary" style="height: 80px; width: 80px;"></ion-spinner>
+</div>

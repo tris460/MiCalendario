@@ -7,6 +7,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { parseDate } from 'src/app/utils/parseDate';
 
 @Component({
   selector: 'app-calendar',
@@ -21,6 +22,9 @@ export class CalendarPage implements OnInit {
   todayDate: any = new Date();
   isTodayData: boolean = false;
   todayData: any;
+  todayNote: any;
+  symptoms: any = null;
+  isLoading: boolean = false;
 
   // Options to configure the calendar
   calendarOptions: CalendarOptions = {
@@ -28,7 +32,9 @@ export class CalendarPage implements OnInit {
     initialView: 'dayGridMonth',
     locale: esLocale,
     dateClick: async (info) => {
+      this.isLoading = true;
       await this.openModal(info);
+      this.isLoading = false;
     }
   };
 
@@ -40,17 +46,14 @@ export class CalendarPage implements OnInit {
       }
     })
 
-    this.todayDate = this.parseDate(this.todayDate);
-    this.userService.getSymptom(this.userId!, this.todayDate)
-    .then((res: any) => {
-      this.isTodayData = true;
-      this.todayData = res!.data[0]
-    })
-    .catch((err) => {
-      if (err.error == "No symptoms found for the specified date") {
-        this.isTodayData = false
-      }
-    })
+    this.todayDate = this.parseTodayDate(this.todayDate);
+
+    // Get today's note
+    this.userService.getTodaysNote(this.userId!, this.todayDate)
+      .then((res: any) => this.todayNote = res.data)
+      .catch(err => {})
+
+    this.getTodaySymptoms();
   }
 
   ngOnInit() {
@@ -65,26 +68,57 @@ export class CalendarPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: ModalComponent,
     });
+
+    const selectedDate = this.parseTodayDate(info.date)
+    const symptomsOfTheDate = this.symptoms.find((symptom: any) => symptom.date == selectedDate);
+
+    if (symptomsOfTheDate) {
+      this.sharedService.modalDate = selectedDate;
+      this.sharedService.formDataSymptoms = symptomsOfTheDate;
+    } else {
+      this.sharedService.modalDate = null;
+      this.sharedService.formDataSymptoms = null;
+    }
+
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-     const formData: any = this.getFormData()!.value
-      const date = this.parseDate(info.date)
-      formData.date = date;
-      this.userService.addSymptoms(this.userId!, formData)
-      .then((res) => this.getUserSymptoms())
-      .catch(async(err)=> {
-        console.error(err)
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
-          buttons: ['OK'],
-        });
+      const formData: any = this.getFormData()!.value
+       formData.date = selectedDate;
 
-        await alert.present();
-      })
+      // Data is true if the symptom has to be updated, false if it's a new symptom
+      if (data) {
+        this.userService.updateSymptom(this.userId!, selectedDate, formData)
+        .then((res) => this.getUserSymptoms())
+        .catch(async(err)=> {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'No fue posible actualizar tus síntomas, intenta nuevamente en unos minutos',
+            buttons: ['OK'],
+          });
+          await alert.present();
+        });
+      } else {
+        this.userService.addSymptoms(this.userId!, formData)
+        .then((res) => {
+          this.getUserSymptoms();
+          this.getTodaySymptoms();
+        })
+        .catch(async(err)=> {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'No fue posible actualizar tus datos, intenta nuevamente en unos minutos',
+            buttons: ['OK'],
+          });
+          await alert.present();
+        });
+      }
+
+      if (selectedDate == this.todayDate) {
+        this.getTodaySymptoms();
+      }
     }
   }
 
@@ -101,19 +135,8 @@ export class CalendarPage implements OnInit {
    * @param originalDate Date to parse
    * @returns A string with the new date
    */
-  parseDate(originalDate: any) {
-    // Parse the original date in a date objet
-    const date = new Date(originalDate);
-
-    // Get year, month and date
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    // Format date "YYYY-MM-DD"
-    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
-    return formattedDate;
+  parseTodayDate(originalDate: any) {
+    return parseDate(originalDate);
   }
 
   /**
@@ -125,7 +148,7 @@ export class CalendarPage implements OnInit {
     if (symptom.condom || symptom.orgasm || symptom.sexualActs) {
       title += '❤️';
     }
-    if (symptom.viagra || symptom.emergencyPill || symptom.contraceptives) {
+    if (symptom.viagra || symptom.emergencyPill || symptom.contraceptives.length > 0) {
       title += '💊';
     }
     if (symptom.periodStarts || symptom.periodEnds) {
@@ -171,7 +194,7 @@ export class CalendarPage implements OnInit {
         if (title.length >= 3) return title;
       }
     }
-    console.log(title)
+
     return title;
   }
 
@@ -181,9 +204,9 @@ export class CalendarPage implements OnInit {
   getUserSymptoms() {
     this.userService.getSymptoms(this.userId!)
     .then((res: any) => {
-      const symptoms = res.data;
+      this.symptoms = res.data;
 
-      const events = symptoms.map((symptom: any) => {
+      const events = this.symptoms.map((symptom: any) => {
         const generatedTitle = this.generateEventTitle(symptom);
         return {
           title: generatedTitle,
@@ -197,6 +220,22 @@ export class CalendarPage implements OnInit {
 
       this.calendarOptions.events = events;
     })
-    .catch(err => console.error(err))
+    .catch(err => {})
+  }
+
+  /**
+   * This function returns the symptoms registered for the current date
+   */
+  getTodaySymptoms() {
+    this.userService.getSymptom(this.userId!, this.todayDate)
+    .then((res: any) => {
+      this.isTodayData = true;
+      this.todayData = res!.data[0]
+    })
+    .catch((err) => {
+      if (err.error == "No symptoms found for the specified date") {
+        this.isTodayData = false
+      }
+    })
   }
 }

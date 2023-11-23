@@ -65,7 +65,7 @@
             <ion-img src='../../../assets/condom.png'></ion-img>
             <ion-img src='../../../assets/no-condom.png'></ion-img>
           </div>
-          <ion-radio-group [allowEmptySelection]="true" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onCondomChange($event)">
+          <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="condom" [ngModelOptions]="{standalone: true}" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onCondomChange($event)">
             <ion-radio class="radio-big" value="true"></ion-radio>
             <ion-radio class="radio-big" value="false"></ion-radio>
           </ion-radio-group>
@@ -74,7 +74,7 @@
             <ion-img src='../../../assets/happy.png'></ion-img>
             <ion-img src='../../../assets/sad.png'></ion-img>
           </div>
-          <ion-radio-group [allowEmptySelection]="true" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onOrgasmChange($event)">
+          <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="orgasm" [ngModelOptions]="{standalone: true}" class="flex" style="justify-content: space-around; margin: 10px 0;" (ionChange)="onOrgasmChange($event)">
             <ion-radio class="radio-big" value="true"></ion-radio>
             <ion-radio class="radio-big" value="false"></ion-radio>
           </ion-radio-group>

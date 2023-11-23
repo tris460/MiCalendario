@@ -6,7 +6,7 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  URL = 'http://127.0.0.1:3000';
+  URL = 'https://comfortable-underclothes-colt.cyclic.app';
 
   constructor(private http: HttpClient, private sharedService: SharedService) { }
 
@@ -26,7 +26,7 @@ export class UserService {
    */
   loginUser(data: any) { //TODO: Type
     return this.http.put(`${this.URL}/login`, data).toPromise();
-    
+
   }
 
   /**
@@ -39,7 +39,10 @@ export class UserService {
     return this.http.get(`${this.URL}/user`, { params: params}).toPromise();
   }
 
-  // Get from users
+  /**
+   * This function gets all the registered users
+   * @returns A promise
+   */
   getUsers() {
     return this.http.get(`${this.URL}/users`).toPromise();
   }
@@ -61,7 +64,19 @@ export class UserService {
    */
   updatePet(pet: string) {
     const data = { "pet": pet };
-    return this.http.put(`${this.URL}/users/${this.sharedService.currentUser.data._id}/pet`, data).toPromise()
+    return this.http.put(`${this.URL}/users/${this.sharedService.currentUser.data._id}/pet`, data).toPromise();
+  }
+
+  /**
+   * This function updates the appointments of the doctor and patient
+   * @param userId1 Identifier for the patient
+   * @param userId2 Identifier for the doctor
+   * @param appointment Information of the appointment
+   * @returns A promise
+   */
+  updateAppointments(userId1: string, userId2: string, appointment: string) {
+    const data = { "appointment": appointment };
+    return this.http.put(`${this.URL}/users/appointments/${userId1}/${userId2}`, data).toPromise();
   }
 
   /**
@@ -92,5 +107,55 @@ export class UserService {
    */
   getSymptoms(id: string){
     return this.http.get(`${this.URL}/users/${id}/symptoms/all`).toPromise();
+  }
+
+  /**
+   * This function updates the data of the symptoms on a specific date
+   * @param id Identifier for the current user
+   * @param date Date of the symptoms to update
+   * @param symptoms Data to update
+   * @returns A promise
+   */
+  updateSymptom(id: string, date: string, symptoms: any) {
+    return this.http.put(`${this.URL}/users/${id}/symptoms/${date}`, symptoms).toPromise();
+  }
+
+  /**
+   * This function adds a note in case it didn't exist, else, it updates the note
+   * @param id User's identification
+   * @param date Note's date
+   * @param data Note's data
+   * @returns A promise
+   */
+  addNote(id: string, date: string | Date, data: any) {
+    return this.http.put(`${this.URL}/users/${id}/symptoms/${date}/notes`, data).toPromise();
+  }
+
+  /**
+   * This function gets a note of a specific date
+   * @param id User's identification
+   * @param date Note's date
+   * @returns A promise
+   */
+  getTodaysNote(id: string, date: string | Date) {
+    return this.http.get(`${this.URL}/users/${id}/symptoms/${date}/notes`).toPromise();
+  }
+
+  /**
+   * This function gets all notes of an user
+   * @param id User's identification
+   * @returns A promise
+   */
+  getNotes(id: string) {
+    return this.http.get(`${this.URL}/users/${id}/notes`).toPromise();
+  }
+
+  /**
+   * This function gets all appointments of an user
+   * @param id User's identification
+   * @returns A promise
+   */
+  getAppointments(id: string) {
+    return this.http.get(`${this.URL}/users/${id}/appointments`).toPromise();
   }
 }

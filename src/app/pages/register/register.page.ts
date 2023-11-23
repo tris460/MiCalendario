@@ -22,6 +22,7 @@ async function sha256(input: string) {
 })
 export class RegisterPage implements OnInit {
   isNoPinDisabled = false;
+  isLoading: boolean = false;
 
   userData = new FormGroup({
     email: new FormControl(null),
@@ -58,7 +59,15 @@ export class RegisterPage implements OnInit {
           this.router.navigate(['/home']);
         }
       })
-      .catch(err => console.error("Can't save user's data")); //TODO: Agregar alerta
+      .catch(async(err) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No se pudieron recuperar los datos de inicio de sesión',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+      });
     }
   }
 
@@ -68,6 +77,7 @@ export class RegisterPage implements OnInit {
    * This function logs in an user
    */
   login() {
+    this.isLoading = true;
     let formData = this.userData.value;
 
     if (formData.noPin) {
@@ -97,22 +107,27 @@ export class RegisterPage implements OnInit {
 
         await alert.present();
       })
+      .finally(() => this.isLoading = false);
   }
 
   /**
    * This function opens the modal when the user clicks the button, it also saves the data added by the user
    */
   async openModalRegister() {
+    this.isLoading = true;
     const modal = await this.modalCtrl.create({
       component: ModalRegisterUserComponent,
     });
     modal.present();
+
+    this.isLoading = false;
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
       let data = this.getFormData()?.value;
 
+      this.isLoading = true;
       this.userService.getUsers()
         .then(async(users: any) => {
           const infoUser = users.data;
@@ -135,6 +150,11 @@ export class RegisterPage implements OnInit {
                   role: data.role,
                   sex: data.sex,
                   pin: null,
+                  license: data.license,
+                  profession: data.profession,
+                  description: data.description,
+                  cost: data.cost,
+                  officeAddress: data.officeAddress
               }
               this.userService.createUser(data)
                 .then(res => {
@@ -145,7 +165,6 @@ export class RegisterPage implements OnInit {
                   sessionStorage.setItem('userMiCalendario', data.email);
                 })
                 .catch(async (err) => {
-                  console.log(err)
                   const alert = await this.alertController.create({
                     header: 'Error',
                     message: 'No fue posible crear una cuenta, intenta nuevamente en unos minutos',
@@ -158,6 +177,7 @@ export class RegisterPage implements OnInit {
                 .then(res => {
                   this.sharedService.currentUser = res;
                   this.sharedService.isLoggedIn = true;
+                  this.sharedService.updateCurrentUser(res);
                   this.router.navigate(['/home'])
                   sessionStorage.setItem('userMiCalendario', data.email);
                 })
@@ -172,9 +192,8 @@ export class RegisterPage implements OnInit {
             }
           }
         })
-        .catch((error) => {
-          console.log(`Error getting users: ${error}`);
-        });
+        .catch((error) => {})
+        .finally(() => this.isLoading = false);
     }
   }
 

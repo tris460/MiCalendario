@@ -11,11 +11,13 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ModalAddNoteComponent } from './components/modal-add-note/modal-add-note.component';
 import { ModalRegisterUserComponent } from './components/modal-register-user/modal-register-user.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalAddAppointmentComponent } from './components/modal-add-appointment/modal-add-appointment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalComponent,
+    ModalAddAppointmentComponent,
     ModalAddNoteComponent,
     ModalRegisterUserComponent
   ],
