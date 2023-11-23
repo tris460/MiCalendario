@@ -28,6 +28,34 @@
       </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <!-- Button to get the appointments -->
+  <ion-button class="button-dark btn-fix-bottom" expand="block" shape="round" (click)="getAppointments()" id="open-modal" style="width: 96%;">Ver mis citas</ion-button>
+
+  <!-- Modal to get appointments -->
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Hecho</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card class="card" *ngIf="appointments.length === 0">
+          <ion-card-header>
+            <ion-card-title>No hay citas registradas</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+        <ion-card class="card" *ngFor="let app of appointments">
+          <ion-card-header>
+            <ion-card-subtitle>{{app}}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 <div class="spinner-container" *ngIf="isLoading">

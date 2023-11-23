@@ -16,6 +16,7 @@ export class DoctorPage implements OnInit {
   isLoading: boolean = false;
   userId: string | undefined;
   userName: string | undefined;
+  appointments: string[] = [];
 
   constructor(private userService: UserService, private alertController: AlertController, private modalCtrl: ModalController, private sharedService: SharedService) {
     this.isLoading = true;
@@ -95,6 +96,36 @@ export class DoctorPage implements OnInit {
         await alert.present();
       })
       .finally(() => this.isLoading = false);
+    }
+  }
+
+  /**
+   * This function gets the appointments of the user
+   */
+  getAppointments() {
+    this.isLoading = true;
+    this.userService.getAppointments(this.userId!)
+    .then((res: any) => this.appointments = res.data)
+    .catch(err => {})
+    .finally(() => this.isLoading = false);
+  }
+
+  /**
+   * This function controls the action the modal it's going to do if the user clicks in
+   * confirm in the modal
+   */
+  confirm() {
+    this.modal.dismiss(null, 'confirm');
+  }
+
+  /**
+   * This function listens the user's click in the modal (cancel or confirm) and executes a
+   * function for each one.
+   * @param event Data from the modal to listen which option was selected by the user
+   */
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
     }
   }
 }

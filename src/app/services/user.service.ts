@@ -6,8 +6,7 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  // URL = 'https://comfortable-underclothes-colt.cyclic.app';
-  URL = 'http://localhost:3000'
+  URL = 'https://comfortable-underclothes-colt.cyclic.app';
 
   constructor(private http: HttpClient, private sharedService: SharedService) { }
 
@@ -149,5 +148,14 @@ export class UserService {
    */
   getNotes(id: string) {
     return this.http.get(`${this.URL}/users/${id}/notes`).toPromise();
+  }
+
+  /**
+   * This function gets all appointments of an user
+   * @param id User's identification
+   * @returns A promise
+   */
+  getAppointments(id: string) {
+    return this.http.get(`${this.URL}/users/${id}/appointments`).toPromise();
   }
 }
